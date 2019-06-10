@@ -1,0 +1,238 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:local="clr-namespace:AppPFashions.Helper"
+             xmlns:sftextinputlayout="clr-namespace:AppPFashions.Helper"
+             xmlns:behaviors="clr-namespace:AppPFashions.Behaviors;assembly=AppPFashions"
+             xmlns:sfTreeView="clr-namespace:Syncfusion.XForms.TreeView;assembly=Syncfusion.SfTreeView.XForms"  
+             xmlns:treeviewengine="clr-namespace:Syncfusion.TreeView.Engine;assembly=Syncfusion.SfTreeView.XForms"    
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             xmlns:localp="clr-namespace:AppPFashions.Models"
+             x:Class="AppPFashions.Pages.ProductionOrderPage"
+             Title="Orden de Producción"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:LabelIsVisibleConverter x:Key="LabelIsVisibleConverter"/>
+            <local:FontAttributeConverter x:Key="FontAttributeConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <StackLayout>
+        <StackLayout>
+            <Grid
+             Margin="10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="OP:"                
+                    HorizontalOptions="StartAndExpand"
+                    VerticalOptions="Center">
+                </Label>
+                <Entry 
+                    x:Name="ety_op"
+                    Grid.Column="1"
+                    Grid.Row="0"       
+                    Keyboard="Numeric"                                 
+                >
+                    <Entry.Behaviors>
+                        <behaviors:EntryLengthValidatorBehavior MaxLength="6" />
+                        <behaviors:NumberValidationBehavior />
+                    </Entry.Behaviors>
+                </Entry>
+                <Button
+                    x:Name="btn_buscar_op"
+                    Clicked="Btn_buscar_op_Clicked"
+                    Command="{Binding BuscarCommand}"
+                    Grid.Column="2"
+                    Grid.Row="0"                  
+                    BackgroundColor="#3D57AE"
+                    BorderRadius="23"
+                    FontAttributes="Bold"                  
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    TextColor="White"                
+                    Text="Buscar">
+                </Button>
+            </Grid>
+        </StackLayout>
+
+        <cards:SfCardView x:Name="cvtejeduria" IndicatorColor="#3D57AE" IndicatorThickness="12" IndicatorPosition="Left">
+            <cards:SfCardView.HasShadow>
+                <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="True" />
+            </cards:SfCardView.HasShadow>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Grid Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+
+                    <Label Grid.Row="0" Text="{Binding Dclien}" TextColor="Black" FontSize="18" FontAttributes="Bold" HorizontalOptions="Start" />
+
+                    <Label Grid.Row="1" Text="{Binding Nordpr}" TextColor="DimGray" FontSize="17" FontAttributes="Bold" HorizontalOptions="Start"/>
+                </Grid>
+
+                <!--<ContentView Grid.Column="1" Padding="10">
+                    <border:SfBorder CornerRadius="7" BorderColor="Transparent">
+                        <Image Aspect="Fill" Source="Tejeduria.jpg" WidthRequest="225" HeightRequest="175" />
+                    </border:SfBorder>
+                </ContentView>-->
+            </Grid>
+        </cards:SfCardView>
+
+        <StackLayout>
+            <Grid Margin="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <sfTreeView:SfTreeView x:Name="treeView"
+                             ItemHeight="40"
+                             Indentation="20"
+                             ExpanderWidth="40"
+                             FullRowSelect="True"
+                             IsAnimationEnabled="True"   
+                             ExpandActionTarget="Node"
+                             AutoExpandMode="RootNodesExpanded"
+                             ItemTapped="TreeView_ItemTapped">
+                    <sfTreeView:SfTreeView.HierarchyPropertyDescriptors>
+                        <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type localp:AuditFolder}" ChildPropertyName="SubFolder"/>
+                        <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type localp:SubFolder}" ChildPropertyName="DetFolder"/>
+                    </sfTreeView:SfTreeView.HierarchyPropertyDescriptors>
+                    <sfTreeView:SfTreeView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid x:Name="grid" RowSpacing="0" BackgroundColor="Transparent">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="1" />
+                                        </Grid.RowDefinitions>
+                                        <Grid RowSpacing="0" Grid.Row="0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="45" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="30" />
+                                                <ColumnDefinition Width="10" />
+                                                <ColumnDefinition Width="45" />
+                                                <ColumnDefinition Width="5" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Padding="5,5,5,5">
+                                                <Image
+                                               Source="{Binding ImageName}"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Center"
+                                               HeightRequest="45" 
+                                               WidthRequest="45"/>
+                                            </Grid>
+                                            <Grid Grid.Column="1"
+                                              RowSpacing="1"
+                                              Padding="1,0,0,0"
+                                              VerticalOptions="Center">
+                                                <Label LineBreakMode="NoWrap"
+                                                   Text="{Binding FolderName}"
+                                                   FontAttributes="{Binding FontBold,Converter={x:StaticResource FontAttributeConverter }}"
+                                                   TextColor="DimGray"
+                                                   VerticalTextAlignment="Center"                                               
+                                                   FontSize="{OnPlatform Android={OnIdiom Phone=16, Tablet=18},iOS={OnIdiom Phone=16,Tablet=18},UWP={OnIdiom Phone=18,Tablet=20,Desktop=20}}">
+                                                </Label>
+                                            </Grid>
+                                            <Grid Grid.Column="2"
+                                              RowSpacing="1"
+                                              Padding=".1,.1,.1,.1"
+                                              VerticalOptions="Center">
+                                                <Label LineBreakMode="NoWrap"
+                                                   Text="{Binding AuditCount}"
+                                                   FontAttributes="{Binding FontBold,Converter={x:StaticResource FontAttributeConverter }}"
+                                                   IsVisible="{Binding AuditCount,Converter={x:StaticResource LabelIsVisibleConverter}}"
+                                                   TextColor="DimGray"                                                   
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Center"
+                                                   FontSize="{OnPlatform Android={OnIdiom Phone=14, Tablet=16},iOS={OnIdiom Phone=14,Tablet=16},UWP={OnIdiom Phone=16,Tablet=18,Desktop=18}}">
+                                                </Label>
+                                            </Grid>
+                                            <Grid Grid.Column="4">
+                                                <Image                                               
+                                               Source="{Binding SubImageName}"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+                                               VerticalOptions="Center"
+                                               HorizontalOptions="Start"
+                                               HeightRequest="45" 
+                                               WidthRequest="45"/>
+                                            </Grid>
+                                        </Grid>
+                                        <StackLayout Grid.Row="1" BackgroundColor="#E4E4E4" HeightRequest="1"/>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </sfTreeView:SfTreeView.ItemTemplate>
+                </sfTreeView:SfTreeView>
+            </Grid>
+        </StackLayout>
+
+    </StackLayout>
+
+    <!--<ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ContainerTypeConverter x:Key="ContainerTypeConverter" />
+            <sftextinputlayout:FontFamilyConverter x:Key="fontFamilyConverter"/>
+            <sftextinputlayout:FontSizeConverter x:Key="fontSizeConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+
+
+    <inputLayout:SfTextInputLayout
+                    x:Name="notesLayout"
+                    CharMaxLength="6"
+                    ContainerType="{Binding SelectedItem, Converter={StaticResource ContainerTypeConverter}}"
+                    ErrorText="Ingrese el número de OP"
+                    HasError="{Binding IsNameEmpty}"
+                    HelperText="Ingrese el número de OP"
+                    Hint="OP"
+                    LeadingViewPosition="Outside"
+                    ShowCharCount="True">
+
+        <inputLayout:SfTextInputLayout.HintLabelStyle >
+            <inputLayout:LabelStyle FontFamily="{Binding ContainerLabelFontFamily,Converter={StaticResource fontFamilyConverter}}" FontAttributes="{Binding ContainerLabelFontAttribute}" FontSize="16"/>
+        </inputLayout:SfTextInputLayout.HintLabelStyle>
+        <inputLayout:SfTextInputLayout.HelperLabelStyle>
+            <inputLayout:LabelStyle FontFamily="{Binding ContainerLabelFontFamily,Converter={StaticResource fontFamilyConverter}}" FontAttributes="{Binding ContainerLabelFontAttribute}" FontSize="13" />
+        </inputLayout:SfTextInputLayout.HelperLabelStyle>
+        <inputLayout:SfTextInputLayout.ErrorLabelStyle>
+            <inputLayout:LabelStyle FontFamily="{Binding ContainerLabelFontFamily,Converter={StaticResource fontFamilyConverter}}" FontAttributes="{Binding ContainerLabelFontAttribute}" FontSize="13"/>
+        </inputLayout:SfTextInputLayout.ErrorLabelStyle>
+
+        <Entry x:Name="ety_op" Text="" />
+
+        <inputLayout:SfTextInputLayout.LeadingView>
+            <Label
+                            FontSize="18"
+                            Text="F"
+                            TextColor="{Binding Path=CurrentActiveColor, Source={x:Reference Name=notesLayout}}"
+                            VerticalTextAlignment="Center">
+                <Label.FontFamily>
+                    <OnPlatform x:TypeArguments="x:String">
+                        <On Platform="iOS" Value="InputLayoutIcons"/>
+                        <On Platform="Android" Value="InputLayoutIcons.ttf#InputLayoutIcons"/>
+                        <On Platform="UWP" Value="/Assets/Fonts/InputLayoutIcons.ttf#InputLayoutIcons"/>
+                    </OnPlatform>
+                </Label.FontFamily>
+            </Label>
+        </inputLayout:SfTextInputLayout.LeadingView>
+    </inputLayout:SfTextInputLayout>-->
+
+</ContentPage>

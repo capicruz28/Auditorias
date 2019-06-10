@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:views="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
+             xmlns:sflistview="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"             
+             xmlns:local="clr-namespace:AppPFashions"
+             xmlns:fab="clr-namespace:Refractored.FabControl;assembly=Refractored.FabControl"  
+             x:Class="AppPFashions.Pages.CosturaProcesoConsultaPage"
+             Title="{Binding Desauditoria}"
+             BackgroundColor="{StaticResource MenuColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_deleteauditoria"
+            Clicked="Tlb_deleteauditoria_Clicked"
+            Icon="delaudi.png"            
+            Priority="0" Order="Primary"/>
+        <ToolbarItem
+            x:Name="tlb_sincroauditoria"
+            Clicked="tlb_sincroauditoria_Clicked"
+            Icon="upload.png"            
+            Priority="1" Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Behaviors>
+        <local:SfListViewAccordionBehavior />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Content>
+        <StackLayout>
+        <!--<StackLayout>
+            <Grid
+                    Margin="10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label
+                        FontAttributes="Bold"
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        HorizontalOptions="Start"                        
+                        Text="Fecha Auditoría :"
+                        VerticalOptions="Center">
+                </Label>
+                <DatePicker 
+                        x:Name="dpk_fechaauditoria"
+                        Format="dd - MMM - yyyy"
+                        Grid.Column="1"
+                        Grid.Row="0">
+                </DatePicker>
+            </Grid>
+        </StackLayout>-->
+        <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                <!--<Grid x:Name="mainGrid" BackgroundColor="#F0F0F0" Padding="4">-->
+                    <sflistview:SfListView x:Name="listView" FocusBorderThickness="0" AutoFitMode="Height" SelectionMode ="None" IsScrollBarVisible="False" ItemSpacing="0">
+                    <sflistview:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid Padding="2" Margin="1" BackgroundColor="#F0F0F0" >
+                                        <Frame x:Name="frame" CornerRadius="2" Padding="1" Margin="1" OutlineColor="White">
+                                            <Grid VerticalOptions="FillAndExpand" BackgroundColor="White" HorizontalOptions="FillAndExpand" RowSpacing="0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid x:Name="grid" RowSpacing="0">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="60" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid RowSpacing="0">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="60" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="50" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Grid Grid.Row="0" Grid.Column="0">
+                                                            <local:SfImage HeightRequest="45" Margin="5,0,0,0" WidthRequest="45" Source="circule_white.jpg" VerticalOptions="Center" HorizontalOptions="Center" />
+                                                            <Label Text="{Binding Clinea}"
+                                                                   HorizontalOptions="Center" 
+                                                                   VerticalOptions="Center"></Label>
+                                                        </Grid>
+                                                        <Grid Grid.Row="0" Grid.Column="1">
+                                                            <Label Text="{Binding Daudit}"
+                                                                   HorizontalOptions="Start" 
+                                                                   VerticalOptions="Center"></Label>
+                                                        </Grid>
+                                                        <Grid Grid.Row="0" Grid.Column="1" RowSpacing="1" Padding="5" VerticalOptions="Center">
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*" />
+                                                                <RowDefinition Height="*" />
+                                                            </Grid.RowDefinitions>
+                                                            <Label Grid.Row="0" LineBreakMode="NoWrap" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" TextColor="#474747" Text="{Binding clinea}">
+                                                                <Label.FontSize>
+                                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                                        <On Platform ="UWP">
+                                                                            <OnIdiom x:TypeArguments="x:Double" Phone="18" Tablet="20" Desktop="20" />
+                                                                        </On>
+                                                                        <On  Platform="Android, iOS">
+                                                                            <OnIdiom x:TypeArguments="x:Double" Phone="16" Tablet="18" />
+                                                                        </On>
+                                                                        <On  Platform="macOS" Value="18"/>
+                                                                    </OnPlatform>
+                                                                </Label.FontSize>
+                                                            </Label>
+                                                            <Label Grid.Row="1" TextColor="#474747" VerticalTextAlignment="Center" HorizontalTextAlignment="Start" LineBreakMode="NoWrap" Text="{Binding CallTime}">
+                                                                <Label.FontSize>
+                                                                    <OnPlatform x:TypeArguments="x:Double">
+                                                                        <On Platform ="UWP">
+                                                                            <OnIdiom x:TypeArguments="x:Double" Phone="12" Tablet="12" Desktop="12" />
+                                                                        </On>
+                                                                        <On  Platform="Android, iOS">
+                                                                            <OnIdiom x:TypeArguments="x:Double" Phone="12" Tablet="14" />
+                                                                        </On>
+                                                                        <On  Platform="macOS" Value="14"/>
+                                                                    </OnPlatform>
+                                                                </Label.FontSize>
+                                                            </Label>
+                                                        </Grid>
+                                                        <!--<Grid Grid.Row="0" Grid.Column="2" HorizontalOptions="Center" VerticalOptions="Center">
+                                                            <local:SfImage Source="{Binding PhoneImage}" Opacity="0.60" HeightRequest="20" WidthRequest="20" HorizontalOptions="Center" VerticalOptions="Center" />
+                                                        </Grid>-->
+                                                    </Grid>
+                                                </Grid>
+                                                <Grid IsVisible="{Binding IsVisible, Mode=TwoWay}" ColumnSpacing="0" RowSpacing="0" Grid.Row="1" BackgroundColor="White"
+                                                  HorizontalOptions="FillAndExpand" Padding="5" VerticalOptions="FillAndExpand">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="1" />
+                                                        <RowDefinition Height="40" />
+                                                        <RowDefinition Height="40" />
+                                                        <RowDefinition Height="40" />
+                                                    </Grid.RowDefinitions>
+                                                    <Grid.ColumnDefinitions >
+                                                        <ColumnDefinition Width="50" />
+                                                        <ColumnDefinition Width="*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <BoxView Grid.Row="0" Grid.Column="0" BackgroundColor="LightGray" />
+                                                    <local:SfImage Grid.Row="1" Grid.Column="0" Source="aprobado.png" Opacity="0.60" WidthRequest="50" HeightRequest="50"
+                                                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                                                    <local:SfImage Grid.Row="2" Grid.Column="0" Source="aprobext.png" Opacity="0.60" WidthRequest="50" HeightRequest="50"
+                                                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                                                    <local:SfImage Grid.Row="3" Grid.Column="0" Source="desaprobado.png" Opacity="0.60" WidthRequest="50" HeightRequest="50"
+                                                       HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand" />
+                                                    <BoxView Grid.Row="0" Grid.Column="1" BackgroundColor="LightGray" />
+                                                    <Label Grid.Row="1" Grid.Column="1" Text="Aprobados" TextColor="#000000" FontSize="14" HorizontalOptions="Start"
+                                                       VerticalOptions="Center" Opacity="87">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer x:Name="lbl_audiaprob" Tapped="lbl_audiaprob_Tapped" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+                                                    <Label Grid.Row="2" Grid.Column="1" Text="Aprob. Extraordinaria" TextColor="#000000" FontSize="14" HorizontalOptions="Start"
+                                                       VerticalOptions="Center" Opacity="87">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer x:Name="lbl_audiapext" Tapped="lbl_audiapext_Tapped" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+                                                    <Label Grid.Row="3" Grid.Column="1" Text="Desaprobados" TextColor="#000000" FontSize="14" HorizontalOptions="Start"
+                                                       VerticalOptions="Center" Opacity="87">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer x:Name="lbl_audidesap" Tapped="lbl_audidesap_Tapped" CommandParameter="{Binding .}"></TapGestureRecognizer>
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+                                                    <BoxView Grid.Row="0" Grid.Column="2" BackgroundColor="LightGray" />
+                                                    <Label Grid.Row="1" Grid.Column="2" Text="{Binding Qprime}" TextColor="#000000" FontSize="14" HorizontalOptions="Start"
+                                                       VerticalOptions="Center" Opacity="87"/>
+                                                    <Label Grid.Row="2" Grid.Column="2" Text="{Binding Qapext}" TextColor="#000000" FontSize="14" HorizontalOptions="Start"
+                                                       VerticalOptions="Center" Opacity="87"/>
+                                                    <Label Grid.Row="3" Grid.Column="2" Text="{Binding Qrecha}" TextColor="#000000" FontSize="14" HorizontalOptions="Start"
+                                                       VerticalOptions="Center" Opacity="87"/>
+                                                </Grid>
+                                            </Grid>
+                                        </Frame>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </sflistview:SfListView.ItemTemplate>
+                </sflistview:SfListView>
+            <!--</Grid>-->
+            <!--<ListView
+                AbsoluteLayout.LayoutFlags="All"
+			    AbsoluteLayout.LayoutBounds="0,0,1,1"
+                BackgroundColor="#F0F0F0"
+                HasUnevenRows="True"
+                IsPullToRefreshEnabled="True"  
+                x:Name="lsv_resumenauditoria"                
+                SeparatorVisibility="None"
+                SelectionMode="None">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame 
+                                CornerRadius="2"
+                                HasShadow="True"
+                                Margin="4"
+                                OutlineColor="White"
+                                Padding="5">
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer 
+                                        x:Name="tgrlsv_defectos"
+                                        Tapped="tgrlsv_defectos_Tapped"
+                                        CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="4*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <StackLayout 
+                                            Grid.Column="0"                                            
+                                            VerticalOptions="Center">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label
+                                                Grid.Column="0"   
+                                                Grid.Row="0"
+                                                Text="BLOQUE "
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label  
+                                                Grid.Column="1"   
+                                                Grid.Row="0"
+                                                FontSize="Medium"
+                                                FontAttributes="Bold"
+                                                Text="{Binding clinea}"
+                                                TextColor="Black">
+                                            </Label>
+                                        </Grid>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Label
+                                                Grid.Column="0"
+                                                Grid.Row="0"
+                                                Text="1RA Auditoria: "
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label 
+                                                Grid.Column="1"
+                                                Grid.Row="0"
+                                                Text="{Binding fqprime}"
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label
+                                                Grid.Column="2"
+                                                Grid.Row="0"
+                                                Text="N° Rechazo: "
+                                                TextColor="Black">
+                                            </Label>
+                                            <Label 
+                                                Grid.Column="3"
+                                                Grid.Row="0"
+                                                Text="{Binding fqprime}"
+                                                TextColor="Black">
+                                            </Label>
+                                        </Grid>
+
+                                    </StackLayout>
+                                </Grid>
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>-->
+  
+            <views:FloatingActionButton 
+                x:Name="fab_nuevaauditoria"
+                Image="agregar.png" 
+                ButtonColor="#00008B"                          
+                AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds=".98, .95, AutoSize, AutoSize"
+                Clicked="fab_nuevaauditoria_Clicked"/>
+            <!--<fab:FloatingActionButtonView
+                x:Name="fab_agregarauditoria"
+				ImageName="agregar.png"
+				ColorNormal="{StaticResource MainColor}"
+				ColorPressed="{StaticResource MainColor}"
+				ColorRipple="{StaticResource MainColor}"				
+				IsVisible="True"
+                IsEnabled="True"
+				AbsoluteLayout.LayoutFlags="PositionProportional"
+				AbsoluteLayout.LayoutBounds="1, 1, AutoSize, AutoSize"
+                Command="{Binding ClickedFab}"/>-->
+        </AbsoluteLayout>
+        </StackLayout>
+    </ContentPage.Content>
+    
+</ContentPage>

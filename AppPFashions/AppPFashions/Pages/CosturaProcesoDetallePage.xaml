@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             xmlns:local="clr-namespace:AppPFashions"
+             x:Class="AppPFashions.Pages.CosturaProcesoDetallePage"
+             Title="{Binding Desauditoria}"
+             BackgroundColor="{StaticResource MenuColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             >
+    <ContentPage.Content>
+        <StackLayout>
+           
+                <!--<Grid RowSpacing="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>-->
+
+                    <!--<local:SearchBarExt x:Name="filterText"
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                IsVisible="true"
+                                Placeholder="Search here to filter" 
+                                VerticalOptions="FillAndExpand">
+                        <local:SearchBarExt.HorizontalOptions>
+                            <OnPlatform x:TypeArguments="LayoutOptions">
+                                <On Platform="Android,iOS,UWP," Value="FillAndExpand" />
+                                <On Platform="macOS" Value="StartAndExpand" />
+                            </OnPlatform>
+                        </local:SearchBarExt.HorizontalOptions>
+                        <local:SearchBarExt.Margin>
+                            <OnPlatform x:TypeArguments="Thickness">
+                                <On Platform="macOS" Value="0,5,0,3" />
+                            </OnPlatform>
+                        </local:SearchBarExt.Margin>
+                    </local:SearchBarExt>-->
+            <sfgrid:SfDataGrid 
+                        x:Name="dataGrid"   
+                        AllowSwiping="true"
+                        AutoGenerateColumns="false"
+                        ColumnSizer="Star"
+                        GridStyle="{local:Blue}"
+                        GridTapped="dataGrid_GridTapped"
+                        HeaderRowHeight="52"
+                        MaxSwipeOffset="120"
+                        RowHeight="58"                
+                        SwipeEnded="dataGrid_SwipeEnded"
+                        VerticalOverScrollMode="None">
+     
+                <sfgrid:SfDataGrid.Columns>
+
+                    <!--<sfgrid:GridTextColumn HeaderFontAttribute="Bold"                                           
+                                           HeaderText="N°"
+                                           HeaderTextAlignment="Start"
+                                           LineBreakMode="WordWrap"
+                                           MappingName="nsecue"
+                                           Padding="5,0,5,0"                                           
+                                           TextAlignment="End">
+                    </sfgrid:GridTextColumn>-->
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"
+                                           HeaderText="Operario"                                           
+                                           HeaderTextAlignment="Start"
+                                           LineBreakMode="WordWrap"
+                                           MappingName="ctraba"
+                                           Padding="5, 0, 0, 0"                                           
+                                           TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"
+                                           HeaderText="OP"
+                                           HeaderTextAlignment="Start"
+                                           LineBreakMode="WordWrap"
+                                           MappingName="nordpr"
+                                           Padding="5,0,5,0"                                           
+                                           TextAlignment="End">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"
+                                           HeaderText="Color"
+                                           HeaderTextAlignment="Start"
+                                           LineBreakMode="WordWrap"
+                                           MappingName="dcarub"
+                                           Padding="5, 0, 0, 0"
+                                           TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"
+                                           HeaderText="Código"
+                                           HeaderTextAlignment="Start"
+                                           LineBreakMode="WordWrap"
+                                           MappingName="copera"
+                                           Padding="5, 0, 0, 0"                                           
+                                           TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+                    
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"
+                                           HeaderText="Operación"
+                                           HeaderTextAlignment="Start"
+                                           LineBreakMode="WordWrap"
+                                           MappingName="dopera"
+                                           Padding="5, 0, 0, 0"                                           
+                                           TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"                                           
+                                        HeaderText="Cliente"
+                                        HeaderTextAlignment="Start"
+                                        LineBreakMode="WordWrap"
+                                        MappingName="dclien"
+                                        Padding="5, 0, 0, 0"                                           
+                                        TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+                    
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"                                           
+                                        HeaderText="Lote"
+                                        HeaderTextAlignment="Start"
+                                        LineBreakMode="WordWrap"
+                                        MappingName="nlotes"
+                                        Padding="5, 0, 0, 0"                                           
+                                        TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"                                           
+                                        HeaderText="Muestra"
+                                        HeaderTextAlignment="Start"
+                                        LineBreakMode="WordWrap"
+                                        MappingName="nmuest"
+                                        Padding="5, 0, 0, 0"                                           
+                                        TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn HeaderFontAttribute="Bold"                                           
+                                        HeaderText="Estado"
+                                        HeaderTextAlignment="Start"
+                                        LineBreakMode="WordWrap"
+                                        MappingName="status"
+                                        Padding="5, 0, 0, 0"                                           
+                                        TextAlignment="Start">
+                    </sfgrid:GridTextColumn>
+                                
+                </sfgrid:SfDataGrid.Columns>
+                
+                <sfgrid:SfDataGrid.LeftSwipeTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="#42A5F5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                                <Image 
+                                   x:Name="leftImage_Swiping"
+                                   Grid.Column="0"  
+                                   BackgroundColor="Transparent"
+                                   BindingContextChanged="leftImage_Swiping_BindingContextChanged"
+                                   HorizontalOptions="CenterAndExpand" 
+                                   Source="Editar.png"/>
+                                <Label BackgroundColor="Transparent"
+                                    Grid.Column="1"
+                                    HorizontalTextAlignment="Start"
+                                    LineBreakMode="NoWrap"
+                                    Text="EDITAR"
+                                    TextColor="White"
+                                    VerticalTextAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </sfgrid:SfDataGrid.LeftSwipeTemplate>
+
+                <sfgrid:SfDataGrid.RightSwipeTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="#EF5350">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Image 
+                                x:Name="rightImage_Swiping"
+                                Grid.Column="0"  
+                                BackgroundColor="Transparent" 
+                                BindingContextChanged="rightImage_Swiping_BindingContextChanged"
+                                HorizontalOptions="CenterAndExpand" 
+                                Source="Eliminar.png"/>
+                            <Label 
+                                BackgroundColor="Transparent"
+                                Grid.Column="1"
+                                HorizontalTextAlignment="Start"
+                                LineBreakMode="NoWrap"
+                                Text="ELIMINAR"
+                                TextColor="White"
+                                VerticalTextAlignment="Center" />
+                        </Grid>
+                    </DataTemplate>
+                </sfgrid:SfDataGrid.RightSwipeTemplate>
+
+            </sfgrid:SfDataGrid>
+            <!--</Grid>-->
+            
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

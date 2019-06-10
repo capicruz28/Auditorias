@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:rotator="clr-namespace:Syncfusion.SfRotator.XForms;assembly=Syncfusion.SfRotator.XForms"
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             x:Class="AppPFashions.Pages.HomePage"
+             Title="PERÚ FASHIONS S.A.C."
+             BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid x:Name="root" >
+                <rotator:SfRotator x:Name="rotator" 
+                                    Grid.Row="0" 
+                                    EnableAutoPlay="true" 
+                                    ItemsSource="{Binding ImageCollection}"
+                                    NavigationDelay="3000" 
+                                    SelectedIndex="2" 
+                                    NavigationDirection="Horizontal">
+                        <rotator:SfRotator.ItemTemplate>
+                            <DataTemplate>
+                                <Image  Source="{Binding Image}" Aspect="AspectFit"/>
+                            </DataTemplate>
+                        </rotator:SfRotator.ItemTemplate>
+                </rotator:SfRotator>
+            </Grid>
+
+
+            <cards:SfCardView x:Name="cvtejeduria" IndicatorColor="#3D57AE" IndicatorThickness="12" IndicatorPosition="Left">
+                    <cards:SfCardView.HasShadow>
+                        <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="True" />
+                    </cards:SfCardView.HasShadow>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Label  Text="Tejeduria" TextColor="Black" FontSize="18" FontAttributes="Bold" HorizontalOptions="Start" />
+
+                        <Label Grid.Row="1" Grid.RowSpan="2" FontSize="13" Text="Con nuestra maquinaria de última generación, obtenemos el material de manera rápida y confiable. El proceso de tejido está completamente computarizado, pero es supervisado permanentemente por personal capacitado."/>
+
+                        <!--<border:SfBorder Grid.Row="2" Margin="0,0,0,5" BackgroundColor="#3D57AE" BorderColor="Transparent" CornerRadius="15" WidthRequest="70" HorizontalOptions="Start">
+                            <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center">
+                                --><!--<Label x:Name="label"  Text="&#xe735;" 
+                                   TextColor="White" 
+                                   VerticalTextAlignment="Center" 
+                                   FontSize="12" 
+                                   WidthRequest="14" 
+                                   HeightRequest="20">
+                                </Label>--><!--
+                                <Label  Text="" FontSize="12" VerticalTextAlignment="Center" Margin="-5,0,-5,0" TextColor="White" WidthRequest="30" HeightRequest="20"/>
+                            </StackLayout>
+                        </border:SfBorder>-->
+                    </Grid>
+
+                    <ContentView Grid.Column="1" Padding="0">
+                        <border:SfBorder CornerRadius="7" BorderColor="Transparent">
+                            <Image Aspect="Fill" Source="Tejeduria.jpg" WidthRequest="225" HeightRequest="175" />
+                        </border:SfBorder>
+                    </ContentView>
+                </Grid>
+            </cards:SfCardView>
+
+            <cards:SfCardView x:Name="cvtintoreria" IndicatorColor="#FF3333" IndicatorThickness="12" IndicatorPosition="Left">
+                <cards:SfCardView.HasShadow>
+                    <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="True" />
+                </cards:SfCardView.HasShadow>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Label  Text="Lavanderia" TextColor="Black" FontSize="18" FontAttributes="Bold" HorizontalOptions="Start" />
+
+                        <Label Grid.Row="1" Grid.RowSpan="2" FontSize="13" Text="Los colores creados previamente se aplican en el material textil. Varios controles de calidad aseguran la uniformidad del color en toda la pieza. Nuestros tintes son vivos y duran para siempre."/>
+
+                        <!--<border:SfBorder Grid.Row="2" Margin="0,0,0,5" BackgroundColor="#FF3333" BorderColor="Transparent" CornerRadius="15" WidthRequest="70" HorizontalOptions="Start">
+                            <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center">
+                                --><!--<Label x:Name="labeltinto"  Text="&#xe735;" 
+                                   TextColor="White" 
+                                   VerticalTextAlignment="Center" 
+                                   FontSize="12" 
+                                   WidthRequest="14" 
+                                   HeightRequest="20">
+                                </Label>--><!--
+                                <Label  Text="" FontSize="12" VerticalTextAlignment="Center" Margin="-5,0,-5,0" TextColor="White" WidthRequest="30" HeightRequest="20"/>
+                            </StackLayout>
+                        </border:SfBorder>-->
+                    </Grid>
+
+                    <ContentView Grid.Column="1" Padding="0">
+                        <border:SfBorder CornerRadius="7" BorderColor="Transparent">
+                            <Image Aspect="Fill" Source="Tintoreria.jpg" WidthRequest="225" HeightRequest="175" />
+                        </border:SfBorder>
+                    </ContentView>
+                </Grid>
+            </cards:SfCardView>
+
+            <cards:SfCardView x:Name="cvlavanderia" IndicatorColor="#66B2FF" IndicatorThickness="12" IndicatorPosition="Left">
+                <cards:SfCardView.HasShadow>
+                    <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="True" />
+                </cards:SfCardView.HasShadow>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Label  Text="Lavanderia" TextColor="Black" FontAttributes="Bold" FontSize="18" HorizontalOptions="Start" />
+
+                        <Label Grid.Row="1" Grid.RowSpan="2" FontSize="13" Text="Lavamos nuestra tela con agua especialmente procesada y en equipos especializados. También estiramos y filtramos la tela para evitar que se encoja o cualquier tipo de deformación."/>
+
+                        <!--<border:SfBorder Grid.Row="2" Margin="0,0,0,5" BackgroundColor="#66B2FF" BorderColor="Transparent" CornerRadius="15" WidthRequest="70" HorizontalOptions="Start">
+                            <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center">
+                                --><!--<Label x:Name="labellavand"  Text="&#xe735;" 
+                                   TextColor="White" 
+                                   VerticalTextAlignment="Center" 
+                                   FontSize="12" 
+                                   WidthRequest="14" 
+                                   HeightRequest="20">
+                                </Label>--><!--
+                                <Label  Text="" FontSize="12" VerticalTextAlignment="Center" Margin="-5,0,-5,0" TextColor="White" WidthRequest="30" HeightRequest="20"/>
+                            </StackLayout>
+                        </border:SfBorder>-->
+                    </Grid>
+
+                    <ContentView Grid.Column="1" Padding="0">
+                        <border:SfBorder CornerRadius="7" BorderColor="Transparent">
+                            <Image Aspect="Fill" Source="Lavanderias.jpg" WidthRequest="225" HeightRequest="175" />
+                        </border:SfBorder>
+                    </ContentView>
+                </Grid>
+            </cards:SfCardView>
+
+            <cards:SfCardView x:Name="cvconfeccion" IndicatorColor="#B266FF" IndicatorThickness="12" IndicatorPosition="Left">
+                <cards:SfCardView.HasShadow>
+                    <OnPlatform x:TypeArguments="x:Boolean" iOS="False" Android="True" />
+                </cards:SfCardView.HasShadow>
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid Padding="5" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="30"/>
+                        </Grid.RowDefinitions>
+
+                        <Label  Text="Confección" TextColor="Black" FontAttributes="Bold" FontSize="18" HorizontalOptions="Start" />
+
+                        <Label Grid.Row="1" Grid.RowSpan="2" FontSize="13" Text="Coser a mano con cientos de trabajadores dedicados a esta importante tarea. También utilizamos hilos finos para cada puntada, lo que garantiza productos duraderos y duraderos."/>
+
+                        <!--<border:SfBorder Grid.Row="2" Margin="0,0,0,5" BackgroundColor="#B266FF" BorderColor="Transparent" CornerRadius="15" WidthRequest="70" HorizontalOptions="Start">
+                            <StackLayout Orientation="Horizontal"  HorizontalOptions="Center" VerticalOptions="Center">
+                                --><!--<Label x:Name="labelconfecc"  Text="&#xe735;" 
+                                   TextColor="White" 
+                                   VerticalTextAlignment="Center" 
+                                   FontSize="12" 
+                                   WidthRequest="14" 
+                                   HeightRequest="20">
+                                </Label>--><!--
+                                <Label  Text="" FontSize="12" VerticalTextAlignment="Center" Margin="-5,0,-5,0" TextColor="White" WidthRequest="30" HeightRequest="20"/>
+                            </StackLayout>
+                        </border:SfBorder>-->
+                    </Grid>
+
+                    <ContentView Grid.Column="1" Padding="0">
+                        <border:SfBorder CornerRadius="7" BorderColor="Transparent">
+                            <Image Aspect="Fill" Source="Confeccion.jpg" WidthRequest="225" HeightRequest="175" />
+                        </border:SfBorder>
+                    </ContentView>
+                </Grid>
+            </cards:SfCardView>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
