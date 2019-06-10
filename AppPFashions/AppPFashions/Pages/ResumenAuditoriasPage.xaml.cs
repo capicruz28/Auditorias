@@ -302,7 +302,7 @@ namespace AppPFashions.Pages
                             var json = JsonConvert.SerializeObject(novoPost);
                             var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                            var uri = "http://192.168.1.3:7030/api/paudit01";
+                            var uri = "http://192.168.2.9:7030/api/paudit01";
                             var result = await client.PostAsync(uri, content);
 
                             if (!result.IsSuccessStatusCode)
@@ -348,7 +348,7 @@ namespace AppPFashions.Pages
                                         var jsondef = JsonConvert.SerializeObject(novoPostdef);
                                         var contentdef = new StringContent(jsondef, System.Text.Encoding.UTF8, "application/json");
 
-                                        var uridef = "http://192.168.1.3:7030/api/pdefec01";
+                                        var uridef = "http://192.168.2.9:7030/api/pdefec01";
                                         var resultdef = await client.PostAsync(uridef, contentdef);
 
                                         if (!result.IsSuccessStatusCode)
@@ -374,7 +374,7 @@ namespace AppPFashions.Pages
                                                     contentimg.Add(new ByteArrayContent(File.ReadAllBytes(path)), "file", recordimg.defjpg);
 
                                                     var httpClient = new HttpClient();
-                                                    var uploadServiceBaseAddress = "http://192.168.1.3:7030/api/Upload";
+                                                    var uploadServiceBaseAddress = "http://192.168.2.9:7030/api/Upload";
                                                     var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, contentimg);
 
                                                     await httpResponseMessage.Content.ReadAsStringAsync();
@@ -503,7 +503,7 @@ namespace AppPFashions.Pages
                         var json = JsonConvert.SerializeObject(novoPost);
                         var content = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
 
-                        var uri = "http://192.168.1.3:7030/api/pdefec01";
+                        var uri = "http://192.168.2.9:7030/api/pdefec01";
                         var result = await client.PostAsync(uri, content);
 
                         if (!result.IsSuccessStatusCode)

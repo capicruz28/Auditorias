@@ -17,7 +17,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/ousuar00?cusuar=" + user + "&cclave=" + password;
                 var response = await client.GetAsync(url);
 
@@ -56,7 +56,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/mtraba00";
                 var response = await client.GetAsync(url);
 
@@ -94,7 +94,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/topera01";
                 var response = await client.GetAsync(url);
 
@@ -132,7 +132,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/mdefec00";
                 var response = await client.GetAsync(url);
 
@@ -170,7 +170,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/ordprod?nordpr=" + nordpr;
                 var response = await client.GetAsync(url);
 
@@ -217,7 +217,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/paudit10?careas=" + careas+ "&faudit=2018-11-10";
                 var response = await client.GetAsync(url);
 
@@ -264,7 +264,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/ttcmue00";
                 var response = await client.GetAsync(url);
 
@@ -302,7 +302,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/ppzxes00?nordpr=" + nordpr+"&ccarub="+ccarub;
                 var response = await client.GetAsync(url);
 
@@ -349,7 +349,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/pcorte00?nordpr=" + nordpr + "&nordct=" + nordct + "&npieza=" + npieza;
                 var response = await client.GetAsync(url);
 
@@ -396,7 +396,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/padcor00?nordpr=" + nordpr + "&nordct=" + nordct ;
                 var response = await client.GetAsync(url);
 
@@ -443,7 +443,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/api/paudit02?careas=" + careas + "&faudit=" + faudit + "&clinea=" + clinea;
                 var response = await client.GetAsync(url);
 
@@ -481,7 +481,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.1.3:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "/OrdenP?nordpr=" + nordpr;
                 var response = await client.GetAsync(url);
 
@@ -518,6 +518,24 @@ namespace AppPFashions.Services
                     IsSuccess = false,
                     Message = "No se encuentra dentro de la red de Perú Fashions",
                 };
+            }
+        }
+
+        public async Task<string> GetFechaApk()
+        {            
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.125:7030");
+                var url = "api/GetApk";
+                string response = await client.GetStringAsync(url);
+
+                 return response;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

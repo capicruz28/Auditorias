@@ -1,11 +1,14 @@
 ﻿using AppPFashions.Data;
+using AppPFashions.Interfaces;
 using AppPFashions.Models;
+using AppPFashions.Services;
 using AppPFashions.Templates;
 using Syncfusion.SfKanban.XForms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,30 +18,66 @@ using Xamarin.Forms.Xaml;
 
 namespace AppPFashions.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class UserPage : INotifyPropertyChanged
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class UserPage : INotifyPropertyChanged
     {
+        IDownloader downloader = DependencyService.Get<IDownloader>();
         public ObservableCollection<CustomKanbanModel> Cards { get; set; }
         public ObservableCollection<CustomKanbanModel> CardsNull { get; set; }
         List<taudit00> auditcp;
         List<taudit00> auditcf;
         taudit00 xoperac;
         mtraba00 ldtraba;
-        public string dusuar { get; set; }        
+        public string dusuar { get; set; }
 
-        public UserPage ()
+        private ApiService apiService;
+
+        public UserPage()
         {
-            InitializeComponent ();
-            
+            apiService = new ApiService();
+            InitializeComponent();
+            downloader.OnFileDownloaded += OnFileDownloaded;
+
             BindingContext = this;
 
-            CargaCards();
+            CargaCards();            
         }
 
         protected override void OnAppearing()
-        {                        
+        {
             base.OnAppearing();
             CargaCards();
+            //FechaApk();            
+        }
+
+        async void FechaApk()
+        {
+            string response = await apiService.GetFechaApk();            
+            DateTime dtapkserver = DateTime.Parse(response.Trim(new char[] {'"'}));
+            //FileInfo fi = new FileInfo("/storage/emulated/0/Download/Auditoria.apk");
+            DateTime dtapkmobile = File.GetLastWriteTime("/storage/emulated/0/Download/Auditoria.apk");
+            
+            if (dtapkserver > DateTime.Parse(dtapkmobile.ToString("dd/MM/yyyy HH:mm:ss")))
+            {
+                if (await DisplayAlert("Aviso", "Existe una actualización para la aplicación, desea descargarla ahora?", "Si", "No"))
+                {
+                    DependencyService.Get<IDownloader>().Show("Descargando");
+                    string rutapdf = "ftp://192.168.2.55/Auditoria.apk";
+                    downloader.DownloadFile(rutapdf, "Download");
+                }
+            }
+        }
+
+        private void OnFileDownloaded(object sender, DownloadEventArgs e)
+        {
+            if (e.FileSaved)
+            {
+                DependencyService.Get<IDownloader>().Hide();
+            }
+            else
+            {
+                DisplayAlert("Aviso", "Hubo un error al descargar el archivo", "OK");
+            }
         }
 
         async void CargaCards()
@@ -130,7 +169,7 @@ namespace AppPFashions.Pages
                 //style.SelectedBackgroundColor = Color.FromRgb(250.0f / 255.0f, 199.0f / 255.0f, 173.0f / 255.0f);
                 //kanban.PlaceholderStyle = style;
 
-                kanban.ItemsSource = Cards;
+                //kanban.ItemsSource = Cards;
             }
             catch (Exception ex)
             {

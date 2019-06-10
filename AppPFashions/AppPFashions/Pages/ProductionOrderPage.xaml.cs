@@ -76,10 +76,7 @@ namespace AppPFashions.Pages
         async void GenerateItems()
         {
             DependencyService.Get<IDownloader>().Show("Descargando");
-            var folders = new ObservableCollection<AuditFolder>();
-            
-            treeView.Nodes.Clear();
-
+         
             var response = await apiService.GetFichasPdf<OrdenProduccion>(ety_op.Text);
             if (!response.IsSuccess)
             {
@@ -91,6 +88,15 @@ namespace AppPFashions.Pages
             //********** INNIO DESCARGA DE ARCHIVOS DESDE FTP **********//            
             foreach (var recordf in fichas)
             {
+                string fileName = recordf.drutaf + ".pdf";
+                IFolder rootFolder = await FileSystem.Current.GetFolderFromPathAsync("/storage/emulated/0/Fichas/");
+                ExistenceCheckResult folderexist = await rootFolder.CheckExistsAsync(fileName);
+                if (folderexist == ExistenceCheckResult.FileExists)
+                {
+                    IFile file = await rootFolder.GetFileAsync(fileName);
+                    await file.DeleteAsync();
+                }
+
                 string rutapdf = "ftp://192.168.2.55/" + recordf.drutaf + ".pdf";
                 downloader.DownloadFile(rutapdf, "Fichas");
             }            
@@ -101,7 +107,11 @@ namespace AppPFashions.Pages
                 Dclien = recordc.dclien;
                 Nordpr = recordc.nordpr;
             }
-        
+
+            var folders = new ObservableCollection<AuditFolder>();
+
+            treeView.Nodes.Clear();
+
             var fichascab = (from a in fichas
                             group a by new
                             {
@@ -126,10 +136,10 @@ namespace AppPFashions.Pages
                 foreach (var records in fichasdet)
                 {
                     string fileName = records.drutaf + ".pdf";
-                    string fileImage = "";
-                    FileInfo fi = new FileInfo("/storage/emulated/0/Fichas/" + fileName);
-                    if (fi.Length == 0){ fileImage = "ic_cancel.png"; }
-                    else{ fileImage = "ic_check.png"; }
+                    string fileImage = "ic_check.png";
+                    //FileInfo fi = new FileInfo("/storage/emulated/0/Fichas/" + fileName);
+                    //if (fi.Length == 0){ fileImage = "ic_cancel.png"; }
+                    //else{ fileImage = "ic_check.png"; }
 
                     if (string.IsNullOrEmpty(records.dcolor))
                     {                                               
@@ -150,31 +160,31 @@ namespace AppPFashions.Pages
             treeView.ItemsSource = Folders;
 
             //********** INICIO INSERTA EN SQLITE MOBILE **********//
-            using (var data = new DataAccess())
-            {
-                var dataop = data.GetOP(ety_op.Text);
+            //using (var data = new DataAccess())
+            //{
+            //    var dataop = data.GetOP(ety_op.Text);
 
-                if (dataop.Count == 0)
-                {
-                    dataService.Save(fichas);
-                }
-                else
-                {
-                    foreach (var recordf in fichas)
-                    {
-                        string fileName = recordf.drutaf + ".pdf";
-                        IFolder rootFolder = await FileSystem.Current.GetFolderFromPathAsync("/storage/emulated/0/Fichas/");
-                        ExistenceCheckResult folderexist = await rootFolder.CheckExistsAsync(fileName);
-                        if (folderexist == ExistenceCheckResult.FileExists)
-                        {
-                            IFile file = await rootFolder.GetFileAsync(fileName);
-                            await file.DeleteAsync();
-                        }
-                    }
-                    data.DeleteFichaOP(ety_op.Text);                             
-                    dataService.Save(fichas);
-                }
-            }
+            //    if (dataop.Count == 0)
+            //    {
+            //        dataService.Save(fichas);
+            //    }
+            //    else
+            //    {
+            //        foreach (var recordf in fichas)
+            //        {
+            //            string fileName = recordf.drutaf + ".pdf";
+            //            IFolder rootFolder = await FileSystem.Current.GetFolderFromPathAsync("/storage/emulated/0/Fichas/");
+            //            ExistenceCheckResult folderexist = await rootFolder.CheckExistsAsync(fileName);
+            //            if (folderexist == ExistenceCheckResult.FileExists)
+            //            {
+            //                IFile file = await rootFolder.GetFileAsync(fileName);
+            //                await file.DeleteAsync();
+            //            }
+            //        }
+            //        data.DeleteFichaOP(ety_op.Text);                             
+            //        dataService.Save(fichas);
+            //    }
+            //}
             //********** FIN INSERTA EN SQLITE MOBILE **********//
             DependencyService.Get<IDownloader>().Hide();
 
@@ -219,7 +229,7 @@ namespace AppPFashions.Pages
         }
 
         private async void Btn_buscar_op_Clicked(object sender, EventArgs e)
-        {
+        {            
             GenerateItems();          
         }
     }

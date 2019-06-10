@@ -1345,7 +1345,7 @@ namespace AppPFashions.Pages
 
         //            var httpClient = new HttpClient();
 
-        //            var uploadServiceBaseAddress = "http://192.168.1.3:7030/api/Upload";
+        //            var uploadServiceBaseAddress = "http://192.168.2.9:7030/api/Upload";
 
         //            var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
 
