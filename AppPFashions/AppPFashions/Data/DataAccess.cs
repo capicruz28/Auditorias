@@ -52,6 +52,11 @@ namespace AppPFashions.Data
             connection.Update(model);
         }
 
+        public void Deletes<T>(List<T> model)
+        {
+            connection.Delete(model);
+        }
+
         public void Delete<T>(T model)
         {
             connection.Delete(model);
@@ -87,12 +92,13 @@ namespace AppPFashions.Data
             connection.DeleteAll<taudit00>();
         }
 
-        public void DeleteAuditoria(DateTime faudit,string clinea)
+        public void DeleteAuditoria(DateTime xfaudit,string clinea)
         {
-            connection.Table<pdefec01>().Delete(x => x.faudit == faudit && x.clinea==clinea);
-            connection.Table<pdefec10>().Delete(x => x.faudit == faudit && x.clinea == clinea);            
-            connection.Table<paudit01>().Delete(x => x.faudit == faudit && x.clinea == clinea);
-            connection.Table<taudit00>().Delete(x => x.faudit == faudit && x.clinea == clinea);
+            
+            connection.Table<paudit01>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
+            connection.Table<taudit00>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
+            connection.Table<pdefec01>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
+            connection.Table<pdefec10>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);                        
         }
 
         public void DeleteAudiDefecTemp()

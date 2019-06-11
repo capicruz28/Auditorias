@@ -105,7 +105,9 @@ namespace AppPFashions.Models
         private string subFolderName;
         private string subimageName;
         private string clinea;
-        private string faudit;
+        private DateTime faudit;
+        private string careas;
+        private int nsecue;
         private ObservableCollection<DetFolder> detFolders;
 
         #endregion
@@ -186,13 +188,31 @@ namespace AppPFashions.Models
                 RaisedOnPropertyChanged("Clinea");
             }
         }
-        public string Faudit
+        public DateTime Faudit
         {
             get { return faudit; }
             set
             {
                 faudit = value;
                 RaisedOnPropertyChanged("Faudit");
+            }
+        }
+        public int Nsecue
+        {
+            get { return nsecue; }
+            set
+            {
+                nsecue = value;
+                RaisedOnPropertyChanged("Nsecue");
+            }
+        }
+        public string Careas
+        {
+            get { return careas; }
+            set
+            {
+                careas = value;
+                RaisedOnPropertyChanged("Careas");
             }
         }
 

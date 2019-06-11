@@ -38,8 +38,8 @@ namespace AppPFashions.Droid
             base.OnCreate(bundle);            
 
             CrossCurrentActivity.Current.Init(this, bundle);
-            AppCenter.Start("5b2ea4b0-73f4-42ff-b964-5f8382757cf7",
-                   typeof(Analytics), typeof(Crashes), typeof(Distribute));
+            //AppCenter.Start("5b2ea4b0-73f4-42ff-b964-5f8382757cf7",
+            //       typeof(Analytics), typeof(Crashes), typeof(Distribute));
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
             // Inicializamos el scanner

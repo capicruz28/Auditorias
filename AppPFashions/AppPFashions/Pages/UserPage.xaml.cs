@@ -169,7 +169,7 @@ namespace AppPFashions.Pages
                 //style.SelectedBackgroundColor = Color.FromRgb(250.0f / 255.0f, 199.0f / 255.0f, 173.0f / 255.0f);
                 //kanban.PlaceholderStyle = style;
 
-                //kanban.ItemsSource = Cards;
+                kanban.ItemsSource = Cards;
             }
             catch (Exception ex)
             {
@@ -199,6 +199,17 @@ namespace AppPFashions.Pages
                 {
                     xoperac = data.GetList<taudit00>(false).Where(x => x.nsecue == selkanban.Nsecue && x.clinea == selkanban.Clinea && x.status == "D" && x.careas == selkanban.Careas && x.faudit.ToString("dd-MM-yyyy") == selkanban.Faudit.ToString("dd-MM-yyyy")).FirstOrDefault();
                 }
+
+                using (var data = new DataAccess())
+                {
+                    var audenvio = data.GetList<taudit00>(false).Where(x => x.careas == selkanban.Careas && x.clinea == selkanban.Clinea && x.nsecue == selkanban.Nsecue && x.faudit.ToString("dd-MM-yyyy") == selkanban.Faudit.ToString("dd-MM-yyyy") && x.sreaud == "S").ToList();
+                    if (audenvio.Count > 0)
+                    {
+                        await DisplayAlert("Aviso", "Ya se realizo la reauditoria", "OK");
+                        return;
+                    }
+                }
+
                 var dataok = new List<taudit00>
                 {
                     new taudit00

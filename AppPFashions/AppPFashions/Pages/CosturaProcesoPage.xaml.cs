@@ -834,7 +834,7 @@ namespace AppPFashions.Pages
                         {
                             idaudi = xidaudi,
                             careas = "19",
-                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             nsecue = Int32.Parse(lbl_nsecue.Text.ToString()),
                             clinea = lbl_bloquedef.Text,
                             ctpord = "OP",

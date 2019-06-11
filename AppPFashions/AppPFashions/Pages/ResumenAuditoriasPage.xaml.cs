@@ -115,24 +115,24 @@ namespace AppPFashions.Pages
                     var taudit03 = (from a in xoperacs
                                     group a by new
                                     {
-                                        a.faudit.Date,
+                                        a.faudit,
                                     }
                            into b
                                     select new
                                     {
-                                        Faudit = b.Key.Date,                                        
+                                        Faudit = b.Key.faudit,                                        
                                     }).ToList();
 
                     foreach (var recorda in taudit03)
                     {
-                        int qaudit = data.GetList<taudit00>(false).Where(x => x.careas == taudit01 && x.clinea == record.Clinea && x.faudit.Date==recorda.Faudit.Date).ToList().Count();
+                        int qaudit = data.GetList<taudit00>(false).Where(x => x.careas == taudit01 && x.clinea == record.Clinea && x.faudit.Date == recorda.Faudit.Date).ToList().Count();
                         int qaudia = data.GetList<taudit00>(false).Where(x => x.careas == taudit01 && x.clinea == record.Clinea && x.faudit.Date == recorda.Faudit.Date && x.status=="A").ToList().Count();
                         int qaudid = data.GetList<taudit00>(false).Where(x => x.careas == taudit01 && x.clinea == record.Clinea && x.faudit.Date == recorda.Faudit.Date && x.status == "D").ToList().Count();
                         int qaudie = data.GetList<taudit00>(false).Where(x => x.careas == taudit01 && x.clinea == record.Clinea && x.faudit.Date == recorda.Faudit.Date && x.status == "E").ToList().Count();
 
                         if ( conta == 1 )
                         { 
-                            subfol01 = new SubFolder() { FolderName = recorda.Faudit.ToString("dd-MM-yyyy"), ImageName = "ic_calendar_now.png", AuditCount = qaudit , Clinea=record.Clinea};
+                            subfol01 = new SubFolder() { FolderName = recorda.Faudit.ToString("dd-MM-yyyy"), ImageName = "ic_calendar_now.png", AuditCount = qaudit , Clinea=record.Clinea, Faudit=recorda.Faudit};
                             subfol01.DetFolder = new ObservableCollection<DetFolder>
                             {
                                 new DetFolder() { FolderName = "Aprobado", ImageName= "ic_aprobado.png" , AuditCount = qaudia , Careas=taudit01, Status="A", Clinea=record.Clinea, Faudit=recorda.Faudit.ToString("dd-MM-yyyy")},
@@ -143,7 +143,7 @@ namespace AppPFashions.Pages
                         }
                         if (conta > 1 )
                         {
-                            subfol01 = new SubFolder() { FolderName = recorda.Faudit.ToString("dd-MM-yyyy"), ImageName = "ic_calendar_past.png", AuditCount = qaudit, Clinea = record.Clinea};
+                            subfol01 = new SubFolder() { FolderName = recorda.Faudit.ToString("dd-MM-yyyy"), ImageName = "ic_calendar_past.png", AuditCount = qaudit, Clinea = record.Clinea, Faudit = recorda.Faudit };
                             subfol01.DetFolder = new ObservableCollection<DetFolder>
                             {
                                 new DetFolder() { FolderName = "Aprobado",ImageName= "ic_aprobado.png" , AuditCount = qaudia , Careas=taudit01, Status="A", Clinea=record.Clinea, Faudit=recorda.Faudit.ToString("dd-MM-yyyy")},
@@ -568,6 +568,14 @@ namespace AppPFashions.Pages
                 {
                     using (var data = new DataAccess())
                     {
+                        //DateTime str = selaudit.Faudit;
+                        //var lista = data.GetList<paudit01>(false).Where(x => x.faudit.ToString("dd-MM-yyyy") == selaudit.FolderName && x.clinea == selaudit.Clinea && x.senvio == "S").ToList();
+                        //foreach (var recor in lista)
+                        //{
+                        //    DateTime stra = recor.faudit;
+                        //    await DisplayAlert("Aviso", stra.ToString() + ' ' + str.ToString(), "OK");
+                        //}
+
                         var listickets = data.GetList<paudit01>(false).Where(x => x.faudit.ToString("dd-MM-yyyy") == selaudit.FolderName && x.clinea==selaudit.Clinea && x.senvio == "N").ToList();
                         int qlistau = listickets.Count();
                         if (qlistau > 0)
@@ -575,7 +583,8 @@ namespace AppPFashions.Pages
                             await DisplayAlert("Alerta", "Existen auditorias sin sincronizar, por favor sincronice antes de eliminar", "OK");
                             return;
                         }
-                        data.DeleteAuditoria(DateTime.Parse(selaudit.FolderName),selaudit.Clinea);
+                                             
+                        data.DeleteAuditoria(selaudit.Faudit,selaudit.Clinea);                        
                         LoadResumenAuditorias();
                     }
                     await DisplayAlert("Aviso", "Auditorias eliminadas", "OK");
