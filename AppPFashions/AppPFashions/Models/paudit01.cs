@@ -8,10 +8,10 @@ namespace AppPFashions.Models
     public class paudit01
     {
         [PrimaryKey]
-        public int idaudi { get; set; }
-        public string careas { get; set; }
-        public DateTime faudit { get; set; }
-        public Int32 nsecue { get; set; }
+        public int idaudi { get; set; }        
+        public string careas { get; set; }        
+        public DateTime faudit { get; set; }        
+        public Int32 nsecue { get; set; }        
         public string clinea { get; set; }
         public string ctpord { get; set; }
         public string nordpr { get; set; }

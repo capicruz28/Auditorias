@@ -70,7 +70,7 @@ namespace AppPFashions.Pages
 
             this.listaCargaAuditoria = listaAuditoria;
             InitializeComponent();
-
+            downloader.OnFileDownloaded += OnFileDownloaded;
             nuevaAuditoria = "S";
             sgraud = "N";
             pck_bloque.ItemsSource = SectorList;
@@ -80,7 +80,7 @@ namespace AppPFashions.Pages
             }
 
             using (var data = new DataAccess())
-            {
+            {                
                 var ldefec = data.GetList<pdefec10>(false).Where(x => x.svigen == "N").ToList();
                 foreach (var record in ldefec)
                 {
@@ -1429,89 +1429,116 @@ namespace AppPFashions.Pages
 
             private async void PickPhoto_Clicked(object sender, EventArgs e)
             {
-                downloader.InstallAPK();
-            //DownloadImage();
-                //var speechText = await WaitForSpeechToText();
-                //speechTextLabel.Text = string.IsNullOrEmpty(speechText) ? "Nothing Recorded" : speechText;
+            string response = await apiService.GetFechaApk();
+            DateTime dtapkserver = DateTime.Parse(response.Trim(new char[] { '"' }));
+            //FileInfo fi = new FileInfo("/storage/emulated/0/Download/Auditoria.apk");
+            DateTime dtapkmobile = File.GetLastWriteTime("/storage/emulated/0/Download/Auditoria.apk");
 
-                //DependencyService.Get<IConfig>().DownloadFile(new Uri(ur));
-                //var url = "http://www.pdf995.com/samples/pdf.pdf";
-                //    Device.OpenUri(new Uri(url));
-                //var path = await DownloadManager.DownloadManager.DownloadAsync("teste.jpg", "/wikipedia/commons/2/2d/Snake_River_%285mb%29.jpg", progress);
-
-                //file.Text = path;
-                //img.Source = path;
-                //await CrossMedia.Current.Initialize();
-
-                //if (!CrossMedia.Current.IsPickPhotoSupported)
-                //{
-                //    await DisplayAlert("No PickPhoto", ":( No PickPhoto available.", "OK");
-                //    return;
-                //}
-
-                //_mediaFile = await CrossMedia.Current.PickPhotoAsync();
-
-                //if (_mediaFile == null)
-                //    return;
-
-                //LocalPathLabel.Text = _mediaFile.Path;
-
-                //FileImage.Source = ImageSource.FromStream(() =>
-                //{
-                //    return _mediaFile.GetStream();
-                //});
+            if (dtapkserver > DateTime.Parse(dtapkmobile.ToString("dd/MM/yyyy HH:mm:ss")))
+            {
+                if (await DisplayAlert("Aviso", "Existe una actualización para la aplicación, desea descargarla ahora?", "Si", "No"))
+                {
+                    DependencyService.Get<IDownloader>().Show("Descargando");
+                    string rutapdf = "ftp://192.168.2.55/Auditoria.apk";
+                    downloader.DownloadFile(rutapdf, "Download");
+                }
             }
 
-            //private async void TakePhoto_Clicked(object sender, EventArgs e)
+        
+            //downloader.InstallAPK();
+            //DownloadImage();
+            //var speechText = await WaitForSpeechToText();
+            //speechTextLabel.Text = string.IsNullOrEmpty(speechText) ? "Nothing Recorded" : speechText;
+
+            //DependencyService.Get<IConfig>().DownloadFile(new Uri(ur));
+            //var url = "http://www.pdf995.com/samples/pdf.pdf";
+            //    Device.OpenUri(new Uri(url));
+            //var path = await DownloadManager.DownloadManager.DownloadAsync("teste.jpg", "/wikipedia/commons/2/2d/Snake_River_%285mb%29.jpg", progress);
+
+            //file.Text = path;
+            //img.Source = path;
+            //await CrossMedia.Current.Initialize();
+
+            //if (!CrossMedia.Current.IsPickPhotoSupported)
             //{
-            //    await CrossMedia.Current.Initialize();
-
-            //    if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
-            //    {
-            //        await DisplayAlert("No Camera", ":( No camera available.", "OK");
-            //        return;
-            //    }
-
-            //    _mediaFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
-            //    {
-            //        Directory = "Sample",
-            //        Name = "myImage.jpg"
-            //    });
-
-            //    if (_mediaFile == null)
-            //        return;
-            //    LocalPathLabel.Text = _mediaFile.Path;
-
-            //    FileImage.Source = ImageSource.FromStream(() =>
-            //    {
-            //        return _mediaFile.GetStream();
-            //    });
+            //    await DisplayAlert("No PickPhoto", ":( No PickPhoto available.", "OK");
+            //    return;
             //}
 
-            //private async void UploadFile_Clicked(object sender, EventArgs e)
+            //_mediaFile = await CrossMedia.Current.PickPhotoAsync();
+
+            //if (_mediaFile == null)
+            //    return;
+
+            //LocalPathLabel.Text = _mediaFile.Path;
+
+            //FileImage.Source = ImageSource.FromStream(() =>
             //{
+            //    return _mediaFile.GetStream();
+            //});
+        }
+        private void OnFileDownloaded(object sender, DownloadEventArgs e)
+        {
+            if (e.FileSaved)
+            {
+                DependencyService.Get<IDownloader>().Hide();
+            }
+            else
+            {
+                DisplayAlert("Aviso", "Hubo un error al descargar el archivo", "OK");
+            }
+        }
 
-            //    using (var data = new DataAccess())
-            //    {
-            //        var ldefec = data.GetList<pdefec10>(false).Where(x => x.svigen == "S").ToList();
-            //        foreach (var record in ldefec)
-            //        {
-            //            var content = new MultipartFormDataContent();
-            //            var path = "/storage/emulated/0/Pictures/test/"+record.defjpg;
+        //private async void TakePhoto_Clicked(object sender, EventArgs e)
+        //{
+        //    await CrossMedia.Current.Initialize();
 
-            //            content.Add(new ByteArrayContent(File.ReadAllBytes(path)), "file", record.defjpg);
+        //    if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
+        //    {
+        //        await DisplayAlert("No Camera", ":( No camera available.", "OK");
+        //        return;
+        //    }
 
-            //            var httpClient = new HttpClient();
+        //    _mediaFile = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions
+        //    {
+        //        Directory = "Sample",
+        //        Name = "myImage.jpg"
+        //    });
 
-            //            var uploadServiceBaseAddress = "http://192.168.2.9:7030/api/Upload";
+        //    if (_mediaFile == null)
+        //        return;
+        //    LocalPathLabel.Text = _mediaFile.Path;
 
-            //            var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
+        //    FileImage.Source = ImageSource.FromStream(() =>
+        //    {
+        //        return _mediaFile.GetStream();
+        //    });
+        //}
 
-            //            RemotePathLabel.Text = await httpResponseMessage.Content.ReadAsStringAsync();
-            //        }
-            //    }
+        //private async void UploadFile_Clicked(object sender, EventArgs e)
+        //{
 
-            //}
+        //    using (var data = new DataAccess())
+        //    {
+        //        var ldefec = data.GetList<pdefec10>(false).Where(x => x.svigen == "S").ToList();
+        //        foreach (var record in ldefec)
+        //        {
+        //            var content = new MultipartFormDataContent();
+        //            var path = "/storage/emulated/0/Pictures/test/"+record.defjpg;
+
+        //            content.Add(new ByteArrayContent(File.ReadAllBytes(path)), "file", record.defjpg);
+
+        //            var httpClient = new HttpClient();
+
+        //            var uploadServiceBaseAddress = "http://192.168.2.9:7030/api/Upload";
+
+        //            var httpResponseMessage = await httpClient.PostAsync(uploadServiceBaseAddress, content);
+
+        //            RemotePathLabel.Text = await httpResponseMessage.Content.ReadAsStringAsync();
+        //        }
+        //    }
+
+        //}
 
         private void ety_lote_Unfocused(object sender, FocusEventArgs e)
         {

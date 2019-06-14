@@ -36,7 +36,7 @@ namespace AppPFashions.Pages
         {
             apiService = new ApiService();
             InitializeComponent();
-            downloader.OnFileDownloaded += OnFileDownloaded;
+            //downloader.OnFileDownloaded += OnFileDownloaded;
 
             BindingContext = this;
 

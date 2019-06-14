@@ -62,9 +62,15 @@ namespace AppPFashions.Droid
             Intent promptInstall = new Intent(Intent.ActionView).SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory + "/download/Auditoria.apk")), "application/vnd.android.package-archive");
             promptInstall.AddFlags(ActivityFlags.NewTask);
             Android.App.Application.Context.StartActivity(promptInstall);
+
             //Intent promptInstall = new Intent(Intent.ActionView).SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File(Android.OS.Environment.ExternalStorageDirectory.Path + "/download/Auditoria.apk")), "application/vnd.android.package-archive");
             //promptInstall.AddFlags(ActivityFlags.NewTask);
             //Android.App.Application.Context.StartActivity(promptInstall);
+            //Intent i = new Intent();
+            //i.SetAction(Intent.ActionView);
+            //i.SetDataAndType(Android.Net.Uri.FromFile(new Java.IO.File("/download/Auditoria.apk")), "application/vnd.android.package-archive");
+            ////Log.d("Lofting", "About to install new .apk");
+            //Android.App.Application.Context.StartActivity(i);
         }
 
         public void Show(string message)

@@ -3,10 +3,12 @@ using AppPFashions.Data;
 using AppPFashions.Models;
 using AppPFashions.Services;
 using Newtonsoft.Json;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -92,7 +94,18 @@ namespace AppPFashions.Pages
             var folders = new ObservableCollection<AuditFolder>(); 
             using (var data = new DataAccess())
             {
-                xoperac = data.GetList<taudit00>(false).Where(x => x.careas == taudit01).OrderBy(x=>x.clinea).ToList();
+                //using (var conn = new SQLiteConnection("/storage/emulated/0/DB/DBPFashions.db3", true))
+                //{
+
+                //    Stopwatch w = new Stopwatch();
+                //    w.Start();                    
+                //    conn.BeginTransaction();
+                //    xoperac = conn.Query<taudit00>("Select * from taudit where careas="+taudit01,null);
+                    xoperac = data.GetList<taudit00>(false).Where(x => x.careas == taudit01).OrderBy(x => x.clinea).ToList();
+                //    conn.Commit();
+                //    w.Stop();
+
+                //}
                 var taudit02 = (from a in xoperac
                                 group a by new
                                 {

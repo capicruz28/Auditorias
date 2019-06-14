@@ -527,7 +527,7 @@ namespace AppPFashions.Services
             {
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
-                client.BaseAddress = new Uri("http://192.168.2.125:7030");
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
                 var url = "api/GetApk";
                 string response = await client.GetStringAsync(url);
 

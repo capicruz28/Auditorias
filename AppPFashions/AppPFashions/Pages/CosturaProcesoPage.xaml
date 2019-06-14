@@ -813,7 +813,7 @@
            TextColor="Black"
            FontSize="20"/>-->
 
-            <Button Text="Pick Photo"
+            <Button Text="Actualización"
             BackgroundColor="Teal"
             TextColor="White"
             FontSize="40"
