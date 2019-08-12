@@ -12,9 +12,9 @@ namespace AppPFashions.Pages
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class MasterPage : MasterDetailPage
 	{
-		public MasterPage ()
+		public MasterPage()
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		}
 
         protected override void OnAppearing()

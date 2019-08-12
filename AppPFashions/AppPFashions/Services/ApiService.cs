@@ -474,6 +474,44 @@ namespace AppPFashions.Services
             }
         }
 
+        public async Task<Response> GetUltRegistroCorte(string careas, string faudit)
+        {
+            paudit02 ultregistro = new paudit02();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "/api/UltimoRegistroCorte?careas=" + careas + "&faudit=" + faudit ;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer el ultimo registro de auditoria",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                ultregistro = JsonConvert.DeserializeObject<paudit02>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = ultregistro,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
         public async Task<Response> GetFichasPdf<OrdenProduccion>(string nordpr)
         {
             List<OrdenProduccion> corte = new List<OrdenProduccion>();
@@ -536,6 +574,335 @@ namespace AppPFashions.Services
             catch (Exception)
             {
                 throw;
+            }
+        }
+
+        public async Task<Response> GetAuditoriaCortePdf<AuditoriaCorte>(string nordpr)
+        {
+            List<AuditoriaCorte> corte = new List<AuditoriaCorte>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/GetFileCorte?nordpr=" + nordpr;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                corte = JsonConvert.DeserializeObject<List<AuditoriaCorte>>(result);
+
+                if (corte.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "La OP " + nordpr + " no existe",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = corte,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetEficienciaBihorarioBloque<EficienciaBihorario>(string cbloqu)
+        {
+            List<EficienciaBihorario> efibihor = new List<EficienciaBihorario>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/EficienciaBihorarioBloque?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efibihor = JsonConvert.DeserializeObject<List<EficienciaBihorario>>(result);
+
+                if (efibihor.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Aun no existen lecturas de tickets",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efibihor,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetEficienciaSemanalBloque<EficienciaSemanal>(string cbloqu)
+        {
+            List<EficienciaSemanal> efisemanal = new List<EficienciaSemanal>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/EficienciaSemanalBloque?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efisemanal = JsonConvert.DeserializeObject<List<EficienciaSemanal>>(result);
+
+                if (efisemanal.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efisemanal,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetEficienciaErrorSemanalBloque<EficienciaErrorSemanal>(string cbloqu)
+        {
+            List<EficienciaErrorSemanal> efisemanal = new List<EficienciaErrorSemanal>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/EficienciaErrorSemanalBloque?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efisemanal = JsonConvert.DeserializeObject<List<EficienciaErrorSemanal>>(result);
+
+                if (efisemanal.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efisemanal,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetDashboardEficiencia<DashboardEficiencia>(string cbloqu)
+        {
+            List<DashboardEficiencia> efisemanal = new List<DashboardEficiencia>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/DashboardEficiencia?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efisemanal = JsonConvert.DeserializeObject<List<DashboardEficiencia>>(result);
+
+                if (efisemanal.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efisemanal,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetDashboardEficienciaLinea<DashboardEficienciaLinea>(string cbloqu)
+        {
+            List<DashboardEficienciaLinea> efisemanal = new List<DashboardEficienciaLinea>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/DashboardEficienciaLinea?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efisemanal = JsonConvert.DeserializeObject<List<DashboardEficienciaLinea>>(result);
+
+                if (efisemanal.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efisemanal,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetEficienciaDestajeroDetalle<EficienciaDestajeroDetalle>(string cbloqu,string ctraba,string fproce)
+        {
+            List<EficienciaDestajeroDetalle> efidetalle = new List<EficienciaDestajeroDetalle>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/EficienciaDestajeroDetalle?cbloqu="+ cbloqu + "&ctraba=" + ctraba + "&fproce=" + fproce;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efidetalle = JsonConvert.DeserializeObject<List<EficienciaDestajeroDetalle>>(result);
+
+                if (efidetalle.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efidetalle,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
             }
         }
 

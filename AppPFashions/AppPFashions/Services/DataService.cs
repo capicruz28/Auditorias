@@ -12,15 +12,15 @@ namespace AppPFashions.Services
         {
             try
             {
-                using (var da = new DataAccess())
-                {
-                    var oldUser = da.First<Usuario>(false);
+                //using (var da = new DataAccess())
+                //{
+                    var oldUser = App.baseDatos.First<Usuario>(false);
                     if (oldUser != null)
                     {
-                        da.Delete(oldUser);
+                    App.baseDatos.Delete(oldUser);
                     }
-                    da.Insert(user);               
-                }
+                    App.baseDatos.Insert(user);               
+                //}
                 return new Response
                 {
                     IsSuccess = true,
@@ -40,20 +40,21 @@ namespace AppPFashions.Services
 
         public Usuario GetUser()
         {
-            using (var da = new DataAccess())
-            {
-                return da.First<Usuario>(false);
-            }
+            //using (var da = new DataAccess())
+            //{                
+                return App.baseDatos.First<Usuario>(false);
+                //return App.DataAccess.FirstUser();
+            //}
         }
 
         public Response UpdateUser(Usuario user)
         {
             try
             {
-                using (var da = new DataAccess())
-                {
-                    da.Update(user);               
-                }
+                //using (var da = new DataAccess())
+                //{
+                App.baseDatos.Update(user);               
+                //}
                 return new Response
                 {
                     IsSuccess = true,
@@ -75,10 +76,10 @@ namespace AppPFashions.Services
         {
             try
             {
-                using (var da = new DataAccess())
-                {                    
-                    da.Insert(opera);
-                }
+                //using (var da = new DataAccess())
+                //{                    
+                App.baseDatos.Insert(opera);
+                //}
                 return new Response
                 {
                     IsSuccess = true,
@@ -100,10 +101,10 @@ namespace AppPFashions.Services
         {
             try
             {
-                using (var da = new DataAccess())
-                {
-                    da.Insert(opera);
-                }
+                //using (var da = new DataAccess())
+                //{
+                App.baseDatos.Insert(opera);
+                //}
                 return new Response
                 {
                     IsSuccess = true,
@@ -125,10 +126,10 @@ namespace AppPFashions.Services
         {
             try
             {
-                using (var da = new DataAccess())
-                {
-                    da.Insert(defecto);
-                }
+                //using (var da = new DataAccess())
+                //{
+                App.baseDatos.Insert(defecto);
+                //}
                 return new Response
                 {
                     IsSuccess = true,
@@ -150,10 +151,10 @@ namespace AppPFashions.Services
         {
             try
             {
-                using (var da = new DataAccess())
-                {
-                    da.Insert(muestra);
-                }
+                //using (var da = new DataAccess())
+                //{
+                App.baseDatos.Insert(muestra);
+                //}
                 return new Response
                 {
                     IsSuccess = true,
@@ -175,19 +176,19 @@ namespace AppPFashions.Services
         {
             try
             {
-                using (var da = new DataAccess())
-                {
-                    var oldRecord = da.Find<T>(model.GetHashCode(), false);
+                //using (var da = new DataAccess())
+                //{
+                    var oldRecord = App.baseDatos.Find<T>(model.GetHashCode(), false);
                     if (oldRecord != null)
                     {
-                        da.Update(model);
+                        App.baseDatos.Update(model);
                     }
                     else
                     {
-                        da.Insert(model);
+                        App.baseDatos.Insert(model);
                     }
                     return model;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -199,13 +200,13 @@ namespace AppPFashions.Services
 
         public void Save<T>(List<T> list) where T : class
         {
-            using (var da = new DataAccess())
-            {
+            //using (var da = new DataAccess())
+            //{
                 foreach (var record in list)
                 {
                     InsertOrUpdate(record);
                 }
-            }
+            //}
         }
 
 

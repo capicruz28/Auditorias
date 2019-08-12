@@ -1,4 +1,5 @@
 ﻿using AppPFashions.Data;
+using AppPFashions.Interfaces;
 using AppPFashions.Models;
 using AppPFashions.Services;
 using Syncfusion.SfDataGrid.XForms;
@@ -14,7 +15,7 @@ namespace AppPFashions.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class CosturaProcesoDetallePage : ContentPage
-	{
+	{        
         private ApiService apiService;
         private DialogService dialogService;
         private AlertService alertService;
@@ -47,7 +48,8 @@ namespace AppPFashions.Pages
         }
 
         public CosturaProcesoDetallePage (string xclinea)
-		{           
+		{
+            
             apiService = new ApiService();
             dialogService = new DialogService();
             alertService = new AlertService();
@@ -66,7 +68,9 @@ namespace AppPFashions.Pages
             if (areaau == "29") Desauditoria = "Auditoria Bordado - " + daprob + " - " + cfaudit;
             this.PropertyChanged += CosturaProcesoDetallePage_PropertyChanged;
             dataGrid.QueryRowHeight += DataGrid_QueryRowHeight;
-            LoadDetalleAuditorias(nclinea);            
+            
+            LoadDetalleAuditorias(nclinea);
+            
         }
 
         protected override void OnAppearing()
@@ -98,11 +102,13 @@ namespace AppPFashions.Pages
         {
             try
             {
-                using (var data = new DataAccess())
-                {
-                    xoperac = data.GetList<taudit00>(false).Where(x=>x.clinea==xclinea && x.status==saprob && x.careas== areaau && x.faudit.ToString("dd-MM-yyyy")==cfaudit).ToList();
-                    dataGrid.ItemsSource = xoperac;           
-                }
+                //using (var data = new DataAccess())
+                //{
+                DependencyService.Get<IDownloader>().Show("Cargando");
+                xoperac = App.baseDatos.GetList<taudit00>(false).Where(x=>x.clinea==xclinea && x.status==saprob && x.careas== areaau && x.faudit.ToString("dd-MM-yyyy")==cfaudit).ToList();
+                dataGrid.ItemsSource = xoperac;
+                DependencyService.Get<IDownloader>().Hide();
+                //}
             }
             catch (Exception ex)
             {
@@ -155,15 +161,15 @@ namespace AppPFashions.Pages
                 npanos = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).npanos.ToString()),
                 }
             };
-            using (var data = new DataAccess())
-            {
-                var audenvio = data.GetList<paudit01>(false).Where(x => x.careas == areaau && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.senvio=="S").ToList();
+            //using (var data = new DataAccess())
+            //{
+                var audenvio = App.baseDatos.GetList<paudit01>(false).Where(x => x.careas == areaau && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.senvio=="S").ToList();
                 if (audenvio.Count>0)
                 {
                     DisplayAlert("Aviso", "No se puede modificar auditoria", "OK");
                     return;
                 }
-            }
+            //}
             if (areaau == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
             if (areaau == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
             if (areaau == "16") App.Navigator.PushAsync(new AuditoriaCortePage(dataok));
@@ -186,8 +192,8 @@ namespace AppPFashions.Pages
             var result = await alertService.ShowMessage("Aviso", "Desea eliminar el registro.");
             if (result == true)
             {
-                using (var data = new DataAccess())
-                {
+                //using (var data = new DataAccess())
+                //{
                     taudit00 taudit = new taudit00
                     {
                         idaudi = xoperac.ElementAt(swipedRowIndex - 1).idaudi,
@@ -208,8 +214,8 @@ namespace AppPFashions.Pages
                         dobser = xoperac.ElementAt(swipedRowIndex - 1).dobser.ToString(),
                         smodif = "R",
                     };
-                    data.Delete(taudit);
-                }
+                    App.baseDatos.Delete(taudit);
+                //}
             }
             else // if it's equal to Cancel
             {

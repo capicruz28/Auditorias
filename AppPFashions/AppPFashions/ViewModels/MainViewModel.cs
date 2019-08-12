@@ -9,14 +9,15 @@ using System.Text;
 // CLASE CONTENEDORA DEL MENU LATERAL
 
 namespace AppPFashions.ViewModels
-{    
+{
     public class MainViewModel
     {
         #region Properties
         public ObservableCollection<MenuItemViewModel> Menu { get; set; }
         public ObservableCollection<MenuItemViewModel> MenuUser { get; set; }
         public ObservableCollection<Auditorias> ListaAuditorias { get; set; }
-        public LoginViewModel NewLogin { get; set; }
+        public ObservableCollection<MenuCostura> ListaMenuCostura { get; set; }
+        public LoginViewModel NewLogin { get; set; }        
         public CosturaProcesoViewModel CosProVieMod { get; set; }
         #endregion
 
@@ -26,13 +27,17 @@ namespace AppPFashions.ViewModels
             Menu = new ObservableCollection<MenuItemViewModel>();
             MenuUser = new ObservableCollection<MenuItemViewModel>();
             ListaAuditorias = new ObservableCollection<Auditorias>();
-            NewLogin = new LoginViewModel();
-            CosProVieMod = new CosturaProcesoViewModel();
+            ListaMenuCostura = new ObservableCollection<MenuCostura>();
+            NewLogin = new LoginViewModel();            
+            //CosProVieMod = new CosturaProcesoViewModel();
             LoadMenu();
             LoadMenuUser();
             LoadAuditorias();
+            LoadMenuCostura();
         }
         #endregion
+
+
 
         #region Methods
         private void LoadMenu()
@@ -55,7 +60,7 @@ namespace AppPFashions.ViewModels
 
             Menu.Add(new MenuItemViewModel
             {
-                Icon = "ic_fichas.png",
+                Icon = "ic_pdf.png",
                 PageName = "RecordsPage",
                 Title = "Fichas técnicas",
 
@@ -111,6 +116,7 @@ namespace AppPFashions.ViewModels
                 Title = "Cerrar Sesión",
 
             });
+
         }
 
         private void LoadAuditorias()
@@ -161,6 +167,7 @@ namespace AppPFashions.ViewModels
             {
                 AuditoriaImage = "transfer.png",
                 AuditoriaName = "Transfer",
+                AuditoriaPage = "AuditoriaTransferPage",
 
             });
             ListaAuditorias.Add(new Auditorias
@@ -206,6 +213,31 @@ namespace AppPFashions.ViewModels
 
             });
         }
-        #endregion
-    }
+
+        private void LoadMenuCostura()
+        {
+            ListaMenuCostura.Add(new MenuCostura
+            {
+                MenuCosturaImage = "efibihorario.png",
+                MenuCosturaName = "Eficiencia por Bihorario",
+                MenuCosturaPage = "EficienciaBihorarioPage",
+
+            });
+            ListaMenuCostura.Add(new MenuCostura
+            {
+                MenuCosturaImage = "efisemanal.png",
+                MenuCosturaName = "Eficiencia Semanal",
+                MenuCosturaPage = "EficienciaSemanalPage",
+
+            });
+            ListaMenuCostura.Add(new MenuCostura
+            {
+                MenuCosturaImage = "efierrorsemanal.png",
+                MenuCosturaName = "Eficiencia con Defectos de Auditoria",
+                MenuCosturaPage = "EficienciaErrorSemanalPage",
+
+            });
+        }
+            #endregion
+        }
 }

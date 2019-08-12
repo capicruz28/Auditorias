@@ -1,0 +1,707 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             xmlns:sparkline="clr-namespace:Syncfusion.SfSparkline.XForms;assembly=Syncfusion.SfSparkline.XForms"      
+             xmlns:local="clr-namespace:AppPFashions;assembly=AppPFashions"
+             x:Class="AppPFashions.Pages.EficienciaSemanalPage"                          
+             Title="Eficiencia Semanal"
+             BackgroundColor="{StaticResource MenuColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_viewpdf"            
+            Icon="ic_view_pdf.png"            
+            Priority="0" Order="Primary"
+            Clicked="Tlb_viewpdf_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout x:Name="mainpage">
+        <sfgrid:SfDataGrid 
+            x:Name="dataGrid"                           
+            AutoGenerateColumns="False"                           
+            HeaderRowHeight="40"            
+            RowHeight="48"
+            SelectionMode="Single"
+            VerticalOverScrollMode="None"            
+            FrozenColumnsCount="3">
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:GridTextColumn 
+                    HeaderFontAttribute="Bold"                                             
+                    HeaderText="LINEA"                                           
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="clinea"                                                            
+                    TextAlignment="Start"
+                    IsHidden="True">
+                </sfgrid:GridTextColumn>
+
+                <sfgrid:GridTextColumn                                                           
+                    LineBreakMode="TailTruncation"
+                    Width="55"
+                    AllowSorting="True"
+                    MappingName="ctraba" 
+                    Padding="1">
+                    <sfgrid:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="CODIGO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                        </DataTemplate>
+                    </sfgrid:GridTextColumn.HeaderTemplate>
+                </sfgrid:GridTextColumn>
+
+                <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="dtraba"
+                    Width="190" 
+                    Padding="1"
+                    TextAlignment="Start">
+                    <sfgrid:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="TRABAJADOR" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                        </DataTemplate>
+                    </sfgrid:GridTextColumn.HeaderTemplate>
+                </sfgrid:GridTextColumn>
+
+                <sfgrid:GridTemplateColumn            
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="pefici01" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman01}" FontAttributes="Bold" FontSize="13" TextColor="Navy" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce01}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici01, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="pefici02" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman02}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce02}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici02, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="pefici03" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman03}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce03}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici03, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="pefici04" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman04}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce04}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici04, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="pefici05" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman05}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce05}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici05, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn   
+                    x:Name="pefi06"
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="pefici06" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman06}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce06}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici06, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn
+                    x:Name="pefi07"
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="pefici07" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman07}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce07}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici07, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn      
+                    x:Name="pefi15"
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    Width="60"
+                    MappingName="pefici15" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="#E9F3FF" >
+                                    <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman15}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce15}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </Grid>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="#E9F3FF" >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ContentView 
+                                            Grid.Row="0"
+                                            Grid.Column="0"        
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="CenterAndExpand">
+                                            <local:SfImage Source="{Binding imgpefici15}"/>
+                                        </ContentView>
+                                        <Label 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="Start"
+                                            Text="{Binding pefici15, StringFormat='{0}%'}">
+                                            </Label>
+                                    </Grid>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pefi08"
+                        LineBreakMode="TailTruncation"
+                        Width="50"                    
+                        MappingName="pefici08" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman08}" FontAttributes="Bold" FontSize="13" TextColor="Navy" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce08}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici08, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn
+                        x:Name="pefi09"
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="pefici09" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman09}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce09}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici09, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn 
+                        x:Name="pefi10"
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="pefici10" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman10}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce10}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici10, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn  
+                        x:Name="pefi11"
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="pefici11" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman11}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce11}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici11, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn      
+                        x:Name="pefi12"
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="pefici12" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman12}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce12}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici12, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn   
+                        x:Name="pefi13"
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="pefici13" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman13}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce13}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    Text="{Binding pefici13, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn   
+                        x:Name="pefi14"
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="pefici14" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xnseman14}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>-->
+                                    <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce14}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"                                        
+                                        Text="{Binding pefici14, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn       
+                        x:Name="pefi16"
+                        AllowSorting="True"
+                        LineBreakMode="TailTruncation"
+                        Width="60"
+                        MappingName="pefici16" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="#E9F3FF" >
+                                    <Grid Padding="0">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <!--<Label                                          
+                                            Grid.Row="0" 
+                                            Grid.Column="0"/>-->
+                                        <Label 
+                                            BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}"                                         
+                                            Text="{Binding xfproce16}" 
+                                            FontAttributes="Bold" 
+                                            FontSize="13" 
+                                            TextColor="Black" 
+                                            YAlign="Center" 
+                                            XAlign="Center" 
+                                            Grid.Row="1" 
+                                            Grid.Column="0"/>
+                                    </Grid>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="#E9F3FF" >
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.5*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ContentView 
+                                            Grid.Row="0"
+                                            Grid.Column="0"       
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="CenterAndExpand">
+                                            <local:SfImage Source="{Binding imgpefici16}"/>
+                                        </ContentView>
+                                        <Label 
+                                            Grid.Row="0"
+                                            Grid.Column="1"
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="Start"                                            
+                                            Text="{Binding pefici16, StringFormat='{0}%'}">
+                                        </Label>
+                                    </Grid>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="150"
+                    MappingName="tendencia" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="TENDENCIA" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid ColumnSpacing="10"
+                                    RowSpacing="10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*"/>
+                                    </Grid.RowDefinitions>
+                                    <sparkline:SfLineSparkline 
+                                    ItemsSource="{Binding Data}" YBindingPath="Performance"                                    
+                                    HighPointColor="Blue"
+                                    LowPointColor="Red"                                    
+                                    StrokeWidth="2.5"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="5">
+                                        <!--<sparkline:SfLineSparkline.Marker>
+                                        <sparkline:MarkerBase 
+                                            IsVisible="True" 
+                                            Width= "2"
+                                            Height= "2"/>
+                                    </sparkline:SfLineSparkline.Marker>-->
+                                    </sparkline:SfLineSparkline >
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                </sfgrid:SfDataGrid.Columns>
+                <sfgrid:SfDataGrid.GroupColumnDescriptions>
+                    <sfgrid:GroupColumnDescription ColumnName="clinea"/>
+                </sfgrid:SfDataGrid.GroupColumnDescriptions>
+
+            </sfgrid:SfDataGrid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

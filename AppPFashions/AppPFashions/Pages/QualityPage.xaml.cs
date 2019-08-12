@@ -16,5 +16,11 @@ namespace AppPFashions.Pages
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void Tlb_viewpdf_Clicked(object sender, EventArgs e)
+        {
+            App.Navigator.PushAsync(new ProductionOrderPage());
+        }
+
+    }
 }

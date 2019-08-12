@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPFashions.Pages.DestajeroDetallePage"
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             xmlns:local="clr-namespace:AppPFashions;assembly=AppPFashions"             
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:localpage="clr-namespace:AppPFashions.Pages"
+             Title="Detalle Trabajador"
+             BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout x:Name="mainpage">
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                    <localpage:IndexToItemSourceConverter x:Key="indexToItemSourceConverter" />
+                    <chart:DoughnutSizeConverter Percentage="85" x:Key="imageSizeConverter"/>
+                </ResourceDictionary>
+            </StackLayout.Resources>
+
+            <chart:SfChart x:Name="Chart" HeightRequest="400" VerticalOptions="Center" HorizontalOptions="Center">                
+                <chart:SfChart.Series>
+                    <chart:DoughnutSeries 
+                        x:Name="chartview" 
+                        XBindingPath="cbihor" 
+                        YBindingPath="pefici"                           
+                        StartAngle="-90" 
+                        CapStyle="BothCurve" 
+                        EndAngle="270" 
+                        MaximumValue="100" 
+                        CircularCoefficient="0.9" 
+                        IsStackedDoughnut="true" 
+                        Spacing="0.2"
+                        LegendIcon="Circle" 
+                        EnableAnimation="True">
+                        <chart:DoughnutSeries.ColorModel>
+                            <chart:ChartColorModel Palette="Custom" x:Name="colorModel" />
+                        </chart:DoughnutSeries.ColorModel>
+                        <chart:DoughnutSeries.CenterView>
+
+                            <border:SfBorder BorderColor="Transparent"
+                                 HorizontalOptions="Center"
+                                 VerticalOptions="Center"
+                                 CornerRadius="50"
+                                 WidthRequest="110"
+                                 HeightRequest="110">
+                                <Image
+                                    BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}"
+                                    Source="{Binding Photo}"
+                                    Aspect="Fill">
+                                </Image>
+                            </border:SfBorder>
+
+                        </chart:DoughnutSeries.CenterView>
+                    </chart:DoughnutSeries>
+                </chart:SfChart.Series>
+
+                <chart:SfChart.Legend>
+                    <chart:ChartLegend x:Name="legend"  DockPosition="Right" ItemMargin="10">
+                        <chart:ChartLegend.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                        <!--<chart:SfChart VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                            <chart:SfChart.Series>
+                                                <chart:DoughnutSeries 
+                                                        BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}"
+                                                        StartAngle="-90" 
+                                                        CapStyle="BothCurve" 
+                                                        EndAngle="270" 
+                                                        MaximumValue="100" 
+                                                        CircularCoefficient="1" 
+                                                        IsStackedDoughnut="true" 
+                                                        x:Name="series" 
+                                                        ItemsSource="{Binding dealerDetails}" 
+                                                        Color="{Binding IconColor}" 
+                                                        EnableAnimation="True">
+                                                    
+                                                    <chart:DoughnutSeries.DoughnutCoefficient>
+                                                        <OnPlatform x:TypeArguments="x:Double" Android="0.8" iOS="0.8" />
+                                                    </chart:DoughnutSeries.DoughnutCoefficient>
+                        
+                                                    <chart:DoughnutSeries.CenterView>
+                                                        <Label Text="{Binding cbihor}"></Label>
+                                                    </chart:DoughnutSeries.CenterView>
+                                                </chart:DoughnutSeries>
+                                            </chart:SfChart.Series>
+                                        </chart:SfChart>-->
+                                 
+                                    
+                                    <StackLayout Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Center">
+                                        <Label FontSize="15" TextColor="{Binding IconColor}" FontAttributes="Bold" Text="{Binding DataPoint.cbihor, StringFormat='B.H. {0}'}"/>
+                                        <Label FontSize="15" TextColor="{Binding IconColor}" Text="{Binding DataPoint.pefici, StringFormat='{0}%'}"/>
+                                    </StackLayout>
+                        
+                                </StackLayout>
+                            </DataTemplate>
+                        </chart:ChartLegend.ItemTemplate>
+                    </chart:ChartLegend>
+                </chart:SfChart.Legend>
+            </chart:SfChart>
+            <sfgrid:SfDataGrid 
+                x:Name="dataGrid"                           
+                AutoGenerateColumns="False"     
+                ColumnSizer="LastColumnFill"
+
+                SelectionMode="Single"
+                VerticalOverScrollMode="None">
+                <sfgrid:SfDataGrid.Columns>
+                    <sfgrid:GridTextColumn 
+                        HeaderFontAttribute="Bold"                                             
+                        HeaderText="BIHORARIO"                                           
+                        HeaderTextAlignment="Start"
+                        LineBreakMode="TailTruncation"
+                        MappingName="cbihor"                                                            
+                        TextAlignment="Start"
+                        IsHidden="True">
+                    </sfgrid:GridTextColumn>
+                    <sfgrid:GridTextColumn                                                           
+                        LineBreakMode="TailTruncation"
+                        AllowSorting="True"                        
+                        MappingName="nordpr" 
+                        Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="OP" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+                    <sfgrid:GridTextColumn                                                           
+                        LineBreakMode="TailTruncation"
+                        AllowSorting="True"                        
+                        MappingName="qminpr" 
+                        Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="M.P." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+                    <sfgrid:GridTextColumn                                                           
+                        LineBreakMode="TailTruncation"
+                        AllowSorting="True"                        
+                        MappingName="copera" 
+                        Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="CODIGO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+                    <sfgrid:GridTextColumn                                                           
+                        LineBreakMode="TailTruncation"
+                        AllowSorting="True"                              
+                        MappingName="dopera" 
+                        Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="OPERACION" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                </sfgrid:SfDataGrid.Columns>
+                <sfgrid:SfDataGrid.GroupColumnDescriptions>
+                    <sfgrid:GroupColumnDescription ColumnName="cbihor"/>
+                </sfgrid:SfDataGrid.GroupColumnDescriptions>
+
+            </sfgrid:SfDataGrid>         
+
+        </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

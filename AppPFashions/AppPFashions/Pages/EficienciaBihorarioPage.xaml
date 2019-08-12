@@ -1,0 +1,803 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             xmlns:sparkline="clr-namespace:Syncfusion.SfSparkline.XForms;assembly=Syncfusion.SfSparkline.XForms"              
+             xmlns:igSpark="clr-namespace:Infragistics.XamarinForms.Controls.Charts;assembly=Infragistics.XF.Sparkline"
+             xmlns:igGrid="clr-namespace:Infragistics.XamarinForms.Controls.Grids;assembly=Infragistics.XF.DataGrid"
+             xmlns:local="clr-namespace:AppPFashions;assembly=AppPFashions"
+             xmlns:locala="clr-namespace:AppPFashions.Pages"
+             x:Class="AppPFashions.Pages.EficienciaBihorarioPage"
+             Title="Minutos Disponibles y Eficiencia"
+             BackgroundColor="{StaticResource MenuColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <locala:GroupCaptionConverter x:Key="SummaryConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_viewpdf"            
+            Icon="ic_view_pdf.png"            
+            Priority="0" Order="Primary"
+            Clicked="Tlb_viewpdf_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout x:Name="mainpage">
+            <sfgrid:SfDataGrid 
+            x:Name="dataGrid"                           
+            AutoGenerateColumns="False"                           
+            HeaderRowHeight="40"            
+            RowHeight="48"            
+            SelectionMode="Single"            
+            VerticalOverScrollMode="None"    
+            GridDoubleTapped="DataGrid_GridDoubleTapped"
+            FrozenColumnsCount="3">
+      
+            <!--<sfgrid:SfDataGrid.Behaviors>
+                <local:DiagonalScrollingBehaviors/>
+            </sfgrid:SfDataGrid.Behaviors>-->  
+
+            <sfgrid:SfDataGrid.Columns>
+                <sfgrid:GridTextColumn 
+                    HeaderFontAttribute="Bold"                                             
+                    HeaderText="LINEA"                                           
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="clinea"                                                            
+                    TextAlignment="Start"
+                    IsHidden="True">
+                </sfgrid:GridTextColumn>
+            
+                <sfgrid:GridTextColumn                                                           
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="ctraba" 
+                    Padding="1">
+                    <sfgrid:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="CODIGO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                        </DataTemplate>
+                    </sfgrid:GridTextColumn.HeaderTemplate>
+                </sfgrid:GridTextColumn>
+
+                <!--<sfgrid:GridImageColumn 
+                    HeaderFontAttribute="Bold"                                           
+                    HeaderText="IMAGEN"                                           
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="Photo"
+                    Padding="5,5,5,5">
+                </sfgrid:GridImageColumn>-->
+
+                <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="dtraba"
+                    Width="180" 
+                    Padding="1"
+                    TextAlignment="Start">
+                    <sfgrid:GridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="TRABAJADOR" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                        </DataTemplate>
+                    </sfgrid:GridTextColumn.HeaderTemplate>
+                </sfgrid:GridTextColumn>
+
+                <sfgrid:GridNumericColumn     
+                    NumberDecimalDigits="0"
+                    Width="40"
+                    LineBreakMode="TailTruncation"
+                    MappingName="qmindi01"
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid  Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="BIHO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridNumericColumn.HeaderTemplate>
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="60"
+                    MappingName="pefici01" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Text="RARIO 1" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ContentView                                     
+                                    Grid.Row="0"
+                                    Grid.Column="0"      
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand">
+                                    <local:SfImage Source="{Binding imgpefici01}"/>
+                                </ContentView>
+                                <Label                                     
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding pefici01, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                <!--<sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"                                                 
+                    HeaderText="% EFI."
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="pefici01"
+                    Padding="5, 0, 0, 0"                                           
+                    TextAlignment="Center">
+                </sfgrid:GridNumericColumn>-->
+
+                <sfgrid:GridNumericColumn
+                    x:Name="mdi02"
+                    Width="40"
+                    NumberDecimalDigits="0"
+                    LineBreakMode="TailTruncation"
+                    MappingName="qmindi02"
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="BIHO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridNumericColumn.HeaderTemplate>
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridTemplateColumn     
+                    x:Name="pef02"
+                    LineBreakMode="TailTruncation"
+                    Width="60"
+                    MappingName="pefici02" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="RARIO 2" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentView 
+                                    Grid.Row="0"
+                                    Grid.Column="0"         
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand">
+                                    <local:SfImage Source="{Binding imgpefici02}"/>
+                                </ContentView>
+                                <Label 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding pefici02, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                <!--<sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"                                                                                      
+                    HeaderText="% EFI."
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="pefici02"
+                    Padding="5, 0, 0, 0"                                           
+                    TextAlignment="Center">
+                 </sfgrid:GridNumericColumn>-->
+
+                <sfgrid:GridNumericColumn 
+                    x:Name="mdi03"
+                    Width="40"
+                    NumberDecimalDigits="0"        
+                    LineBreakMode="TailTruncation"
+                    MappingName="qmindi03"                    
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="BIHO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridNumericColumn.HeaderTemplate>
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridTemplateColumn 
+                    x:Name="pef03"
+                    LineBreakMode="TailTruncation"
+                    Width="60"
+                    MappingName="pefici03" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="RARIO 3" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentView 
+                                    Grid.Row="0"
+                                    Grid.Column="0"   
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand">
+                                    <local:SfImage Source="{Binding imgpefici03}"/>
+                                </ContentView>
+                                <Label 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding pefici03, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                <!--<sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"                                                                                      
+                    HeaderText="% EFI."
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="pefici03"
+                    Padding="5, 0, 0, 0"                                           
+                    TextAlignment="Center">
+                </sfgrid:GridNumericColumn>-->
+
+                <sfgrid:GridNumericColumn
+                    x:Name="mdi04"
+                    Width="40"
+                    NumberDecimalDigits="0"                    
+                    LineBreakMode="TailTruncation"
+                    MappingName="qmindi04"                    
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="BIHO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridNumericColumn.HeaderTemplate>
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridTemplateColumn
+                    x:Name="pef04"
+                    LineBreakMode="TailTruncation"
+                    Width="60"
+                    MappingName="pefici04" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="RARIO 4" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentView 
+                                    Grid.Row="0"
+                                    Grid.Column="0"    
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand">
+                                    <local:SfImage Source="{Binding imgpefici04}"/>
+                                </ContentView>
+                                <Label 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding pefici04, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                <!--<sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"                                                                                      
+                    HeaderText="% EFI."
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="pefici04"
+                    Padding="5, 0, 0, 0"                                           
+                    TextAlignment="Center">
+                </sfgrid:GridNumericColumn>-->
+                        
+                <sfgrid:GridNumericColumn
+                    x:Name="mdi05"
+                    Width="40"
+                    NumberDecimalDigits="0"                    
+                    LineBreakMode="TailTruncation"
+                    MappingName="qmindi05"                    
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="BIHO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridNumericColumn.HeaderTemplate>
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridTemplateColumn
+                    x:Name="pef05"
+                    LineBreakMode="TailTruncation"
+                    Width="60"
+                    MappingName="pefici05" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="RARIO 5" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentView 
+                                    Grid.Row="0"
+                                    Grid.Column="0"   
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand">
+                                    <local:SfImage Source="{Binding imgpefici05}"/>
+                                </ContentView>
+                                <Label 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding pefici05, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                <!--<sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"                                                                                      
+                    HeaderText="% EFI."
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="pefici05"
+                    Padding="5, 0, 0, 0"                                           
+                    TextAlignment="Center">
+                </sfgrid:GridNumericColumn>-->
+                        
+                <sfgrid:GridNumericColumn
+                    x:Name="mdi06"          
+                    Width="40"
+                    NumberDecimalDigits="0"
+                    LineBreakMode="TailTruncation"
+                    MappingName="qmindi06"
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridNumericColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="BIHO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridNumericColumn.HeaderTemplate>
+                </sfgrid:GridNumericColumn>
+                <sfgrid:GridTemplateColumn
+                    x:Name="pef06"                    
+                    LineBreakMode="TailTruncation"                    
+                    Width="60"
+                    MappingName="pefici06" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Padding="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="RARIO 6" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <ContentView 
+                                    Grid.Row="0"
+                                    Grid.Column="0"     
+                                    HorizontalOptions="Start"
+                                    VerticalOptions="CenterAndExpand">
+                                    <local:SfImage Source="{Binding imgpefici06}"/>
+                                </ContentView>
+                                <Label 
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    Text="{Binding pefici06, StringFormat='{0}%'}">
+                                </Label>
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+                <sfgrid:GridTemplateColumn                     
+                    Width="40"
+                    LineBreakMode="TailTruncation"
+                    MappingName="tqmindi"
+                    TextAlignment="Center" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackLayout BackgroundColor="#E9F3FF">
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="TO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="End" Grid.Row="0" Grid.Column="0"/>
+                                    <Label Text="M.D." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </StackLayout>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackLayout BackgroundColor="#E9F3FF" >
+                                <Label 
+                                    FontSize="13"
+                                    Grid.Row="0"                                        
+                                    Grid.Column="1"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Text="{Binding tqmindi, StringFormat='{0}'}">
+                                </Label>
+                            </StackLayout>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    Width="60"
+                    MappingName="tpefici"
+                    Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <StackLayout BackgroundColor="#E9F3FF" >
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="TAL" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Start" Grid.Row="0" Grid.Column="0"/>
+                                    <Label Text="% EFI." FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                </Grid>
+                            </StackLayout>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackLayout BackgroundColor="#E9F3FF" >
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.5*" />
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ContentView 
+                                        Grid.Row="0"
+                                        Grid.Column="0"    
+                                        HorizontalOptions="Start"
+                                        VerticalOptions="CenterAndExpand">
+                                        <local:SfImage Source="{Binding imgtpefici}"/>
+                                    </ContentView>
+                                    <Label 
+                                        Grid.Row="0"                                        
+                                        Grid.Column="1"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Start"                                        
+                                        Text="{Binding tpefici, StringFormat='{0}%'}">
+                                    </Label>
+                                </Grid>
+                            </StackLayout>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+                <!--<sfgrid:GridNumericColumn 
+                    HeaderFontAttribute="Bold"                                                                                      
+                    HeaderText="% EFI."
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="pefici06"
+                    Padding="5, 0, 0, 0"                                           
+                    TextAlignment="Center">
+                </sfgrid:GridNumericColumn>-->
+
+                <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="120"
+                    MappingName="tendencia" Padding="0">
+                    <sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Label Text="TENDENCIA" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.HeaderTemplate>
+                    <sfgrid:GridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Grid ColumnSpacing="10"
+                                    RowSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <sparkline:SfLineSparkline 
+                                    ItemsSource="{Binding Data}" YBindingPath="Performance"                                    
+                                    HighPointColor="Blue"
+                                    LowPointColor="Red"
+                                    StrokeColor="{Binding linecolor}"
+                                    StrokeWidth="2.5"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Margin="5">
+                                    <!--<sparkline:SfLineSparkline.Marker>
+                                        <sparkline:MarkerBase 
+                                            IsVisible="True" 
+                                            Width= "2"
+                                            Height= "2"/>
+                                    </sparkline:SfLineSparkline.Marker>-->
+                                </sparkline:SfLineSparkline >
+                            </Grid>
+                        </DataTemplate>
+                    </sfgrid:GridTemplateColumn.CellTemplate>
+                </sfgrid:GridTemplateColumn>
+
+            </sfgrid:SfDataGrid.Columns>         
+
+            <sfgrid:SfDataGrid.GroupColumnDescriptions>
+                <sfgrid:GroupColumnDescription ColumnName="clinea"/>
+            </sfgrid:SfDataGrid.GroupColumnDescriptions>
+
+                <sfgrid:SfDataGrid.CaptionSummaryTemplate>
+                    <DataTemplate>
+                        <StackLayout BackgroundColor="Red">
+                            <Label Text="{Binding Converter={StaticResource SummaryConverter}, ConverterParameter = {x:Reference dataGrid} }"
+                                  TextColor="White"
+                                  FontSize="Large"
+                                  VerticalTextAlignment="Center"
+                                  HorizontalTextAlignment="Start"
+                                  HorizontalOptions="FillAndExpand"
+                                  VerticalOptions="FillAndExpand">
+                                    <Label.Style>
+                                        <Style TargetType="Label">
+                                            <Setter Property="FontAttributes" Value="Bold, Italic" />
+                                        </Style>
+                                    </Label.Style>
+                            </Label>
+                        </StackLayout>
+
+                    </DataTemplate>
+                </sfgrid:SfDataGrid.CaptionSummaryTemplate>
+                <sfgrid:SfDataGrid.CaptionSummaryRow>
+                    <sfgrid:GridSummaryRow Name="GroupTotal" ShowSummaryInRow="False" Title="Linea">
+                        <sfgrid:GridSummaryRow.SummaryColumns>
+                            <sfgrid:GridSummaryColumn 
+                            Name="spefici01"
+                            Format="{}{Average}%"
+                            MappingName="pefici01"                                                  
+                            SummaryType="Int32Aggregate"/>
+                            <sfgrid:GridSummaryColumn 
+                            Name="spefici02"
+                            Format="{}{Average}%"
+                            MappingName="pefici02"
+                            SummaryType="Int32Aggregate"/>
+                            <sfgrid:GridSummaryColumn 
+                            Name="spefici03"
+                            Format="{}{Average}%"
+                            MappingName="pefici03"
+                            SummaryType="Int32Aggregate"/>
+                            <sfgrid:GridSummaryColumn 
+                            Name="spefici04"
+                            Format="{}{Average}%"
+                            MappingName="pefici04"
+                            SummaryType="Int32Aggregate"/>
+                            <sfgrid:GridSummaryColumn 
+                            Name="spefici05"
+                            Format="{}{Average}%"
+                            MappingName="pefici05"
+                            SummaryType="Int32Aggregate"/>
+                        </sfgrid:GridSummaryRow.SummaryColumns>
+                    </sfgrid:GridSummaryRow>
+                </sfgrid:SfDataGrid.CaptionSummaryRow>
+                <!--<sfgrid:SfDataGrid.TableSummaryRows>
+                    <sfgrid:GridTableSummaryRow Title="Total Eficiencia : {proefi} "
+                                                Position="Bottom"
+                                                ShowSummaryInRow="True">
+                        <sfgrid:GridTableSummaryRow.SummaryColumns>
+                            <sfgrid:GridSummaryColumn Name="proefi"
+                                                      Format="{}{Average:p}"
+                                                      MappingName="qefici"
+                                                      SummaryType="Int32Aggregate"/>
+                        </sfgrid:GridTableSummaryRow.SummaryColumns>
+                    </sfgrid:GridTableSummaryRow>
+                </sfgrid:SfDataGrid.TableSummaryRows>-->
+            </sfgrid:SfDataGrid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

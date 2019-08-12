@@ -8,41 +8,39 @@
              Title="PERÚ FASHIONS S.A.C."
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
-        
+    <ContentPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_viewpdf"            
+            Icon="ic_view_pdf.png"            
+            Priority="0" Order="Primary"
+            Clicked="Tlb_viewpdf_Clicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
-            <local:KanbanTemplateSelector x:Key="kanbanTemplateSelector" />
+            <local:KanbanTemplateSelector x:Key="kanbanTemplateSelector"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <kanban:SfKanban x:Name="kanban" AutoGenerateColumns="False" HorizontalOptions="FillAndExpand"
 					   VerticalOptions="FillAndExpand"
 					    CardTemplate="{StaticResource kanbanTemplateSelector}"
-					   ItemTapped="Kanban_ItemTapped"
-                        >
+					   ItemTapped="Kanban_ItemTapped">
+        <!--<kanban:SfKanban.Columns>
 
-            <kanban:SfKanban.Columns>
-
-                <kanban:KanbanColumn x:Name="openColumn" Title="Costura Proceso" AllowDrag="False" AllowDrop="False">
-                    <kanban:KanbanColumn.ErrorbarSettings>
-                        <kanban:KanbanErrorBarSettings  Color="Navy" Height="4"/>
-                    </kanban:KanbanColumn.ErrorbarSettings>
-                </kanban:KanbanColumn>
+            <kanban:KanbanColumn x:Name="openColumn" Title="{Binding taudit}" AllowDrag="False" AllowDrop="False">
+                <kanban:KanbanColumn.ErrorbarSettings>
+                    <kanban:KanbanErrorBarSettings  Color="Navy" Height="4"/>
+                </kanban:KanbanColumn.ErrorbarSettings>
+            </kanban:KanbanColumn>
 
             <kanban:KanbanColumn x:Name="progressColumn" Title="Costura Final" AllowDrag="False" AllowDrop="False">
-                    <kanban:KanbanColumn.ErrorbarSettings>
-                        <kanban:KanbanErrorBarSettings  Color="Purple" Height="4"/>
-                    </kanban:KanbanColumn.ErrorbarSettings>
-                </kanban:KanbanColumn>
+                <kanban:KanbanColumn.ErrorbarSettings>
+                    <kanban:KanbanErrorBarSettings  Color="Purple" Height="4"/>
+                </kanban:KanbanColumn.ErrorbarSettings>
+            </kanban:KanbanColumn>
 
-                <!--<kanban:KanbanColumn x:Name="codeColumn" Title="Code Review" >
-                </kanban:KanbanColumn>
-
-                <kanban:KanbanColumn x:Name="doneColumn" Title="Done"  >
-                </kanban:KanbanColumn>-->
-
-            </kanban:SfKanban.Columns>
-        </kanban:SfKanban>
+        </kanban:SfKanban.Columns>-->
+    </kanban:SfKanban>
 
 
     <!--<Label Text="{Binding dusuar}"

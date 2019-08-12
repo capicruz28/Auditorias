@@ -80,12 +80,13 @@ namespace AppPFashions.Pages
             var response = await apiService.GetFichasPdf<OrdenProduccion>(ety_op.Text);
             if (!response.IsSuccess)
             {
-                await dialogService.ShowMessage("Error", response.Message);
+                await dialogService.ShowMessage("Aviso", response.Message);
+                DependencyService.Get<IDownloader>().Hide();
                 return;
             }
             var fichas = (List<OrdenProduccion>)response.Result;
 
-            //********** INNIO DESCARGA DE ARCHIVOS DESDE FTP **********//            
+            //********** INICIO DESCARGA DE ARCHIVOS DESDE FTP **********//            
             foreach (var recordf in fichas)
             {
                 string fileName = recordf.drutaf + ".pdf";

@@ -39,5 +39,7 @@ namespace AppPFashions.Models
         public string sreaud { get; set; }
         public Int32 ndefec { get; set; }
         public Int32 nseref { get; set; }
+        public string cmaqui { get; set; }
+        public string cturno { get; set; }
     }
 }

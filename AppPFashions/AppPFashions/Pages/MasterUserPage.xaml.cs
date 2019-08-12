@@ -14,8 +14,7 @@ namespace AppPFashions.Pages
     {
         public MasterUserPage()
         {
-            InitializeComponent();
-
+            InitializeComponent();        
         }
 
         protected override void OnAppearing()

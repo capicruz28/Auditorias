@@ -23,7 +23,10 @@ namespace AppPFashions.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+
+            string rutaBD = Helpers.FileHelper.ObtenerRutaLocal("DBPFashions.db3");
+            LoadApplication(new App(rutaBD, new SQLite.Net.Platform.XamarinIOS.SQLitePlatformIOS()));
+            //LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);
         }

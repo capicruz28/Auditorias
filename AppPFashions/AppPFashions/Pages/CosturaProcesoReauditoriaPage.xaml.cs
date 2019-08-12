@@ -93,11 +93,11 @@ namespace AppPFashions.Pages
         {
             try
             {
-                using (var data = new DataAccess())
-                {
-                    xoperac = data.GetList<taudit00>(false).Where(x => x.clinea == xclinea && x.status == saprob && x.careas == areaau && x.faudit.ToString("dd-MM-yyyy") == cfaudit).ToList();
+                //using (var data = new DataAccess())
+                //{
+                    xoperac = App.baseDatos.GetList<taudit00>(false).Where(x => x.clinea == xclinea && x.status == saprob && x.careas == areaau && x.faudit.ToString("dd-MM-yyyy") == cfaudit).ToList();
                     dataGrid.ItemsSource = xoperac;
-                }
+                //}
             }
             catch (Exception ex)
             {
@@ -151,15 +151,15 @@ namespace AppPFashions.Pages
                 }
             };
 
-            using (var data = new DataAccess())
-            {
-                var audenvio = data.GetList<paudit01>(false).Where(x => x.careas == areaau && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.senvio == "S").ToList();
+            //using (var data = new DataAccess())
+            //{
+                var audenvio = App.baseDatos.GetList<paudit01>(false).Where(x => x.careas == areaau && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.senvio == "S").ToList();
                 if (audenvio.Count > 0)
                 {
                     DisplayAlert("Aviso", "No se puede modificar auditoria", "OK");
                     return;
                 }
-            }
+            //}
             if (areaau == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
             if (areaau == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
             if (areaau == "16") App.Navigator.PushAsync(new AuditoriaCortePage(dataok));
@@ -212,16 +212,16 @@ namespace AppPFashions.Pages
                     }
                 };
 
-            using (var data = new DataAccess())
-            {
+            //using (var data = new DataAccess())
+            //{
                 //var audenvio = data.GetList<paudit01>(false).Where(x => x.careas == areaau && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.senvio == "S").ToList();
-                var audenvio = data.GetList<taudit00>(false).Where(x => x.careas == areaau && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.sreaud == "S").ToList();
+                var audenvio = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == areaau && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.sreaud == "S").ToList();
                 if (audenvio.Count > 0)
                 {
                     DisplayAlert("Aviso", "Ya se realizo la reauditoria", "OK");
                     return;
                 }
-            }
+            //}
             if (areaau == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
             if (areaau == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
             if (areaau == "16") App.Navigator.PushAsync(new AuditoriaCortePage(dataok));

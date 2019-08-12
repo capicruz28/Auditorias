@@ -25,10 +25,14 @@ namespace AppPFashions.Pages
         public ObservableCollection<CustomKanbanModel> Cards { get; set; }
         public ObservableCollection<CustomKanbanModel> CardsNull { get; set; }
         List<taudit00> auditcp;
+        List<taudit00> audites;
+        List<taudit00> audittr;
         List<taudit00> auditcf;
         taudit00 xoperac;
         mtraba00 ldtraba;
+        string xccargo,xcusuar;
         public string dusuar { get; set; }
+        public string taudit { get; set; }
 
         private ApiService apiService;
 
@@ -40,12 +44,18 @@ namespace AppPFashions.Pages
 
             BindingContext = this;
 
-            CargaCards();            
+            //CargaCards();            
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            //using (var data = new DataAccess())
+            //{
+                var user = App.baseDatos.GetUsuario();
+                xccargo = user.ccargo;
+                xcusuar = user.cusuar;
+            //}
             CargaCards();
             //FechaApk();            
         }
@@ -82,92 +92,217 @@ namespace AppPFashions.Pages
 
         async void CargaCards()
         {
-            //kanban.Columns.Clear();
-           
+            kanban.Columns.Clear();
+
             //CardsNull = new ObservableCollection<CustomKanbanModel>();
             //kanban.ItemsSource = CardsNull;
+            if (xccargo == "34")
+            {
+                kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
+                {
+                    Title = "Costura Proceso",
+                    Categories = new List<object>() { "Costura Proceso" },
+                });
 
-            //kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
-            //{
-            //    Title = "Costura Proceso",                
-            //    Categories = new List<object>() { "Costura Proceso" },
-            //});
+                kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
+                {
+                    Title = "Costura Final",
+                    Categories = new List<object>() { "Costura Final" },
+                });
+            }
+            if (xccargo == "05")
+            {
+                kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
+                {
+                    Title = "Corte",
+                    Categories = new List<object>() { "Corte" },
+                });
+            }
 
-            //kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
-            //{
-            //    Title = "Costura Final",
-            //    Categories = new List<object>() { "Costura Final" },
-            //});
+            if (xccargo == "57" || xccargo == "56")
+            {
+                kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
+                {
+                    Title = "Bordado",
+                    Categories = new List<object>() { "Bordado" },
+                });
+
+                kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
+                {
+                    Title = "Estampado",
+                    Categories = new List<object>() { "Estampado" },
+                });
+
+                kanban.Columns.Add(new Syncfusion.SfKanban.XForms.KanbanColumn()
+                {
+                    Title = "Transfer",
+                    Categories = new List<object>() { "Transfer" },
+                });
+            } 
 
             try
             {
-                using (var data = new DataAccess())
-                {
+                //using (var data = new DataAccess())
+                //{
                     Cards = new ObservableCollection<CustomKanbanModel>();
-                    auditcp = data.GetList<taudit00>(false).Where(x => x.careas == "19" && x.status=="D" && x.sreaud=="N").OrderBy(x=>x.faudit).ToList();
-                    TimeSpan ndiascp;
-                    TimeSpan ndiascf;                
+
+                    if (xccargo=="34")
+                    { 
+                        auditcp = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == "19" && x.status=="D" && x.sreaud=="N").OrderBy(x=>x.faudit).ToList();
+                        TimeSpan ndiascp;
+                        TimeSpan ndiascf;                
+                        foreach (var recordcp in auditcp)
+                        {
+                            ndiascp = DateTime.Now - recordcp.faudit;
+                            ldtraba = App.baseDatos.GetList<mtraba00>(false).Where(x => x.ctraba == recordcp.ctraba).FirstOrDefault();                    
+                            Cards.Add(new CustomKanbanModel()
+                            {
+                                ID = 1,
+                                Nordpr = recordcp.nordpr,
+                                Clinea = recordcp.clinea,
+                                Dclien = recordcp.dclien,
+                                Dopera = recordcp.dopera,
+                                Ndiast = ndiascp.Days + " día(s)",                        
+                                ImageURL = "circulo_navy.png",
+                                Category = "Costura Proceso",                                               
+                                ColorKey = "Navy",           
+                                //Rating = recordcp.ndefec,
+                                Dtraba = ldtraba.ctraba +" - "+ldtraba.dtraba,
+                                Careas = recordcp.careas,
+                                Faudit = recordcp.faudit,
+                                Nsecue = recordcp.nsecue,
+                            });                             
+                        }
+
+                        auditcf = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == "FC" && x.status == "D" && x.sreaud == "N").OrderBy(x=>x.faudit).ToList();
+                        foreach (var recordcf in auditcf)
+                        {
+                            ndiascf = DateTime.Now - recordcf.faudit;
+                            Cards.Add(new CustomKanbanModel()
+                            {
+                                ID = 1,
+                                Nordpr = recordcf.nordpr,
+                                Clinea = recordcf.clinea,
+                                Dclien = recordcf.dclien,                        
+                                Ndiast = ndiascf.Days + " día(s)",
+                                ImageURL = "circulo_purple.png",
+                                Category = "Costura Final",                                                
+                                ColorKey = "Purple",
+                                //Rating = recordcf.ndefec,
+                                Dcolor = recordcf.ccarub+" - "+recordcf.dcarub,
+                                Careas = recordcf.careas,
+                                Faudit = recordcf.faudit,
+                                Nsecue = recordcf.nsecue,
+                            });
+                        }
+                    }
+                    if (xccargo == "05")
+                    {
+                        auditcp = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == "16" && x.status == "D" && x.sreaud == "N").OrderBy(x => x.faudit).ToList();
+                        TimeSpan ndiascp;
+                        TimeSpan ndiascf;
+                        foreach (var recordcp in auditcp)
+                        {
+                            ndiascp = DateTime.Now - recordcp.faudit;
+                            ldtraba = App.baseDatos.GetList<mtraba00>(false).Where(x => x.ctraba == recordcp.ctraba).FirstOrDefault();
+                            Cards.Add(new CustomKanbanModel()
+                            {
+                                ID = 1,
+                                Nordpr = recordcp.nordpr,
+                                Clinea = recordcp.clinea,
+                                Dclien = recordcp.dclien,
+                                Dopera = recordcp.nordct,
+                                Ndiast = ndiascp.Days + " día(s)",
+                                ImageURL = "circulo_navy.png",
+                                Category = "Corte",
+                                ColorKey = "Navy",
+                                Rating = recordcp.ndefec,
+                                Dtraba = recordcp.faudit.ToShortDateString(),
+                                Careas = recordcp.careas,
+                                Faudit = recordcp.faudit,
+                                Nsecue = recordcp.nsecue,
+                            });
+                        }
+                    }
+
+                if (xccargo == "57")
+                {
+                    auditcp = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == "29" && x.status == "D" && x.sreaud == "N").OrderBy(x => x.faudit).ToList();
+                    TimeSpan ndiascp;                    
                     foreach (var recordcp in auditcp)
                     {
                         ndiascp = DateTime.Now - recordcp.faudit;
-                        ldtraba = data.GetList<mtraba00>(false).Where(x => x.ctraba == recordcp.ctraba).FirstOrDefault();                    
+                        ldtraba = App.baseDatos.GetList<mtraba00>(false).Where(x => x.ctraba == recordcp.ctraba).FirstOrDefault();
                         Cards.Add(new CustomKanbanModel()
                         {
                             ID = 1,
                             Nordpr = recordcp.nordpr,
-                            Clinea = recordcp.clinea,
+                            Clinea = recordcp.cmaqui,
                             Dclien = recordcp.dclien,
-                            Dopera = recordcp.dopera,
-                            Ndiast = ndiascp.Days + " día(s)",                        
+                            Dopera = recordcp.nordct,
+                            Ndiast = ndiascp.Days + " día(s)",
                             ImageURL = "circulo_navy.png",
-                            Category = "Costura Proceso",                                               
-                            ColorKey = "Navy",           
-                            Rating = recordcp.ndefec,
-                            Dtraba = ldtraba.ctraba +" - "+ldtraba.dtraba,
+                            Category = "Bordado",
+                            ColorKey = "Navy",
+                            //Rating = recordcp.ndefec,
+                            Dtraba = recordcp.faudit.ToString("dd-MM-yyyy"),
                             Careas = recordcp.careas,
                             Faudit = recordcp.faudit,
                             Nsecue = recordcp.nsecue,
-                        });                             
+                        });
                     }
 
-                    auditcf = data.GetList<taudit00>(false).Where(x => x.careas == "FC" && x.status == "D" && x.sreaud == "N").OrderBy(x=>x.faudit).ToList();
-                    foreach (var recordcf in auditcf)
+                    audites = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == "33" && x.status == "D" && x.sreaud == "N").OrderBy(x => x.faudit).ToList();
+                    TimeSpan ndiases;                    
+                    foreach (var recordes in audites)
                     {
-                        ndiascf = DateTime.Now - recordcf.faudit;
+                        ndiases = DateTime.Now - recordes.faudit;
+                        ldtraba = App.baseDatos.GetList<mtraba00>(false).Where(x => x.ctraba == recordes.ctraba).FirstOrDefault();
                         Cards.Add(new CustomKanbanModel()
                         {
                             ID = 1,
-                            Nordpr = recordcf.nordpr,
-                            Clinea = recordcf.clinea,
-                            Dclien = recordcf.dclien,                        
-                            Ndiast = ndiascf.Days + " día(s)",
-                            ImageURL = "circulo_purple.png",
-                            Category = "Costura Final",                                                
+                            Nordpr = recordes.nordpr,
+                            Clinea = recordes.cmaqui,
+                            Dclien = recordes.dclien,
+                            Dopera = recordes.nordct,
+                            Ndiast = ndiases.Days + " día(s)",
+                            ImageURL = "circulo_navy.png",
+                            Category = "Estampado",
                             ColorKey = "Purple",
-                            Rating = recordcf.ndefec,
-                            Dcolor = recordcf.ccarub+" - "+recordcf.dcarub,
-                            Careas = recordcf.careas,
-                            Faudit = recordcf.faudit,
-                            Nsecue = recordcf.nsecue,
+                            //Rating = recordcp.ndefec,
+                            Dtraba = recordes.faudit.ToString("dd-MM-yyyy"),
+                            Careas = recordes.careas,
+                            Faudit = recordes.faudit,
+                            Nsecue = recordes.nsecue,
                         });
                     }
+
+                    audittr = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == "31" && x.status == "D" && x.sreaud == "N").OrderBy(x => x.faudit).ToList();
+                    TimeSpan ndiastr;                    
+                    foreach (var recordtr in audittr)
+                    {
+                        ndiastr = DateTime.Now - recordtr.faudit;
+                        ldtraba = App.baseDatos.GetList<mtraba00>(false).Where(x => x.ctraba == recordtr.ctraba).FirstOrDefault();
+                        Cards.Add(new CustomKanbanModel()
+                        {
+                            ID = 1,
+                            Nordpr = recordtr.nordpr,
+                            Clinea = recordtr.cmaqui,
+                            Dclien = recordtr.dclien,
+                            Dopera = recordtr.nordct,
+                            Ndiast = ndiastr.Days + " día(s)",
+                            ImageURL = "circulo_navy.png",
+                            Category = "Transfer",
+                            ColorKey = "Navy",
+                            //Rating = recordcp.ndefec,
+                            Dtraba = recordtr.faudit.ToString("dd-MM-yyyy"),
+                            Careas = recordtr.careas,
+                            Faudit = recordtr.faudit,
+                            Nsecue = recordtr.nsecue,
+                        });
+                    }
+
                 }
-
-                openColumn.Categories = new List<object>() { "Costura Proceso" };
-                progressColumn.Categories = new List<object>() { "Costura Final" };
-                //codeColumn.Categories = new List<object>() { "Code Review" };
-                //doneColumn.Categories = new List<object>() { "Done" };
-
-                //List<KanbanColorMapping> colorModels = new List<KanbanColorMapping>();
-                //colorModels.Add(new KanbanColorMapping("Navy", Color.Navy));
-                //colorModels.Add(new KanbanColorMapping("Purple", Color.Purple));
-                //colorModels.Add(new KanbanColorMapping("Aqua", Color.Aqua));
-                //colorModels.Add(new KanbanColorMapping("Blue", Color.Blue));
-                //kanban.ColorModel = colorModels;
-
-                //KanbanPlaceholderStyle style = new KanbanPlaceholderStyle();
-                //style.SelectedBackgroundColor = Color.FromRgb(250.0f / 255.0f, 199.0f / 255.0f, 173.0f / 255.0f);
-                //kanban.PlaceholderStyle = style;
 
                 kanban.ItemsSource = Cards;
             }
@@ -181,72 +316,94 @@ namespace AppPFashions.Pages
 
         public void User()
         {
-            using (var data = new DataAccess())
-            {
-                var user = data.GetUsuario();
+            //using (var data = new DataAccess())
+            //{
+                var user = App.baseDatos.GetUsuario();
                 VariableGlobal.ctraba = user.ctraba;
                 VariableGlobal.dtraba = user.dusuar;
-            }
+            //}
             dusuar = VariableGlobal.ctraba +" - "+  VariableGlobal.dtraba;
         }
 
         private async void Kanban_ItemTapped(object sender, KanbanTappedEventArgs e)
-        {            
-            if (await DisplayAlert("Aviso", "Desea realizar la reauditoria", "Si", "No"))
-            {
-                var selkanban = (e.Data) as CustomKanbanModel;
-                using (var data = new DataAccess())
+        {
+            string newclinea;
+            try
+            {       
+                if (await DisplayAlert("Aviso", "Desea realizar la reauditoria", "Si", "No"))
                 {
-                    xoperac = data.GetList<taudit00>(false).Where(x => x.nsecue == selkanban.Nsecue && x.clinea == selkanban.Clinea && x.status == "D" && x.careas == selkanban.Careas && x.faudit.ToString("dd-MM-yyyy") == selkanban.Faudit.ToString("dd-MM-yyyy")).FirstOrDefault();
-                }
+                    var selkanban = (e.Data) as CustomKanbanModel;
+                    //using (var data = new DataAccess())
+                    //{
+                    if (xccargo == "56" || xccargo == "57") { newclinea = ""; }
+                    else { newclinea = selkanban.Clinea; }
 
-                using (var data = new DataAccess())
-                {
-                    var audenvio = data.GetList<taudit00>(false).Where(x => x.careas == selkanban.Careas && x.clinea == selkanban.Clinea && x.nsecue == selkanban.Nsecue && x.faudit.ToString("dd-MM-yyyy") == selkanban.Faudit.ToString("dd-MM-yyyy") && x.sreaud == "S").ToList();
-                    if (audenvio.Count > 0)
-                    {
-                        await DisplayAlert("Aviso", "Ya se realizo la reauditoria", "OK");
-                        return;
-                    }
-                }
+                    xoperac = App.baseDatos.GetList<taudit00>(false).Where(x => x.nsecue == selkanban.Nsecue && x.clinea == newclinea && x.status == "D" && x.careas == selkanban.Careas && x.faudit.ToString("dd-MM-yyyy") == selkanban.Faudit.ToString("dd-MM-yyyy")).FirstOrDefault();
+                    //}
 
-                var dataok = new List<taudit00>
-                {
-                    new taudit00
+                    //using (var data = new DataAccess())
+                    //{
+                        var audenvio = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == selkanban.Careas && x.clinea == newclinea && x.nsecue == selkanban.Nsecue && x.faudit.ToString("dd-MM-yyyy") == selkanban.Faudit.ToString("dd-MM-yyyy") && x.sreaud == "S").ToList();
+                        if (audenvio.Count > 0)
+                        {
+                            await DisplayAlert("Aviso", "Ya se realizo la reauditoria", "OK");
+                            return;
+                        }
+                    //}
+
+                    var dataok = new List<taudit00>
                     {
-                    idaudi = xoperac.idaudi,
-                    careas = xoperac.careas.ToString(),
-                    faudit = DateTime.Parse(xoperac.faudit.ToString()),
-                    nsecue = Int32.Parse(xoperac.nsecue.ToString()),
-                    clinea = xoperac.clinea.ToString(),
-                    nordpr = xoperac.nordpr.ToString(),
-                    ccarub = xoperac.ccarub.ToString(),
-                    dcarub = xoperac.dcarub.ToString(),
-                    ctraba = xoperac.ctraba.ToString(),
-                    copera = xoperac.copera.ToString(),
-                    dopera = xoperac.dopera.ToString(),
-                    dclien = xoperac.dclien.ToString(),
-                    nlotes = Int32.Parse(xoperac.nlotes.ToString()),
-                    nmuest = Int32.Parse(xoperac.nmuest.ToString()),
-                    status = xoperac.status.ToString(),
-                    dobser = xoperac.dobser.ToString(),
-                    smodif = "R",
-                    nordct = xoperac.nordct.ToString(),
-                    npieza = Int32.Parse(xoperac.npieza.ToString()),
-                    dpieza = xoperac.dpieza.ToString(),
-                    clotei = xoperac.clotei.ToString(),
-                    citems = xoperac.citems.ToString(),
-                    ditems = xoperac.ditems.ToString(),
-                    cencog = xoperac.cencog.ToString(),
-                    dtalla = xoperac.dtalla.ToString(),
-                    qprend = Int32.Parse(xoperac.qprend.ToString()),
-                    npanos = Int32.Parse(xoperac.npanos.ToString()),
-                    }
-                };
+                        new taudit00
+                        {
+                        idaudi = xoperac.idaudi,
+                        careas = xoperac.careas.ToString(),
+                        faudit = DateTime.Parse(xoperac.faudit.ToString()),
+                        nsecue = Int32.Parse(xoperac.nsecue.ToString()),
+                        clinea = xoperac.clinea.ToString(),
+                        nordpr = xoperac.nordpr.ToString(),
+                        ccarub = xoperac.ccarub.ToString(),
+                        dcarub = xoperac.dcarub.ToString(),
+                        ctraba = xoperac.ctraba.ToString(),
+                        copera = xoperac.copera.ToString(),
+                        dopera = xoperac.dopera.ToString(),
+                        dclien = xoperac.dclien.ToString(),
+                        nlotes = Int32.Parse(xoperac.nlotes.ToString()),
+                        nmuest = Int32.Parse(xoperac.nmuest.ToString()),
+                        status = xoperac.status.ToString(),
+                        dobser = xoperac.dobser.ToString(),
+                        smodif = "R",
+                        nordct = xoperac.nordct.ToString(),
+                        npieza = Int32.Parse(xoperac.npieza.ToString()),
+                        dpieza = xoperac.dpieza.ToString(),
+                        clotei = xoperac.clotei.ToString(),
+                        citems = xoperac.citems.ToString(),
+                        ditems = xoperac.ditems.ToString(),
+                        cencog = xoperac.cencog.ToString(),
+                        dtalla = xoperac.dtalla.ToString(),
+                        qprend = Int32.Parse(xoperac.qprend.ToString()),
+                        npanos = Int32.Parse(xoperac.npanos.ToString()),
+                        cmaqui = xoperac.cmaqui.ToString(),
+                        cturno = xoperac.cturno.ToString()
+                        }
+                    };
                 
-                if (selkanban.Careas == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
-                if (selkanban.Careas == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
-            }            
+                    if (selkanban.Careas == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
+                    if (selkanban.Careas == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
+                    if (selkanban.Careas == "16") App.Navigator.PushAsync(new AuditoriaCortePage(dataok));
+                    if (selkanban.Careas == "29") App.Navigator.PushAsync(new AuditoriaBordadoPage(dataok));
+                    if (selkanban.Careas == "33") App.Navigator.PushAsync(new AuditoriaEstampadoPage(dataok));
+                    if (selkanban.Careas == "31") App.Navigator.PushAsync(new AuditoriaTransferPage(dataok));
+                }
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Aviso", ex.StackTrace, "OK");
+            }
+        }
+
+        private void Tlb_viewpdf_Clicked(object sender, EventArgs e)
+        {
+            App.Navigator.PushAsync(new ProductionOrderPage());
         }
     }
 
@@ -281,7 +438,7 @@ namespace AppPFashions.Pages
                 return null;
 
             return category.Equals("Costura Proceso") ? costuraprocesoTemplate : 
-                           //category.Equals("Dining") || category.Equals("Delivery") ? orderTemplate :
+                           category.Equals("Corte") ? costuraprocesoTemplate :
                            category.Equals("Costura Final") ? costurafinalTemplate : costuraprocesoTemplate;
         }
     }

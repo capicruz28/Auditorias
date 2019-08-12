@@ -22,33 +22,69 @@ using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Distribute;
+using Android.Support.V4.Content;
+using Android;
+using System.Collections.Generic;
+using Android.Support.V4.App;
+using System.Threading;
+
 
 [assembly: Dependency(typeof(AppPFashions.Droid.Save))]
 namespace AppPFashions.Droid
 {
-    [Activity(Label = "Auditorias PF", Icon = "@drawable/ic_auditorias_logo", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Perú Fashions", Icon = "@drawable/ic_auditorias_logo", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    { 
+    {
+        List<string> _permission = new List<string>();
         protected override void OnCreate(Bundle bundle)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
-            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTQyQDMxMzYyZTMzMmUzMExKcE4yYUx1QTg5SU1mU0pDTWdIOVJoczA1R0VlMW9aYmtoTDFWbGc5aUE9;OTQzQDMxMzYyZTMzMmUzMEducFkyUE1sUUlRc0tra0dFQVRuSnVKS25udVFrV2xiVG5iQ2F6OTh1T3M9;OTQ0QDMxMzYyZTMzMmUzMEhDZEpvM0xoNUprU3E0ZmlHOWV6SE50WFJhZ2ZPOXIyNWlmQTFXZ0M1emc9;OTQ1QDMxMzYyZTMzMmUzMEFnYU9qbHZMRVozSlZtejVIa0d3d2duTHBTSzMxK1grZXFpKzlsZ2JSNkk9;OTQ2QDMxMzYyZTMzMmUzMGdJZE9GMzk4K1lLZlZzQ2tackR5U3R1VnZadHNpd1N4dXBUM3hJTVJibVk9;OTQ3QDMxMzYyZTMzMmUzMG8yNFdDdHdwZW15cGZHRy9jTGwwbXUremxETmlkTDh4RXVybUQ4aS9sZHM9;OTQ4QDMxMzYyZTMzMmUzMGNDb3NHd09IMnF6YUxWdE1hWUU5Z0drM3N2VnFranQ0VjAyTXVMeVZmMjQ9;OTQ5QDMxMzYyZTMzMmUzMGpsdXhBMlpqM2FiRk5ycHlDQ0xjcTVyOVdVRDBSVHRrZVZ5bjJlQzBRWm89;OTUwQDMxMzYyZTMzMmUzMEV5cjRZMm1JV1BkbnBuajZxd09jTGoxMkFoeWFXYW5WR1pHN3lYRU5hdk09;");            
+            //Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("OTQyQDMxMzYyZTMzMmUzMExKcE4yYUx1QTg5SU1mU0pDTWdIOVJoczA1R0VlMW9aYmtoTDFWbGc5aUE9;OTQzQDMxMzYyZTMzMmUzMEducFkyUE1sUUlRc0tra0dFQVRuSnVKS25udVFrV2xiVG5iQ2F6OTh1T3M9;OTQ0QDMxMzYyZTMzMmUzMEhDZEpvM0xoNUprU3E0ZmlHOWV6SE50WFJhZ2ZPOXIyNWlmQTFXZ0M1emc9;OTQ1QDMxMzYyZTMzMmUzMEFnYU9qbHZMRVozSlZtejVIa0d3d2duTHBTSzMxK1grZXFpKzlsZ2JSNkk9;OTQ2QDMxMzYyZTMzMmUzMGdJZE9GMzk4K1lLZlZzQ2tackR5U3R1VnZadHNpd1N4dXBUM3hJTVJibVk9;OTQ3QDMxMzYyZTMzMmUzMG8yNFdDdHdwZW15cGZHRy9jTGwwbXUremxETmlkTDh4RXVybUQ4aS9sZHM9;OTQ4QDMxMzYyZTMzMmUzMGNDb3NHd09IMnF6YUxWdE1hWUU5Z0drM3N2VnFranQ0VjAyTXVMeVZmMjQ9;OTQ5QDMxMzYyZTMzMmUzMGpsdXhBMlpqM2FiRk5ycHlDQ0xjcTVyOVdVRDBSVHRrZVZ5bjJlQzBRWm89;OTUwQDMxMzYyZTMzMmUzMEV5cjRZMm1JV1BkbnBuajZxd09jTGoxMkFoeWFXYW5WR1pHN3lYRU5hdk09;");
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("NDg0MzdAMzEzNzJlMzIyZTMwb052b1AyaXZiVWJQaHBvcGhOQlMzNDF3N3RUOXFwdElCVVFremhpeHpzMD0=");
 
             base.OnCreate(bundle);            
 
             CrossCurrentActivity.Current.Init(this, bundle);
-            //AppCenter.Start("5b2ea4b0-73f4-42ff-b964-5f8382757cf7",
-            //       typeof(Analytics), typeof(Crashes), typeof(Distribute));
+            RequestPermissionsManually();
+
+            Forms.SetFlags("UseLegacyRenderers");
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            global::Infragistics.Framework.Components.Init();
+
+            Infragistics.XamarinForms.Controls.Gauges.XamRadialGauge.Init();
+            Infragistics.XamarinForms.Controls.Gauges.XamLinearGauge.Init();
+            Infragistics.XamarinForms.Controls.Gauges.XamBulletGraph.Init();
+            Infragistics.XamarinForms.Controls.Charts.XamCategoryChart.Init();
+            Infragistics.XamarinForms.Controls.Charts.XamDataChart.Init();
+            Infragistics.XamarinForms.Controls.Charts.XamPieChart.Init();
+            Infragistics.XamarinForms.Controls.Grids.XamDataGrid.Init();
+            Infragistics.XamarinForms.Controls.Charts.XamSparkline.Init();
+            Infragistics.XamarinForms.Controls.Barcodes.XamQRCodeBarcode.Init();
+            Infragistics.XamarinForms.Controls.Charts.XamFunnelChart.Init();
+            Infragistics.XamarinForms.Controls.Charts.XamDoughnutChart.Init();
+
             // Inicializamos el scanner
             UserDialogs.Init(this);
-            MobileBarcodeScanner.Initialize(this.Application);            
-            //FloatingActionButtonRenderer.Initialize();
-            //FAB.Droid.FloatingActionButtonRenderer.InitControl();
+            //MobileBarcodeScanner.Initialize(this.Application);
 
-            LoadApplication(new App());
+            if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) == Android.Content.PM.Permission.Granted)
+            {
+            //    ActivityCompat.ShouldShowRequestPermissionRationale(this, Manifest.Permission.WriteExternalStorage);
+            //    //Thread.Sleep(10000);
+                string rutaBD = Helpers.FileHelper.ObtenerRutaLocal("DBPFashions.db3");
+                LoadApplication(new App(rutaBD, new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid()));
+            }
+            //else
+            //{
+            //Thread.Sleep(10000);
+            //string rutaBD = Helpers.FileHelper.ObtenerRutaLocal("DBPFashions.db3");
+            //LoadApplication(new App(rutaBD, new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid()));
+            //}
+
+
+            //LoadApplication(new App());
         }
 
         const int VOICE = 10;
@@ -72,12 +108,55 @@ namespace AppPFashions.Droid
             }
         }
 
+        private void RequestPermissionsManually()
+        {
+            try
+            {
+                if (ContextCompat.CheckSelfPermission(this, Manifest.Permission.WriteExternalStorage) != Android.Content.PM.Permission.Granted)                                       
+                _permission.Add(Manifest.Permission.WriteExternalStorage);
+
+                if (_permission.Count > 0)
+                {
+                    string[] array = _permission.ToArray();
+
+                    RequestPermissions(array, array.Length);
+                }     
+            }
+            catch (Exception )
+            {
+                throw;
+            }
+        }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)
         {
             Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            if (requestCode == 1)
+            {
+                if (grantResults.Length == _permission.Count)
+                {
+                    for (int i = 0; i < requestCode; i++)
+                    {
+                        if (grantResults[i] == Android.Content.PM.Permission.Granted)
+                        {
+                            string rutaBD = Helpers.FileHelper.ObtenerRutaLocal("DBPFashions.db3");
+                            LoadApplication(new App(rutaBD, new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid()));
+                        }
+                        else
+                        {
+                            _permission = new List<string>();
+                            RequestPermissionsManually();
+                            break;
+                        }
+                    }
+                }
+            }            
         }
     }
+
+
 
     public class Save : ISave
     {

@@ -15,6 +15,8 @@ namespace AppPFashions.Models
         public string cfunci { get; set; }
         public string demail { get; set; }
         public string ctraba { get; set; }
+        public string ccargo { get; set; }
+        public string cbloqu { get; set; }
         public bool IsRemembered { get; set; }
         public string Password { get; set; }
     }

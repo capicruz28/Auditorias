@@ -15,7 +15,7 @@ using Android.Widget;
 using AndroidHUD;
 using AppPFashions.Droid;
 using AppPFashions.Interfaces;
-using Xamarin.Forms;
+using Xamarin.Forms;    
 
 [assembly: Dependency(typeof(AndroidDownloader))]
 namespace AppPFashions.Droid

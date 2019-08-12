@@ -1,0 +1,283 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPFashions.Pages.UserSupervisorPage"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib" 
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             xmlns:chart="clr-namespace:Syncfusion.SfChart.XForms;assembly=Syncfusion.SfChart.XForms"
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:local="clr-namespace:AppPFashions.ViewModels"
+             Title="PERÚ FASHIONS S.A.C."
+             BackgroundColor="{StaticResource BackgroundColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Resources>
+        <DataTemplate x:Key="dataMarkerTemplate1">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#3D57AE" Spacing="0" Padding="3" Margin="0">
+                <Image Source="Male.png" WidthRequest="12" HorizontalOptions="Fill" VerticalOptions="Fill" >
+                    <Image.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="20"/>
+                    </Image.HeightRequest>
+                </Image>
+                <Label Text="{Binding pefici, StringFormat='{0}%'}" VerticalOptions="Center" FontSize="10" TextColor="White"/>
+            </StackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="dataMarkerTemplate2">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#FD5471" Spacing="0" Padding="3" Margin="0">
+                <Image Source="Male.png" WidthRequest="12" HorizontalOptions="Fill" VerticalOptions="Fill" >
+                    <Image.HeightRequest>
+                        <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="20"/>
+                    </Image.HeightRequest>
+                </Image>
+                <Label Text="{Binding perror, StringFormat='{0}%'}" VerticalOptions="Center" FontSize="10" TextColor="White"/>
+            </StackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="dataMarkerTemplate3">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#9932CC" Spacing="0" Padding="3" Margin="0">
+                <Label Text="{Binding pefici01, StringFormat='{0}%'}" VerticalOptions="Center" FontSize="10" TextColor="White"/>
+            </StackLayout>
+        </DataTemplate>
+        <DataTemplate x:Key="dataMarkerTemplate4">
+            <StackLayout Orientation="Horizontal" BackgroundColor="#3D57AE" Spacing="0" Padding="3" Margin="0">
+                <Label Text="{Binding pefici02, StringFormat='{0}%'}" VerticalOptions="Center" FontSize="10" TextColor="White"/>
+            </StackLayout>
+        </DataTemplate>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+        <StackLayout>
+            <StackLayout>
+                <cards:SfCardView  IndicatorPosition="Left" HeightRequest="270" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+
+                    <chart:SfChart x:Name="Chart" HeightRequest="250" VerticalOptions="Center" HorizontalOptions="Center">
+                    <chart:SfChart.Title>
+                        <chart:ChartTitle Text="Eficiencia - Bloque" FontAttributes="Bold" TextColor="DimGray" FontSize="13">
+                        </chart:ChartTitle>
+                    </chart:SfChart.Title>
+
+                    <chart:SfChart.ChartBehaviors>
+                            <chart:ChartTooltipBehavior BackgroundColor="#00bdae" />
+                    </chart:SfChart.ChartBehaviors>
+
+                    <chart:SfChart.PrimaryAxis>
+                        <chart:CategoryAxis ShowMajorGridLines="false" PlotOffset="10" AxisLineOffset="10">
+                            <chart:CategoryAxis.LabelStyle>
+                                <chart:ChartAxisLabelStyle FontSize="10" FontAttributes="Bold"/>
+                            </chart:CategoryAxis.LabelStyle>
+                            <chart:CategoryAxis.MajorTickStyle>
+                                <chart:ChartAxisTickStyle TickSize="10">
+                                </chart:ChartAxisTickStyle>
+                            </chart:CategoryAxis.MajorTickStyle>
+                        </chart:CategoryAxis>
+                    </chart:SfChart.PrimaryAxis>
+
+                    <chart:SfChart.SecondaryAxis>
+                        <chart:NumericalAxis Interval="20" Minimum="0" Maximum="120">
+                            <chart:NumericalAxis.LabelStyle>
+                                <chart:ChartAxisLabelStyle x:Name="secondaryAxisLabelStyle" FontSize="10" FontAttributes="Bold"/>
+                            </chart:NumericalAxis.LabelStyle>
+                            <chart:NumericalAxis.AxisLineStyle>
+                                <chart:ChartLineStyle StrokeWidth="0">
+                                </chart:ChartLineStyle>
+                            </chart:NumericalAxis.AxisLineStyle>
+                            <chart:NumericalAxis.MajorTickStyle>
+                                <chart:ChartAxisTickStyle TickSize="0" />
+                            </chart:NumericalAxis.MajorTickStyle>
+                        </chart:NumericalAxis>
+                    </chart:SfChart.SecondaryAxis>
+                
+                    <chart:SfChart.Legend >
+                        <chart:ChartLegend x:Name="chartLegend" DockPosition="Bottom" ToggleSeriesVisibility="True" IconWidth="14" IconHeight="14">
+                        </chart:ChartLegend>
+                    </chart:SfChart.Legend>
+
+                    <chart:SfChart.ColorModel>
+                        <chart:ChartColorModel Palette="Natural" />
+                    </chart:SfChart.ColorModel>
+
+                    <chart:SfChart.Series>
+                        <chart:LineSeries x:Name="chartview1" StrokeWidth="3" XBindingPath="fprdia" YBindingPath="pefici" Color="#3D57AE" LegendIcon="Circle" Label="% Eficiencia" EnableTooltip="true"  EnableAnimation="True" >
+                            <chart:LineSeries.DataMarker>
+                                <chart:ChartDataMarker MarkerWidth="8" MarkerHeight="8" LabelTemplate="{StaticResource dataMarkerTemplate1}" ShowLabel="True" ShowMarker="true" MarkerBorderColor="#3D57AE" MarkerBorderWidth="2" MarkerColor="White" >
+                                    <chart:ChartDataMarker.ConnectorLineStyle>
+                                        <chart:ConnectorLineStyle 
+                                            ConnectorHeight="20"
+                                            StrokeColor="Transparent"
+								            ConnectorRotationAngle="90" 									  
+								            StrokeWidth="3"/>
+                                    </chart:ChartDataMarker.ConnectorLineStyle>
+                                </chart:ChartDataMarker>
+                            </chart:LineSeries.DataMarker>
+                        </chart:LineSeries>
+                    </chart:SfChart.Series>
+                    </chart:SfChart>
+            
+                </cards:SfCardView>
+            </StackLayout>
+
+            <StackLayout>
+                <cards:SfCardView  IndicatorPosition="Left" HeightRequest="270" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+
+                    <chart:SfChart x:Name="Chart2" HeightRequest="250" VerticalOptions="Center" HorizontalOptions="Center">
+                        <chart:SfChart.Title>
+                            <chart:ChartTitle Text="Errores - Bloque" FontAttributes="Bold" TextColor="DimGray" FontSize="13">
+                            </chart:ChartTitle>
+                        </chart:SfChart.Title>
+
+                        <chart:SfChart.ChartBehaviors>
+                            <chart:ChartTooltipBehavior BackgroundColor="#404041" />
+                        </chart:SfChart.ChartBehaviors>
+
+                        <chart:SfChart.PrimaryAxis>
+                            <chart:CategoryAxis ShowMajorGridLines="false" PlotOffset="10" AxisLineOffset="10">
+                                <chart:CategoryAxis.LabelStyle>
+                                    <chart:ChartAxisLabelStyle FontSize="10" FontAttributes="Bold"/>
+                                </chart:CategoryAxis.LabelStyle>
+                                <chart:CategoryAxis.MajorTickStyle>
+                                <chart:ChartAxisTickStyle TickSize="10">
+                                </chart:ChartAxisTickStyle>
+                                </chart:CategoryAxis.MajorTickStyle>
+                            </chart:CategoryAxis>
+                        </chart:SfChart.PrimaryAxis>
+
+                        <chart:SfChart.SecondaryAxis>
+                            <chart:NumericalAxis Interval="2" Minimum="0">
+                                <chart:NumericalAxis.LabelStyle>
+                                    <chart:ChartAxisLabelStyle x:Name="secondaryAxisLabelStyle2" FontSize="10" FontAttributes="Bold"/>
+                                </chart:NumericalAxis.LabelStyle>
+                                <chart:NumericalAxis.AxisLineStyle>
+                                    <chart:ChartLineStyle StrokeWidth="0">
+                                    </chart:ChartLineStyle>
+                                </chart:NumericalAxis.AxisLineStyle>
+                                <chart:NumericalAxis.MajorTickStyle>
+                                    <chart:ChartAxisTickStyle TickSize="0" />
+                                </chart:NumericalAxis.MajorTickStyle>
+                            </chart:NumericalAxis>
+                        </chart:SfChart.SecondaryAxis>
+
+                        <chart:SfChart.Legend >
+                            <chart:ChartLegend x:Name="chartLegend2" DockPosition="Bottom" ToggleSeriesVisibility="True" IconWidth="14" IconHeight="14">
+                            </chart:ChartLegend>
+                        </chart:SfChart.Legend>
+
+                        <chart:SfChart.ColorModel>
+                            <chart:ChartColorModel Palette="Natural" />
+                        </chart:SfChart.ColorModel>
+
+                        <chart:SfChart.Series>
+                            <chart:LineSeries x:Name="chartview2" StrokeWidth="3" XBindingPath="fprdia" YBindingPath="perror" Color="#FD5471" LegendIcon="Circle" Label="% Error" EnableTooltip="true" EnableAnimation="True" >
+                                <chart:LineSeries.DataMarker>
+                                    <chart:ChartDataMarker MarkerWidth="8" MarkerHeight="8" LabelTemplate="{StaticResource dataMarkerTemplate2}" ShowLabel="True" ShowMarker="true" MarkerBorderColor="#FD5471" MarkerBorderWidth="2" MarkerColor="White">
+                                        <chart:ChartDataMarker.ConnectorLineStyle>
+                                            <chart:ConnectorLineStyle 
+                                            ConnectorHeight="20"
+                                            StrokeColor="Transparent"
+								            ConnectorRotationAngle="90" 									  
+								            StrokeWidth="3"/>
+                                        </chart:ChartDataMarker.ConnectorLineStyle>
+                                    </chart:ChartDataMarker>
+                                </chart:LineSeries.DataMarker>
+                            </chart:LineSeries>
+                        </chart:SfChart.Series>
+                    </chart:SfChart>
+
+                </cards:SfCardView>
+            </StackLayout>
+
+            <StackLayout>
+                <cards:SfCardView IndicatorPosition="Left" HeightRequest="270" VerticalOptions="Start" HorizontalOptions="FillAndExpand">
+
+                    <chart:SfChart x:Name="Chart3" HeightRequest="250" VerticalOptions="Center" HorizontalOptions="Center">
+                        <chart:SfChart.Title>
+                            <chart:ChartTitle Text="Eficiencia - Linea" FontAttributes="Bold" TextColor="DimGray" FontSize="13">
+                            </chart:ChartTitle>
+                        </chart:SfChart.Title>
+
+                        <chart:SfChart.ChartBehaviors>
+                            <chart:ChartTooltipBehavior BackgroundColor="#404041" />
+                        </chart:SfChart.ChartBehaviors>
+
+                        <chart:SfChart.PrimaryAxis>
+                            <chart:CategoryAxis ShowMajorGridLines="false" PlotOffset="10" AxisLineOffset="10">
+                                <chart:CategoryAxis.LabelStyle>
+                                    <chart:ChartAxisLabelStyle FontSize="10" FontAttributes="Bold"/>
+                                </chart:CategoryAxis.LabelStyle>
+                                <chart:CategoryAxis.MajorTickStyle>
+                                    <chart:ChartAxisTickStyle TickSize="10">
+                                    </chart:ChartAxisTickStyle>
+                                </chart:CategoryAxis.MajorTickStyle>
+                            </chart:CategoryAxis>
+                        </chart:SfChart.PrimaryAxis>
+
+                        <chart:SfChart.SecondaryAxis>
+                            <chart:NumericalAxis Interval="20" Minimum="0" Maximum="120">
+                                <chart:NumericalAxis.LabelStyle>
+                                    <chart:ChartAxisLabelStyle x:Name="secondaryAxisLabelStyle3" FontSize="10" FontAttributes="Bold"/>
+                                </chart:NumericalAxis.LabelStyle>
+                                <chart:NumericalAxis.AxisLineStyle>
+                                    <chart:ChartLineStyle StrokeWidth="0">
+                                    </chart:ChartLineStyle>
+                                </chart:NumericalAxis.AxisLineStyle>
+                                <chart:NumericalAxis.MajorTickStyle>
+                                    <chart:ChartAxisTickStyle TickSize="0" />
+                                </chart:NumericalAxis.MajorTickStyle>
+                            </chart:NumericalAxis>
+                        </chart:SfChart.SecondaryAxis>
+
+                        <chart:SfChart.Legend >
+                            <chart:ChartLegend x:Name="chartLegend3" DockPosition="Bottom" IconWidth="14" IconHeight="14">
+                            </chart:ChartLegend>
+                        </chart:SfChart.Legend>
+
+                        <chart:SfChart.ColorModel>
+                            <chart:ChartColorModel Palette="Natural"/>
+                        </chart:SfChart.ColorModel>
+
+                        <chart:SfChart.Series>
+                            <chart:SplineSeries x:Name="chartview3" StrokeWidth="3" XBindingPath="fprdia" YBindingPath="pefici01" Color="#9932CC" LegendIcon="Circle" EnableTooltip="true" EnableAnimation="True">
+                                <chart:SplineSeries.StrokeDashArray>
+                                    <x:Array Type="{x:Type sys:Double}">
+                                        <sys:Double>13</sys:Double>
+                                        <sys:Double>4</sys:Double>
+                                    </x:Array>
+                                </chart:SplineSeries.StrokeDashArray>
+                                <chart:SplineSeries.DataMarker>
+                                    <chart:ChartDataMarker MarkerWidth="8" MarkerHeight="8" LabelTemplate="{StaticResource dataMarkerTemplate3}" ShowLabel="True" ShowMarker="true" MarkerBorderColor="#9932CC" MarkerBorderWidth="2" MarkerColor="White">
+                                        <chart:ChartDataMarker.ConnectorLineStyle>
+                                            <chart:ConnectorLineStyle 
+                                                ConnectorHeight="30"
+                                                StrokeColor="Transparent"
+								                ConnectorRotationAngle="40" 									  
+								                StrokeWidth="3"/>
+                                        </chart:ChartDataMarker.ConnectorLineStyle>
+                                    </chart:ChartDataMarker>
+                                </chart:SplineSeries.DataMarker>
+                            </chart:SplineSeries>
+                            <chart:SplineSeries x:Name="chartview4" StrokeWidth="3" XBindingPath="fprdia" YBindingPath="pefici02" Color="#3D57AE" LegendIcon="Circle" EnableTooltip="true" EnableAnimation="True" >
+                                <chart:SplineSeries.StrokeDashArray>
+                                    <x:Array Type="{x:Type sys:Double}">
+                                        <sys:Double>13</sys:Double>
+                                        <sys:Double>4</sys:Double>
+                                    </x:Array>
+                                </chart:SplineSeries.StrokeDashArray>
+                                <chart:SplineSeries.DataMarker>
+                                    <chart:ChartDataMarker MarkerWidth="8" MarkerHeight="8" LabelTemplate="{StaticResource dataMarkerTemplate4}" ShowLabel="True" ShowMarker="true" MarkerBorderColor="#3D57AE" MarkerBorderWidth="2" MarkerColor="White">
+                                        <chart:ChartDataMarker.ConnectorLineStyle>
+                                            <chart:ConnectorLineStyle 
+                                                ConnectorHeight="20"
+                                                StrokeColor="Transparent"
+								                ConnectorRotationAngle="140" 									  
+								                StrokeWidth="3"/>
+                                        </chart:ChartDataMarker.ConnectorLineStyle>
+                                    </chart:ChartDataMarker>
+                                </chart:SplineSeries.DataMarker>
+                            </chart:SplineSeries>
+                        </chart:SfChart.Series>
+                    </chart:SfChart>
+
+                </cards:SfCardView>
+            </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

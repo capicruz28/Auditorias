@@ -29,22 +29,24 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <AbsoluteLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-        <Grid Margin="0" RowSpacing="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <RelativeLayout VerticalOptions="FillAndExpand">
+            <ContentView 
+                RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1}"  
+                RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1}">
+                <Grid Margin="0" RowSpacing="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
                     <sfTreeView:SfTreeView x:Name="treeView"
-                             ItemHeight="40"
-                             Indentation="20"
-                             ExpanderWidth="40"
-                             FullRowSelect="True"
-                             IsAnimationEnabled="True"   
-                             ExpandActionTarget="Node"
-                             AutoExpandMode="RootNodesExpanded"
-                             ItemTapped="TreeView_ItemTapped"
-                             ItemHolding="TreeView_ItemHolding">
+                        ItemHeight="40"
+                        Indentation="20"
+                        ExpanderWidth="40"
+                        FullRowSelect="True"
+                        IsAnimationEnabled="True"   
+                        ExpandActionTarget="Node"
+                        AutoExpandMode="RootNodesExpanded"
+                        ItemTapped="TreeView_ItemTapped"
+                        ItemHolding="TreeView_ItemHolding">
                         <sfTreeView:SfTreeView.HierarchyPropertyDescriptors>
                             <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type local:AuditFolder}" ChildPropertyName="SubFolder"/>
                             <treeviewengine:HierarchyPropertyDescriptor TargetType="{x:Type local:SubFolder}" ChildPropertyName="DetFolder"/>
@@ -108,14 +110,24 @@
                         </sfTreeView:SfTreeView.ItemTemplate>
                     </sfTreeView:SfTreeView>
                 </Grid>
-                <views:FloatingActionButton 
+            </ContentView>
+            <views:FloatingActionButton  
                 x:Name="fab_nuevaauditoria"
                 Image="agregar.png" 
-                ButtonColor="#3D57AE"                          
-                AbsoluteLayout.LayoutFlags="PositionProportional"
-				AbsoluteLayout.LayoutBounds=".98, .95, AutoSize, AutoSize"
-                Clicked="fab_nuevaauditoria_Clicked"/>
-        </AbsoluteLayout>
-            </StackLayout>
+                ButtonColor="#3D57AE"           
+                Clicked="fab_nuevaauditoria_Clicked"
+                RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent, Property=Width, Factor=1, Constant=-75}"  
+                RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Property=Height, Factor=1, Constant=-125}" />
+
+                <!--<views:FloatingActionButton 
+                x:Name="fab_nuevaauditoria"
+                Image="agregar.png" 
+                ButtonColor="#3D57AE"             
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand"
+                WidthRequest="50" HeightRequest="50"         
+                Clicked="fab_nuevaauditoria_Clicked"/>-->
+        
+            </RelativeLayout>
     </ContentPage.Content>
 </ContentPage>

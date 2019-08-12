@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppPFashions.Pages.LoginPage"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              Title="Cuenta de Usuario"
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
@@ -31,12 +32,21 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Start">
             </Label>
-            <Entry
+            <inputLayout:SfTextInputLayout
+                Grid.Column="1"
+                Grid.Row="0" 
+                Hint="Usuario"
+                LeadingViewPosition="Inside" >
+                <Entry
+                    x:Name="user"                    
+                    Text="{Binding User}" />
+            </inputLayout:SfTextInputLayout>
+            <!--<Entry
                     Grid.Column="1"
                     Grid.Row="0"                       
                     Placeholder="Usuario..."
                     Text="{Binding User, Mode=TwoWay}">
-            </Entry>
+            </Entry>-->
             <Label
                     Grid.Column="0"
                     Grid.Row="1"
@@ -44,13 +54,26 @@
                     VerticalOptions="Center"
                     HorizontalOptions="Start">
             </Label>
-            <Entry
+            <inputLayout:SfTextInputLayout
+                Grid.Column="1"
+                Grid.Row="1"
+                x:Name="passwordLayout"
+                CharMaxLength="8"                    
+                EnablePasswordVisibilityToggle="true"                    
+                Hint="Password"
+                ShowCharCount="true">
+                <Entry
+                    x:Name="password"
+                    IsPassword="true"
+                    Text="{Binding Password}" />
+            </inputLayout:SfTextInputLayout>
+            <!--<Entry
                     Grid.Column="1"
                     Grid.Row="1"
                     IsPassword="True"
                     Placeholder="Contraseña..."
                     Text="{Binding Password, Mode=TwoWay}">
-            </Entry>
+            </Entry>-->
         </Grid>
         <StackLayout
                 Orientation="Horizontal"
@@ -78,7 +101,7 @@
                 IsRunning="{Binding IsRunning, Mode=TwoWay}">
         </ActivityIndicator>
         <StackLayout
-                Margin="50,0">
+                Margin="80,0">
             <Button
                 Command="{Binding LoginCommand}"
                 BackgroundColor="Navy"
@@ -89,7 +112,7 @@
                 TextColor="White"                
                 Text="Ingresar">
             </Button>
-            <!--<Button
+            <Button
                 Command="{Binding RegisterNewUserCommand}"
                 BackgroundColor="Purple"
                 BorderRadius="23"
@@ -97,8 +120,8 @@
                 HeightRequest="46"  
                 IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
                 TextColor="White"                
-                Text="Registrar nuevo usuario">
-            </Button>-->
+                Text="Cambiar contraseña">
+            </Button>
         </StackLayout>
     </StackLayout>
 </ContentPage>

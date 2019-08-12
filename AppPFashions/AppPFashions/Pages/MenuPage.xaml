@@ -7,6 +7,7 @@
              Title="Menu"
              BackgroundColor="{StaticResource MenuColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
+
     <StackLayout>
         <ListView             
         ItemsSource="{Binding Menu}"

@@ -9,5 +9,6 @@ namespace AppPFashions.Models
         public static string ctraba {get;set;}
         public static string dtraba { get; set; }
         public static string cusuar { get; set; }
+        public static string ccargo { get; set; }
     }
 }

@@ -3,7 +3,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppPFashions.Pages.MenuUserPage"
+             xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
              xmlns:customControls="clr-namespace:AppPFashions.CustomControls;assembly=AppPFashions"
+             xmlns:imagecircle="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              Title="Menu"
              BackgroundColor="{StaticResource MenuColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
@@ -13,13 +15,34 @@
         HasUnevenRows="True"
         SeparatorVisibility="Default">
             <ListView.Header>
-                <Grid HeightRequest="170" BackgroundColor="#F20C36" Padding="0">
-                    <Image Source="Confeccion.jpg"
-                           IsOpaque="False"
-                           Aspect="AspectFill"
-                           HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid HeightRequest="100" BackgroundColor="#F20C36" Padding="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <border:SfBorder 
+                        BorderColor="White"
+                        HorizontalOptions="Center"
+                        VerticalOptions="Center"
+                        CornerRadius="50"
+                        WidthRequest="80"
+                        HeightRequest="80">
+                    <Image
+                        x:Name="userimg"
+                        Grid.Row="0"                        
+                        Aspect="AspectFill"
+                        BackgroundColor="#00a0e1">
                     </Image>
-                    <Grid Padding="0">
+                    </border:SfBorder>
+                    <Label 
+                        x:Name="lbluser"                        
+                        Grid.Row="1"
+                        TextColor="White"
+                        FontSize="12"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center">
+                    </Label>
+                    <!--<Grid Padding="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"></ColumnDefinition>
                             <ColumnDefinition Width="*"></ColumnDefinition>
@@ -27,7 +50,7 @@
                         <StackLayout>
                             <Label Text=""></Label>
                         </StackLayout>
-                    </Grid>
+                    </Grid>-->
                 </Grid>
             </ListView.Header>
 
@@ -53,9 +76,9 @@
                                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                                     </Grid.ColumnDefinitions>
                                     <Image Source="{Binding Icon}"
-                                   Grid.Column="0"
-                                   WidthRequest="40"
-                                   HeightRequest="40">
+                                       Grid.Column="0"
+                                       WidthRequest="40"
+                                       HeightRequest="40">
                                     </Image>
                                 </Grid>
 

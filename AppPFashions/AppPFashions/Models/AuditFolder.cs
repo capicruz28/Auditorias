@@ -241,6 +241,7 @@ namespace AppPFashions.Models
         private string folderName;
         private string imageName;
         private int auditCount;
+        private string subimageName;
         private string careas;
         private string status;
         private string clinea;
@@ -320,6 +321,15 @@ namespace AppPFashions.Models
             {
                 faudit = value;
                 RaisedOnPropertyChanged("Faudit");
+            }
+        }
+        public string SubImageName
+        {
+            get { return subimageName; }
+            set
+            {
+                subimageName = value;
+                RaisedOnPropertyChanged("SubImageName");
             }
         }
 

@@ -1,21 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"             
-             xmlns:sync="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"            
-             xmlns:local="clr-namespace:AppPFashions.ViewModels"
-             xmlns:views="clr-namespace:SuaveControls.Views;assembly=SuaveControls.FloatingActionButton"
-             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
-             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:sync="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"                         
              xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              xmlns:numeric="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
+             xmlns:localupper="clr-namespace:AppPFashions"
              x:Class="AppPFashions.Pages.CosturaProcesoPage"            
              Title="Auditoría Costura Proceso"
              BackgroundColor="{StaticResource MenuColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              BarBackgroundColor="#F20C36"
             NavigationPage.HasBackButton="False">
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_viewpdf"            
+            Icon="ic_view_pdf.png"            
+            Priority="0" Order="Primary"
+            Clicked="Tlb_viewpdf_Clicked"/>
+    </TabbedPage.ToolbarItems>
     <ContentPage Title="Nuevo"
                  Icon="nuevo.png">
         <StackLayout>
@@ -30,7 +34,7 @@
                         <ColumnDefinition Width="2*"/>
                         <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Text="{Binding SelBloque}" IsVisible="False"></Label>
+                    <!--<Label Text="{Binding SelBloque}" IsVisible="False"></Label>-->
                     <Label
                         Text="Bloque:"
                         FontAttributes="Bold"
@@ -57,7 +61,8 @@
                         x:Name="dpk_fechaauditoria"
                         Format="dd - MMM - yyyy"
                         Grid.Column="3"
-                        Grid.Row="0">
+                        Grid.Row="0"
+                        DateSelected="Dpk_fechaauditoria_DateSelected">
                     </DatePicker>
                     <Button 
                         x:Name="btn_agregarauditoria"
@@ -73,7 +78,7 @@
                 </Grid>
             </StackLayout>
             <BoxView
-            Color="Navy"
+            Color="#3D57AE"
             HeightRequest="2">
             </BoxView>
             <StackLayout>
@@ -416,6 +421,9 @@
                         Grid.Row="0"
                         FontSize="Medium"                        
                         TextColor="Black">
+                        <Entry.Effects>
+                            <localupper:EntryAllCapitalEffect/>
+                        </Entry.Effects>
                     </Entry>
                 </Grid>
             </StackLayout>
@@ -586,6 +594,9 @@
                             Grid.Column="1"
                             Grid.Row="0"
                             IsEnabled="False">
+                            <Entry.Effects>
+                                <localupper:EntryAllCapitalEffect/>
+                            </Entry.Effects>
                         </Entry>
                     </Grid>
                 </StackLayout>
@@ -791,7 +802,8 @@
                         FontAttributes="Bold"
                         HeightRequest="46"  
                         Text="Guardar"                           
-                        TextColor="White">
+                        TextColor="White"
+                        IsEnabled="False">
                     </Button>
                 </StackLayout>
              </StackLayout>
@@ -805,13 +817,13 @@
     <ContentPage Title="Medidas"
                  Icon="medidas.png">
         
-           <StackLayout Orientation="Vertical">
+           <!--<StackLayout Orientation="Vertical">
 
-            <!--<Label 
+            --><!--<Label 
                 x:Name="speechTextLabel"
            HorizontalOptions="Center"
            TextColor="Black"
-           FontSize="20"/>-->
+           FontSize="20"/>--><!--
 
             <Button Text="Actualización"
             BackgroundColor="Teal"
@@ -819,7 +831,7 @@
             FontSize="40"
             Clicked="PickPhoto_Clicked"/>
 
-            <!--<Button Text="Take Photo"
+            --><!--<Button Text="Take Photo"
             BackgroundColor="Navy"
             TextColor="White"
             FontSize="40"
@@ -841,8 +853,8 @@
 
             <Label x:Name="RemotePathLabel"
            FontSize="20"
-           TextColor="Black"/>-->
-        </StackLayout>
+           TextColor="Black"/>--><!--
+        </StackLayout>-->
     
     </ContentPage>
 </TabbedPage>

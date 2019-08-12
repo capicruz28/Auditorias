@@ -6,6 +6,13 @@
              xmlns:customControls="clr-namespace:AppPFashions.CustomControls;assembly=AppPFashions"
              BackgroundColor="{StaticResource BackgroundColor}"
              BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_viewpdf"            
+            Icon="ic_view_pdf.png"            
+            Priority="0" Order="Primary"
+            Clicked="Tlb_viewpdf_Clicked"/>
+    </ContentPage.ToolbarItems>
     <StackLayout>
         <ListView
             ItemsSource="{Binding ListaAuditorias}"

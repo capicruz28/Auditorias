@@ -39,6 +39,8 @@ namespace AppPFashions.Pages
         string estadoReauditoria="N";
         string nuevaAuditoria;                
         Int32 xidaudi;
+        int xqaprob, xqdesap, xqaprex;
+        string sapaud = "";
         string obsdefecto;
         string obsaudit;
         string saudtot;
@@ -56,19 +58,19 @@ namespace AppPFashions.Pages
         #region Constructor        
         public CosturaProcesoPage(List<taudit00> listaAuditoria)
         {
+            
             dialogService = new DialogService();
             alertService = new AlertService();
             apiService = new ApiService();
             dataService = new DataService();
-            dataAccess = new DataAccess();
-            List<pdefec10> xopera = new List<pdefec10>();
+            //dataAccess = new DataAccess();            
             SectorList = new List<string>
             {
                 "01","02","03","04","05","06",
                 "07","08","09","10","11","12","SE"
             };
-
             this.listaCargaAuditoria = listaAuditoria;
+
             InitializeComponent();
             downloader.OnFileDownloaded += OnFileDownloaded;
             nuevaAuditoria = "S";
@@ -79,37 +81,38 @@ namespace AppPFashions.Pages
                 CargaAuditoria();
             }
 
-            using (var data = new DataAccess())
-            {                
-                var ldefec = data.GetList<pdefec10>(false).Where(x => x.svigen == "N").ToList();
-                foreach (var record in ldefec)
-                {
-                    pdefec10 cdefecto = new pdefec10
-                    {
-                        iddefe = record.iddefe,
-                        careas = record.careas,
-                        faudit = record.faudit,
-                        nsecue = record.nsecue,
-                        clinea = record.clinea,
-                        codigo = record.codigo,
-                        coddef = record.coddef,
-                        qcanti = record.qcanti,
-                        dobser = record.dobser,
-                        cgrupo = record.cgrupo,
-                        cardef = record.cardef,
-                        descri = record.descri,
-                        defjpg = record.defjpg,
-                        vimage = record.vimage,
-                        vphoto = record.vphoto,
-                        svigen = record.svigen,
-                    };
-                    data.Delete(cdefecto);
-                }
-
-                var user = data.GetUsuario();
-                VariableGlobal.ctraba = user.ctraba;
-                VariableGlobal.cusuar = user.cusuar;
-            }
+            //using (var data = new DataAccess())
+            //{                
+            //var ldefec = App.baseDatos.GetList<pdefec10>(false).Where(x => x.svigen == "N").ToList();
+            //foreach (var record in ldefec)
+            //{
+            //    pdefec10 cdefecto = new pdefec10
+            //    {
+            //        iddefe = record.iddefe,
+            //        careas = record.careas,
+            //        faudit = record.faudit,
+            //        nsecue = record.nsecue,
+            //        clinea = record.clinea,
+            //        codigo = record.codigo,
+            //        coddef = record.coddef,
+            //        qcanti = record.qcanti,
+            //        dobser = record.dobser,
+            //        cgrupo = record.cgrupo,
+            //        cardef = record.cardef,
+            //        descri = record.descri,
+            //        defjpg = record.defjpg,
+            //        vimage = record.vimage,
+            //        vphoto = record.vphoto,
+            //        svigen = record.svigen,
+            //    };
+            //    App.baseDatos.Delete(cdefecto);
+            //}
+            App.baseDatos.DeleteDefectoTemp();
+            var user = App.baseDatos.GetUsuario();
+            VariableGlobal.ctraba = user.ctraba;
+            VariableGlobal.cusuar = user.cusuar;
+            
+            //}
         }
         #endregion
 
@@ -181,26 +184,27 @@ namespace AppPFashions.Pages
                 btn_agregardefecto.IsEnabled = true;
                 ety_lote.IsEnabled = true;
                 ety_muestra.IsEnabled = true;
-                using (var data = new DataAccess())
-                {
-                    var datosSecuencia = data.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").ToList();
+                btn_guardarauditoria.IsEnabled = true;
+                //using (var data = new DataAccess())
+                //{
+                var datosSecuencia = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").ToList();
                     if (datosSecuencia.Count > 0)
                     {
-                        var ultimaAuditoria = data.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").OrderByDescending(x => x.nsecue).First();
+                        var ultimaAuditoria = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").OrderByDescending(x => x.nsecue).First();
                         lbl_nsecue.Text = (ultimaAuditoria.nsecue + 1).ToString();
                     }
                     else
                     { lbl_nsecue.Text = "1"; }
 
-                    var datosId = data.GetList<paudit01>(false).ToList();
+                    var datosId = App.baseDatos.GetList<paudit01>(false).ToList();
                     if (datosId.Count > 0)
                     {
-                        var ultimoIdAuditoria = data.GetList<paudit01>(false).OrderByDescending(x => x.idaudi).First();
+                        var ultimoIdAuditoria = App.baseDatos.GetList<paudit01>(false).OrderByDescending(x => x.idaudi).First();
                         xidaudi = ultimoIdAuditoria.idaudi + 1;
                     }
                     else
                     { xidaudi = 1; }
-                }
+                //}
             }
             //********** EDITAR AUDITORIA **********//
             else
@@ -228,11 +232,11 @@ namespace AppPFashions.Pages
                 if (listaCargaAuditoria.ElementAt(0).status.ToString() == "A") srb_audiaprobado.IsChecked = true;
                 if (listaCargaAuditoria.ElementAt(0).status.ToString() == "D") srb_audidesaprobado.IsChecked = true;
                 if (listaCargaAuditoria.ElementAt(0).status.ToString() == "E") srb_audiaprobadoext.IsChecked = true;
-                using (var data = new DataAccess())
-                {
-                    listaCargaDefectos = data.GetList<pdefec10>(false).Where(x => x.clinea == listaCargaAuditoria.ElementAt(0).clinea.ToString() && x.faudit.Date==listaCargaAuditoria.ElementAt(0).faudit.Date).ToList();
+                //using (var data = new DataAccess())
+                //{
+                    listaCargaDefectos = App.baseDatos.GetList<pdefec10>(false).Where(x => x.clinea == listaCargaAuditoria.ElementAt(0).clinea.ToString() && x.faudit.Date==listaCargaAuditoria.ElementAt(0).faudit.Date && x.nsecue== listaCargaAuditoria.ElementAt(0).nsecue).ToList();
                     lsv_defectos.ItemsSource = listaCargaDefectos;
-                }
+                //}
                 img_operario.IsEnabled = true;
                 ety_ctraba.IsEnabled = true;
                 btn_ctraba.IsEnabled = true;
@@ -260,26 +264,26 @@ namespace AppPFashions.Pages
                 DisplayAlert("Aviso", "Debe seleccionar un bloque", "OK");
                 return;
             }
-            using (var data = new DataAccess())
-            {
-                var datosSecuencia = data.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").ToList();
+            //using (var data = new DataAccess())
+            //{
+                var datosSecuencia = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19" && a.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).ToList();
                 if (datosSecuencia.Count > 0)
                 {
-                    var ultimaAuditoria = data.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").OrderByDescending(x => x.nsecue).First();
+                    var ultimaAuditoria = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19" && a.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).OrderByDescending(x => x.nsecue).First();
                     lbl_nsecue.Text = (ultimaAuditoria.nsecue + 1).ToString();
                 }
                 else
                 { lbl_nsecue.Text = "1"; }
 
-                var datosId = data.GetList<paudit01>(false);
+                var datosId = App.baseDatos.GetList<paudit01>(false);
                 if (datosId.Count > 0)
                 {
-                    var ultimoIdAuditoria = data.GetList<paudit01>(false).OrderByDescending(x => x.idaudi).First();
+                    var ultimoIdAuditoria = App.baseDatos.GetList<paudit01>(false).OrderByDescending(x => x.idaudi).First();
                     xidaudi = ultimoIdAuditoria.idaudi + 1;
                 }
                 else
                 { xidaudi = 1; }
-            }
+            //}
 
             img_operario.IsEnabled = true;
             ety_ctraba.IsEnabled = true;
@@ -298,7 +302,8 @@ namespace AppPFashions.Pages
             ety_muestra.IsEnabled = true;
             ety_observ.IsEnabled = true;
             ety_lote.Text = "50";
-            ety_muestra.Text = "6";
+            ety_muestra.Text = "8";
+            btn_guardarauditoria.IsEnabled = true;
         } 
         #endregion
 
@@ -332,9 +337,9 @@ namespace AppPFashions.Pages
                 ety_ctraba.Text = "O" + ety_ctraba.Text;
             }
 
-            using (var data = new DataAccess())
-            {
-                var xctraba = data.GetOperario(ety_ctraba.Text);
+            //using (var data = new DataAccess())
+            //{
+                var xctraba = App.baseDatos.GetOperario(ety_ctraba.Text);
                 if (xctraba == null)
                 {
                     await DisplayAlert("Error", "No código de trabajador no existe o no esta activo", "OK");
@@ -352,7 +357,7 @@ namespace AppPFashions.Pages
                 {
                     lbl_dtraba.Text = xctraba.dtraba;
                 }
-            }
+            //}
         } 
         #endregion
 
@@ -382,18 +387,22 @@ namespace AppPFashions.Pages
             if (string.IsNullOrEmpty(ety_op.Text))
             {
                 await DisplayAlert("Error", "Ingrese un número de OP", "OK");
+                ety_op.IsEnabled = true;
                 ety_op.Focus();
                 return;
             }
-
+            
             DependencyService.Get<IDownloader>().Show("Cargando");
             var response = await apiService.GetOP<ordprod>(ety_op.Text);
             if (!response.IsSuccess)
             {
                 await DisplayAlert("Error", response.Message, "OK");
+                ety_op.IsEnabled = true;
+                DependencyService.Get<IDownloader>().Hide();
                 ety_op.Focus();
                 return;
             }
+            ety_op.IsEnabled = false;
 
             var dataop = (List<ordprod>)response.Result;
             foreach (var record in dataop.OrderBy(x => x.nordct))
@@ -418,9 +427,9 @@ namespace AppPFashions.Pages
             }
 
             //*** Llena Picker Operación ***//            
-            using (var data = new DataAccess())
-            {
-                var xopera = data.GetList<topera01>(false);
+            //using (var data = new DataAccess())
+            //{
+                var xopera = App.baseDatos.GetList<topera01>(false);
 
                 if (xopera == null)
                 {
@@ -434,12 +443,12 @@ namespace AppPFashions.Pages
                     var es = new EmployeeSearch(listaCargaAuditoria.ElementAt(0).copera.ToString().Trim());
                     pck_operacion.SelectedItem = xopera[xopera.FindIndex(es.StartsWith)];
                 }
-            }
+            //}
 
             //*** Llena Picker Defectos ***//            
-            using (var data = new DataAccess())
-            {
-                var xdefec = data.GetList<mdefec00>(false).Where(x => x.csecci == "19");
+            //using (var data = new DataAccess())
+            //{
+                var xdefec = App.baseDatos.GetList<mdefec00>(false).Where(x => x.csecci == "19");
 
                 if (xdefec == null)
                 {
@@ -447,7 +456,7 @@ namespace AppPFashions.Pages
                     return;
                 }
                 pck_defectos.DataSource = xdefec.OrderBy(x => x.coddef).ToList();
-            }
+            //}
 
             lbl_bloquedef.Text = pck_bloque.SelectedItem.ToString();
             lbl_fechadef.Text = dpk_fechaauditoria.Date.ToString("dd - MMM - yyyy");
@@ -464,7 +473,7 @@ namespace AppPFashions.Pages
             var result = await alertService.ShowMessage("Aviso", "Desea sincronizar la lista de trabajadores");
             if (result == true)
             {
-                dataAccess.DeleteOperarios();
+                App.baseDatos.DeleteOperarios();
                 var response = await apiService.Operarios<mtraba00>();
 
                 if (!response.IsSuccess)
@@ -509,7 +518,7 @@ namespace AppPFashions.Pages
             var result = await alertService.ShowMessage("Aviso", "Desea sincronizar la lista de operaciones");
             if (result == true)
             {
-                dataAccess.DeleteOperaciones();
+                App.baseDatos.DeleteOperaciones();
                 var response = await apiService.Operaciones<topera01>();
             
                 if (!response.IsSuccess)
@@ -562,9 +571,9 @@ namespace AppPFashions.Pages
                 }
 
                 //*** Llena Picker Operación ***//                
-                using (var data = new DataAccess())
-                {
-                    var xopera = data.GetList<topera01>(false);
+                //using (var data = new DataAccess())
+                //{
+                    var xopera = App.baseDatos.GetList<topera01>(false);
 
                     if (xopera == null)
                     {
@@ -572,7 +581,7 @@ namespace AppPFashions.Pages
                         return;
                     }
                     pck_operacion.DataSource = xopera.OrderBy(x => x.cclave).ToList();
-                }
+                //}
             }
             else // if it's equal to Cancel
             {
@@ -585,7 +594,7 @@ namespace AppPFashions.Pages
             var result = await alertService.ShowMessage("Aviso", "Desea sincronizar la lista de defectos");
             if (result == true)
             {
-                dataAccess.DeleteDefectos();
+                App.baseDatos.DeleteDefectos();
                 var response = await apiService.Defectos<mdefec00>();
 
                 if (!response.IsSuccess)
@@ -622,9 +631,9 @@ namespace AppPFashions.Pages
 
                 //*** Llena Picker Defectos ***//
                 
-                using (var data = new DataAccess())
-                {
-                    var xdefec = data.GetList<mdefec00>(false).Where(x => x.csecci == "19");
+                //using (var data = new DataAccess())
+                //{
+                    var xdefec = App.baseDatos.GetList<mdefec00>(false).Where(x => x.csecci == "19");
                     //pck_defectos.DataSource = xdefec;
 
                     if (xdefec == null)
@@ -633,7 +642,7 @@ namespace AppPFashions.Pages
                         return;
                     }
                     pck_defectos.DataSource = xdefec.OrderBy(x => x.coddef).ToList();                    
-                }
+                //}
             }
             else // if it's equal to Cancel
             {
@@ -660,9 +669,9 @@ namespace AppPFashions.Pages
 
             try
             {
-                using (var data = new DataAccess())
-                {
-                    int qdefec = data.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.coddef == xcoddef && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Count();
+                //using (var data = new DataAccess())
+                //{
+                    int qdefec = App.baseDatos.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.coddef == xcoddef && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Count();
                     if (qdefec > 0)
                     {
                         DisplayAlert("Aviso", "Defecto ya fue registrado", "OK");
@@ -696,14 +705,14 @@ namespace AppPFashions.Pages
                         vphoto = true,
                         svigen = "N",
                     };
-                    data.Insert(cdefecto);
+                    App.baseDatos.Insert(cdefecto);
 
-                    listaCargaDefectos = data.GetList<pdefec10>(false);
+                    listaCargaDefectos = App.baseDatos.GetList<pdefec10>(false);
                     lsv_defectos.ItemsSource = listaCargaDefectos.Where(x => x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.careas == "19" && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString());
                     pck_defectos.SelectedItem = null;
                     ety_obsdefecto.Text = "";
                     ety_cantdefecto.Value = 0;
-                }                
+                //}                
             }
             catch (Exception ex)
             {
@@ -752,6 +761,54 @@ namespace AppPFashions.Pages
             srb_audiaprobado.IsChecked = true;
             srb_audiaprobadoext.IsChecked = false;
             srb_audidesaprobado.IsChecked = false;
+            btn_guardarauditoria.IsEnabled = false;
+        }
+        #endregion
+
+        #region ResumenAuditoria
+        void ActualizaResumenAuditoria()
+        {
+            //using (var data = new DataAccess())
+            //{
+                xqaprob = 0;
+                xqdesap = 0;
+                xqaprex = 0;
+                var getresaudit = App.baseDatos.GetResaudit("19", DateTime.Parse(dpk_fechaauditoria.Date.ToString()), lbl_bloquedef.Text.ToString().Trim());
+                if (nuevaAuditoria == "S")
+                {
+                    if (getresaudit != null)
+                    {
+                        xqaprob = getresaudit.qaprob;
+                        xqdesap = getresaudit.qdesap;
+                        xqaprex = getresaudit.qaprex;
+
+                        raudit00 resaudit = new raudit00
+                        {
+                            idraud = getresaudit.idraud,
+                            careas = "19",
+                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            clinea = lbl_bloquedef.Text.ToString().Trim(),
+                            qaprob = xqaprob + Int32.Parse(sapaud == "A" ? "1" : "0"),
+                            qdesap = xqdesap + Int32.Parse(sapaud == "D" ? "1" : "0"),
+                            qaprex = xqaprex + Int32.Parse(sapaud == "E" ? "1" : "0"),
+                        };
+                        App.baseDatos.Update(resaudit);
+                    }
+                    else
+                    {
+                        raudit00 resaudit = new raudit00
+                        {
+                            careas = "19",
+                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            clinea = lbl_bloquedef.Text.ToString().Trim(),
+                            qaprob = xqaprob + Int32.Parse(sapaud == "A" ? "1" : "0"),
+                            qdesap = xqdesap + Int32.Parse(sapaud == "D" ? "1" : "0"),
+                            qaprex = xqaprex + Int32.Parse(sapaud == "E" ? "1" : "0"),
+                        };
+                        App.baseDatos.Insert(resaudit);
+                    }
+                }
+            //}
         }
         #endregion
 
@@ -797,21 +854,20 @@ namespace AppPFashions.Pages
                 ety_muestra.Focus();
                 return;
             }
-            using (var data = new DataAccess())
-            { 
-                int qdefec = data.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.coddef == xcoddef && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Count();
+            //using (var data = new DataAccess())
+            //{ 
+                int qdefec = App.baseDatos.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.coddef == xcoddef && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Count();
                 if (pck_defectos.SelectedItem != null && qdefec == 0)
                 {
                     DisplayAlert("Aviso", "Aun no agrego el defecto seleccionado", "OK");
                     return;
                 }
-            }            
-
-            string sapaud = "";
+            //}            
+            
             Int32 qdefectos;
             if (srb_audiaprobado.IsChecked == true) sapaud = "A";
             if (srb_audiaprobadoext.IsChecked == true) sapaud = "E";
-            if (srb_audidesaprobado.IsChecked == true) sapaud = "D";
+            if (srb_audidesaprobado.IsChecked == true) sapaud = "D";       
 
             if (string.IsNullOrWhiteSpace(ety_observ.Text))
             {
@@ -826,9 +882,9 @@ namespace AppPFashions.Pages
             {
                 if (nuevaAuditoria == "S")
                 {
-                    using (var data = new DataAccess())
-                    {
-                        qdefectos = data.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Sum(x => x.qcanti);
+                    //using (var data = new DataAccess())
+                    //{
+                        qdefectos = App.baseDatos.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Sum(x => x.qcanti);
 
                         paudit01 nauditoria = new paudit01
                         {
@@ -890,7 +946,7 @@ namespace AppPFashions.Pages
                             sautab = "S",
                             senvio = "N",
                         };
-                        data.Insert(nauditoria);
+                        App.baseDatos.Insert(nauditoria);
 
                         taudit00 auditoria = new taudit00
                         {
@@ -924,8 +980,8 @@ namespace AppPFashions.Pages
                             ndefec = qdefectos,
                             nseref = 0,
                         };
-                        data.Insert(auditoria);
-
+                        App.baseDatos.Insert(auditoria);
+               
                         if (estadoReauditoria == "S")
                         {
                             taudit00 rauditoria = new taudit00
@@ -960,7 +1016,7 @@ namespace AppPFashions.Pages
                                 ndefec = Int32.Parse(listaCargaAuditoria.ElementAt(0).ndefec.ToString()),
                                 nseref = 0,
                             };
-                            data.Update(rauditoria);
+                            App.baseDatos.Update(rauditoria);
                         }
 
                         #region Tablacaudit00
@@ -1077,7 +1133,7 @@ namespace AppPFashions.Pages
                         #endregion
 
 
-                        var ldefec = data.GetList<pdefec10>(false).Where(x => x.svigen == "N").ToList();
+                        var ldefec = App.baseDatos.GetList<pdefec10>(false).Where(x => x.svigen == "N").ToList();
                         foreach (var record in ldefec)
                         {
                             pdefec01 ndefecto = new pdefec01
@@ -1095,7 +1151,7 @@ namespace AppPFashions.Pages
                                 senvio = "N",
 
                             };
-                            data.Insert(ndefecto);
+                            App.baseDatos.Insert(ndefecto);
 
                             pdefec10 cdefecto = new pdefec10
                             {
@@ -1116,15 +1172,15 @@ namespace AppPFashions.Pages
                                 vphoto = record.vphoto,
                                 svigen = "S",
                             };
-                            data.Update(cdefecto);
+                            App.baseDatos.Update(cdefecto);
                         }
-                    }
+                    //}
                 }
                 else
                 {
-                    using (var data = new DataAccess())
-                    {
-                        qdefectos = data.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Sum(x => x.qcanti);
+                    //using (var data = new DataAccess())
+                    //{
+                        qdefectos = App.baseDatos.GetList<pdefec10>(false).Where(x => x.careas == "19" && x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).Sum(x => x.qcanti);
                         paudit01 nauditoria = new paudit01
                         {
                             idaudi = listaCargaAuditoria.ElementAt(0).idaudi,
@@ -1185,7 +1241,7 @@ namespace AppPFashions.Pages
                             sautab = "S",
                             senvio = "N",
                         };
-                        data.Update(nauditoria);
+                        App.baseDatos.Update(nauditoria);
 
                         taudit00 auditoria = new taudit00
                         {
@@ -1218,11 +1274,12 @@ namespace AppPFashions.Pages
                             sreaud = listaCargaAuditoria.ElementAt(0).sreaud,
                             ndefec = qdefectos,
                         };
-                        data.Update(auditoria);
-                    }
+                        App.baseDatos.Update(auditoria);
+                    //}
                 }
 
                 DisplayAlert("Aviso", "Los datos se guardaron de manera satisfactoria.", "OK");
+                ActualizaResumenAuditoria();
                 LimpiaAuditoria();
                 sgraud = "S";
             }
@@ -1265,17 +1322,17 @@ namespace AppPFashions.Pages
                         
             string desfot = file.Path.Substring(82, file.Path.Length - 82);//"19" + dpk_fechaauditoria.Date.Year.ToString() + dpk_fechaauditoria.Date.Month.ToString() + dpk_fechaauditoria.Date.Day.ToString() + lbl_bloquedef.Text + lbl_nsecue.Text + xcodope + seldefecto.coddef.ToString() + ".jpg";//+ pck_defectos.SelectedItem.ToString().Substring(0, pck_defectos.SelectedItem.ToString().IndexOf("-") - 1) + ".jpg";            
 
-            img_defecto.Source = ImageSource.FromStream(() =>
-            {
-                var stream = file.GetStream();
-                file.Dispose();
-                return stream;
-            });
+            //img_defecto.Source = ImageSource.FromStream(() =>
+            //{
+            //    var stream = file.GetStream();
+            //    file.Dispose();
+            //    return stream;
+            //});
 
             try
             {
-                using (var data = new DataAccess())
-                {
+                //using (var data = new DataAccess())
+                //{
                     pdefec10 cdefecto = new pdefec10
                     {
                         iddefe = seldefecto.iddefe,
@@ -1295,17 +1352,17 @@ namespace AppPFashions.Pages
                         vphoto = false,
                         svigen = seldefecto.svigen,
                     };
-                    data.Update(cdefecto);
+                    App.baseDatos.Update(cdefecto);
 
-                    listaCargaDefectos = data.GetList<pdefec10>(false);
+                    listaCargaDefectos = App.baseDatos.GetList<pdefec10>(false);
                     lsv_defectos.ItemsSource = listaCargaDefectos.Where(x => x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.careas=="19");
-                }
+                //}
                 //await DisplayAlert("Aviso", "La imagen se guardo de manera satisfactoria.", "OK");
-                using (var data = new DataAccess())
-                {
-                    listaCargaDefectos = data.GetList<pdefec10>(false);
+                //using (var data = new DataAccess())
+                //{
+                    listaCargaDefectos = App.baseDatos.GetList<pdefec10>(false);
                     lsv_defectos.ItemsSource = listaCargaDefectos.Where(x => x.clinea == pck_bloque.SelectedItem.ToString() && x.nsecue == Int32.Parse(lbl_nsecue.Text.ToString()) && x.careas == "19");
-                }
+                //}
 
                 var result = await alertService.ShowMessage("Aviso", "Desea editar la imagen.");
                 if (result == true)
@@ -1342,8 +1399,8 @@ namespace AppPFashions.Pages
                 string filename = seldefecto.defjpg;
                 try
                 {
-                    using (var data = new DataAccess())
-                    {
+                    //using (var data = new DataAccess())
+                    //{
                         pdefec10 cdefecto = new pdefec10
                         {
                             iddefe = seldefecto.iddefe,
@@ -1363,11 +1420,11 @@ namespace AppPFashions.Pages
                             vphoto = true,
                             svigen = seldefecto.svigen,
                         };
-                        data.Update(cdefecto);
+                        App.baseDatos.Update(cdefecto);
 
-                        listaCargaDefectos = data.GetList<pdefec10>(false).Where(x => x.careas == seldefecto.careas && x.clinea == seldefecto.clinea && x.nsecue == seldefecto.nsecue && x.faudit==seldefecto.faudit).ToList();
+                        listaCargaDefectos = App.baseDatos.GetList<pdefec10>(false).Where(x => x.careas == seldefecto.careas && x.clinea == seldefecto.clinea && x.nsecue == seldefecto.nsecue && x.faudit==seldefecto.faudit).ToList();
                         lsv_defectos.ItemsSource = listaCargaDefectos;
-                    }
+                    //}
 
                     IFolder rootFolder = await FileSystem.Current.GetFolderFromPathAsync("/storage/emulated/0/Pictures/Test/");
                     ExistenceCheckResult folderexist = await rootFolder.CheckExistsAsync(filename);
@@ -1427,56 +1484,57 @@ namespace AppPFashions.Pages
         //    webClient.DownloadDataAsync(url);
         //} 
 
-            private async void PickPhoto_Clicked(object sender, EventArgs e)
-            {
-            string response = await apiService.GetFechaApk();
-            DateTime dtapkserver = DateTime.Parse(response.Trim(new char[] { '"' }));
-            //FileInfo fi = new FileInfo("/storage/emulated/0/Download/Auditoria.apk");
-            DateTime dtapkmobile = File.GetLastWriteTime("/storage/emulated/0/Download/Auditoria.apk");
+        //    private async void PickPhoto_Clicked(object sender, EventArgs e)
+        //    {
+        //    string response = await apiService.GetFechaApk();            
+        //    DateTime dtapkserver = DateTime.Parse(response.Trim(new char[] { '"' }));
+        //    //string aaa= response.Trim(new char[] { '"' });
+        //    //FileInfo fi = new FileInfo("/storage/emulated/0/Download/Auditoria.apk");
+        //    DateTime dtapkmobile = File.GetLastWriteTime("/storage/emulated/0/Download/Auditoria.apk");
 
-            if (dtapkserver > DateTime.Parse(dtapkmobile.ToString("dd/MM/yyyy HH:mm:ss")))
-            {
-                if (await DisplayAlert("Aviso", "Existe una actualización para la aplicación, desea descargarla ahora?", "Si", "No"))
-                {
-                    DependencyService.Get<IDownloader>().Show("Descargando");
-                    string rutapdf = "ftp://192.168.2.55/Auditoria.apk";
-                    downloader.DownloadFile(rutapdf, "Download");
-                }
-            }
+        //    if (dtapkserver > DateTime.Parse(dtapkmobile.ToString("MM/dd/yyyy HH:mm:ss")))
+        //    {
+        //        if (await DisplayAlert("Aviso", "Existe una actualización para la aplicación, desea descargarla ahora?", "Si", "No"))
+        //        {
+        //            DependencyService.Get<IDownloader>().Show("Descargando");
+        //            string rutapdf = "ftp://192.168.2.55/Auditoria.apk";
+        //            downloader.DownloadFile(rutapdf, "Download");
+        //        }
+        //    }
 
         
-            //downloader.InstallAPK();
-            //DownloadImage();
-            //var speechText = await WaitForSpeechToText();
-            //speechTextLabel.Text = string.IsNullOrEmpty(speechText) ? "Nothing Recorded" : speechText;
+        //    //downloader.InstallAPK();
+        //    //DownloadImage();
+        //    //var speechText = await WaitForSpeechToText();
+        //    //speechTextLabel.Text = string.IsNullOrEmpty(speechText) ? "Nothing Recorded" : speechText;
 
-            //DependencyService.Get<IConfig>().DownloadFile(new Uri(ur));
-            //var url = "http://www.pdf995.com/samples/pdf.pdf";
-            //    Device.OpenUri(new Uri(url));
-            //var path = await DownloadManager.DownloadManager.DownloadAsync("teste.jpg", "/wikipedia/commons/2/2d/Snake_River_%285mb%29.jpg", progress);
+        //    //DependencyService.Get<IConfig>().DownloadFile(new Uri(ur));
+        //    //var url = "http://www.pdf995.com/samples/pdf.pdf";
+        //    //    Device.OpenUri(new Uri(url));
+        //    //var path = await DownloadManager.DownloadManager.DownloadAsync("teste.jpg", "/wikipedia/commons/2/2d/Snake_River_%285mb%29.jpg", progress);
 
-            //file.Text = path;
-            //img.Source = path;
-            //await CrossMedia.Current.Initialize();
+        //    //file.Text = path;
+        //    //img.Source = path;
+        //    //await CrossMedia.Current.Initialize();
 
-            //if (!CrossMedia.Current.IsPickPhotoSupported)
-            //{
-            //    await DisplayAlert("No PickPhoto", ":( No PickPhoto available.", "OK");
-            //    return;
-            //}
+        //    //if (!CrossMedia.Current.IsPickPhotoSupported)
+        //    //{
+        //    //    await DisplayAlert("No PickPhoto", ":( No PickPhoto available.", "OK");
+        //    //    return;
+        //    //}
 
-            //_mediaFile = await CrossMedia.Current.PickPhotoAsync();
+        //    //_mediaFile = await CrossMedia.Current.PickPhotoAsync();
 
-            //if (_mediaFile == null)
-            //    return;
+        //    //if (_mediaFile == null)
+        //    //    return;
 
-            //LocalPathLabel.Text = _mediaFile.Path;
+        //    //LocalPathLabel.Text = _mediaFile.Path;
 
-            //FileImage.Source = ImageSource.FromStream(() =>
-            //{
-            //    return _mediaFile.GetStream();
-            //});
-        }
+        //    //FileImage.Source = ImageSource.FromStream(() =>
+        //    //{
+        //    //    return _mediaFile.GetStream();
+        //    //});
+        //}
         private void OnFileDownloaded(object sender, DownloadEventArgs e)
         {
             if (e.FileSaved)
@@ -1544,14 +1602,14 @@ namespace AppPFashions.Pages
         {
             if (!string.IsNullOrEmpty(ety_lote.Text))
             {
-                using (var data = new DataAccess())
-                {
-                    var xlotes = data.GetList<ttcmue00>(false).Where(x => Int32.Parse(ety_lote.Text) >= x.ntanli && Int32.Parse(ety_lote.Text) <= x.ntanlf && x.nivaql.Trim() == "1.5");
+                //using (var data = new DataAccess())
+                //{
+                    var xlotes = App.baseDatos.GetList<ttcmue00>(false).Where(x => Int32.Parse(ety_lote.Text) >= x.ntanli && Int32.Parse(ety_lote.Text) <= x.ntanlf && x.nivaql.Trim() == "2.5");
                     foreach (var record in xlotes)
                     {
                         ety_muestra.Text = record.ntanmu.ToString();
                     }
-                }
+                //}
 
                 if (cbxaudittot.IsChecked == true)
                 {
@@ -1570,6 +1628,18 @@ namespace AppPFashions.Pages
             //BuscarOP();
         }
 
+        private void Dpk_fechaauditoria_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            var datosSecuencia = App.baseDatos.GetList<paudit01>(false).Where(a => a.careas == "19" && a.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).ToList();
+            if (datosSecuencia.Count > 0)
+            {
+                var ultimaAuditoria = App.baseDatos.GetList<paudit01>(false).Where(a => a.careas == "19" && a.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).OrderByDescending(x => x.nsecue).First();
+                lbl_nsecue.Text = (ultimaAuditoria.nsecue + 1).ToString();
+            }
+            else
+            { lbl_nsecue.Text = "1"; }
+        }
+
         private void Cbxaudittot_StateChanged(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)
         {
             if (string.IsNullOrEmpty(ety_lote.Text))
@@ -1579,14 +1649,14 @@ namespace AppPFashions.Pages
                 return;
             }
 
-            using (var data = new DataAccess())
-            {
-                var xlotes = data.GetList<ttcmue00>(false).Where(x => Int32.Parse(ety_lote.Text) >= x.ntanli && Int32.Parse(ety_lote.Text) <= x.ntanlf && x.nivaql.Trim() == "1.5");
+            //using (var data = new DataAccess())
+            //{
+                var xlotes = App.baseDatos.GetList<ttcmue00>(false).Where(x => Int32.Parse(ety_lote.Text) >= x.ntanli && Int32.Parse(ety_lote.Text) <= x.ntanlf && x.nivaql.Trim() == "2.5");
                 foreach (var record in xlotes)
                 {
                     ety_muestra.Text = record.ntanmu.ToString();
                 }
-            }
+            //}
 
             if (cbxaudittot.IsChecked == true)
             {
@@ -1597,6 +1667,11 @@ namespace AppPFashions.Pages
             {
                 saudtot = "N";
             }
+        }
+
+        private void Tlb_viewpdf_Clicked(object sender, EventArgs e)
+        {
+            App.Navigator.PushAsync(new ProductionOrderPage());
         }
 
         private void Pck_operacion_SelectionChanged(object sender, Syncfusion.XForms.ComboBox.SelectionChangedEventArgs e)
