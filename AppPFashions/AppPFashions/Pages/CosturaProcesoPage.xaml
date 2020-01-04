@@ -6,6 +6,7 @@
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              xmlns:numeric="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
+             xmlns:behaviors="clr-namespace:AppPFashions.Behaviors;assembly=AppPFashions"
              xmlns:localupper="clr-namespace:AppPFashions"
              x:Class="AppPFashions.Pages.CosturaProcesoPage"            
              Title="Auditoría Costura Proceso"
@@ -44,7 +45,8 @@
                         VerticalOptions="Center">
                     </Label>
                     <Picker 
-                        x:Name="pck_bloque"                        
+                        x:Name="pck_bloque"     
+                        SelectedIndexChanged="Pck_bloque_SelectedIndexChanged"                        
                         Grid.Column="1"
                         Grid.Row="0"                                                                   
                         Title="Seleccione bloque">
@@ -218,7 +220,12 @@
                         Grid.Row="0"
                         IsEnabled="False"
                         Keyboard="Numeric"
-                        Text="{Binding Nordpr, Mode=TwoWay}">
+                        Text="{Binding Nordpr, Mode=TwoWay}"
+                        >
+                        <Entry.Behaviors>
+                            <behaviors:EntryLengthValidatorBehavior MaxLength="6" />
+                            <behaviors:NumberValidationBehavior />
+                        </Entry.Behaviors>
                     </Entry>
                     <Button
                         x:Name="btn_buscarop"

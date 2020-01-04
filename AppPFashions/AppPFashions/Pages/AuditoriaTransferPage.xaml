@@ -446,7 +446,7 @@
                                                      FormatString="n" 
                                                      MaximumDecimalDigits="0" 
                                                      Grid.Column="1"
-                                                     SpinButtonAlignment="Both"
+                                                     SpinButtonAlignment="Both"                                                     
                                                      Value="0"
                                                      Grid.Row="0"
                                                      HeightRequest="35" 
@@ -456,13 +456,14 @@
                                                      AllowNull="false" 
                                                      HorizontalOptions="FillAndExpand" 
                                                      TextAlignment="Center"                                                     
-                                                     VerticalOptions="Center">
+                                                     VerticalOptions="Center"
+                                                     Minimum="0">
                                 <numeric:SfNumericUpDown.IncrementButtonSettings>
-                                    <numeric:UpDownButtonSettings ButtonHeight="35" ButtonWidth="35" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
+                                    <numeric:UpDownButtonSettings ButtonHeight="45" ButtonWidth="45" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
                                     </numeric:UpDownButtonSettings>
                                 </numeric:SfNumericUpDown.IncrementButtonSettings>
                                 <numeric:SfNumericUpDown.DecrementButtonSettings>
-                                    <numeric:UpDownButtonSettings ButtonHeight="35" ButtonWidth="35" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
+                                    <numeric:UpDownButtonSettings ButtonHeight="45" ButtonWidth="45" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
                                     </numeric:UpDownButtonSettings>
                                 </numeric:SfNumericUpDown.DecrementButtonSettings>
                             </numeric:SfNumericUpDown>
@@ -619,17 +620,17 @@
                         </sync:SfRadioGroup>
                     </StackLayout>
                     <StackLayout
-                    Margin="80,15">
+                        Margin="80,15">
                         <Button 
-                        x:Name="btn_guardarauditoria"
-                        BackgroundColor="#3D57AE"
-                        BorderRadius="25"       
-                        Clicked="btn_guardarauditoria_Clicked"
-                        FontAttributes="Bold"
-                        HeightRequest="46"  
-                        Text="Guardar" 
+                            x:Name="btn_guardarauditoria"
+                            BackgroundColor="#3D57AE"
+                            BorderRadius="25"       
+                            Clicked="btn_guardarauditoria_Clicked"
+                            FontAttributes="Bold"
+                            HeightRequest="46"  
+                            Text="Guardar" 
                             IsEnabled="False"
-                        TextColor="White">
+                            TextColor="White">
                         </Button>
                     </StackLayout>
                 </StackLayout>

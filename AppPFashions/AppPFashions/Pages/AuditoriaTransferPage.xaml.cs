@@ -143,7 +143,7 @@ namespace AppPFashions.Pages
                 ety_lote.Text = listaCargaAuditoria.ElementAt(0).nlotes.ToString();
                 ety_muestra.Text = listaCargaAuditoria.ElementAt(0).nmuest.ToString();
                 ety_observ.Text = listaCargaAuditoria.ElementAt(0).dobser.ToString();
-                pck_maquina.SelectedItem = xcmaquina;
+                if (xcmaquina == "") { pck_maquina.SelectedItem = null; } else { pck_maquina.SelectedItem = xcmaquina; }                
                 pck_turno.SelectedItem = xcturno;
                 srb_audidesaprobado.IsChecked = true;
                 ety_op.IsEnabled = false;
@@ -201,6 +201,8 @@ namespace AppPFashions.Pages
                 ety_lote.Text = listaCargaAuditoria.ElementAt(0).nlotes.ToString();
                 ety_muestra.Text = listaCargaAuditoria.ElementAt(0).nmuest.ToString();
                 ety_observ.Text = listaCargaAuditoria.ElementAt(0).dobser.ToString();
+                pck_maquina.SelectedItem = xcmaquina;
+                pck_turno.SelectedItem = xcturno;
                 if (listaCargaAuditoria.ElementAt(0).status.ToString() == "A") srb_audiaprobado.IsChecked = true;
                 if (listaCargaAuditoria.ElementAt(0).status.ToString() == "D") srb_audidesaprobado.IsChecked = true;
                 if (listaCargaAuditoria.ElementAt(0).status.ToString() == "E") srb_audiaprobadoext.IsChecked = true;
@@ -221,6 +223,8 @@ namespace AppPFashions.Pages
                 btn_guardarauditoria.IsEnabled = true;
                 ety_lote.IsEnabled = true;
                 ety_muestra.IsEnabled = true;
+                pck_maquina.IsEnabled = true;
+                pck_turno.IsEnabled = true;
             }
         }
         #endregion
@@ -349,14 +353,13 @@ namespace AppPFashions.Pages
             BuscarOP();
         }
 
-
         private async void img_defectos_Tapped(object sender, EventArgs e)
         {
             var result = await alertService.ShowMessage("Aviso", "Desea sincronizar la lista de defectos");
             if (result == true)
-            {
-                App.baseDatos.DeleteDefectos();
-                var response = await apiService.Defectos<mdefec00>();
+            {                
+                App.baseDatos.DeleteDefectos("31");
+                var response = await apiService.Defectos<mdefec00>("31");
 
                 if (!response.IsSuccess)
                 {
@@ -516,13 +519,13 @@ namespace AppPFashions.Pages
         #region ResumenAuditoria
         void ActualizaResumenAuditoria()
         {
-            if (string.IsNullOrWhiteSpace(pck_maquina.SelectedItem.ToString()))
+            if (pck_maquina.SelectedItem!=null)
             {
-                cmaquina = "";
+                cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);                
             }
             else
             {
-                cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);
+                cmaquina = "";
             }
             //using (var data = new DataAccess())
             //{
@@ -636,13 +639,13 @@ namespace AppPFashions.Pages
                     obsaudit = ety_observ.Text;
                 }
 
-                if (string.IsNullOrWhiteSpace(pck_maquina.SelectedItem.ToString()))
+                if (pck_maquina.SelectedItem != null )
                 {
-                    cmaquina = "";
+                    cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);                    
                 }
                 else
                 {
-                    cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);
+                    cmaquina = "";
                 }
 
      

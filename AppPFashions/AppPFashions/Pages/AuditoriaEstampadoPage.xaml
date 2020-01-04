@@ -456,13 +456,14 @@
                                                      AllowNull="false" 
                                                      HorizontalOptions="FillAndExpand" 
                                                      TextAlignment="Center"                                                     
-                                                     VerticalOptions="Center">
+                                                     VerticalOptions="Center"
+                                                     Minimum="0">
                                 <numeric:SfNumericUpDown.IncrementButtonSettings>
-                                    <numeric:UpDownButtonSettings ButtonHeight="35" ButtonWidth="35" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
+                                    <numeric:UpDownButtonSettings ButtonHeight="45" ButtonWidth="45" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
                                     </numeric:UpDownButtonSettings>
                                 </numeric:SfNumericUpDown.IncrementButtonSettings>
                                 <numeric:SfNumericUpDown.DecrementButtonSettings>
-                                    <numeric:UpDownButtonSettings ButtonHeight="35" ButtonWidth="35" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
+                                    <numeric:UpDownButtonSettings ButtonHeight="45" ButtonWidth="45" BackgroundColor="#3D57AE" ButtonFontColor="White" ButtonFontSize="14">
                                     </numeric:UpDownButtonSettings>
                                 </numeric:SfNumericUpDown.DecrementButtonSettings>
                             </numeric:SfNumericUpDown>

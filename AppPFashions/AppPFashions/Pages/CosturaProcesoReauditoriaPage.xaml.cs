@@ -53,6 +53,7 @@ namespace AppPFashions.Pages
             dialogService = new DialogService();
             alertService = new AlertService();
             nclinea = xclinea.Substring(0, 2);
+            if (nclinea == "00") { nclinea = ""; }
             saprob = xclinea.Substring(2, 1);
             areaau = xclinea.Substring(3, 2);
             cfaudit = xclinea.Substring(5, 10);
@@ -65,6 +66,8 @@ namespace AppPFashions.Pages
             if (areaau == "FC") Desauditoria = "Auditoria Costura Final - " + daprob + " - " + cfaudit;
             if (areaau == "16") Desauditoria = "Auditoria Corte - " + daprob + " - " + cfaudit;
             if (areaau == "29") Desauditoria = "Auditoria Bordado - " + daprob + " - " + cfaudit;
+            if (areaau == "33") Desauditoria = "Auditoria Estampado - " + daprob + " - " + cfaudit;
+            if (areaau == "31") Desauditoria = "Auditoria Transfer - " + daprob + " - " + cfaudit;
             this.PropertyChanged += CosturaProcesoReauditoriaPage_PropertyChanged;
             dataGrid.QueryRowHeight += DataGrid_QueryRowHeight;
             LoadDetalleAuditorias(nclinea);
@@ -148,6 +151,11 @@ namespace AppPFashions.Pages
                 dtalla = xoperac.ElementAt(swipedRowIndex - 1).dtalla.ToString(),
                 qprend = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).qprend.ToString()),
                 npanos = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).npanos.ToString()),
+                sreaud = xoperac.ElementAt(swipedRowIndex - 1).sreaud.ToString(),
+                ndefec = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).ndefec.ToString()),
+                nseref = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nseref.ToString()),
+                cmaqui = xoperac.ElementAt(swipedRowIndex - 1).cmaqui.ToString(),
+                cturno = xoperac.ElementAt(swipedRowIndex - 1).cturno.ToString(),
                 }
             };
 
@@ -163,7 +171,9 @@ namespace AppPFashions.Pages
             if (areaau == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
             if (areaau == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
             if (areaau == "16") App.Navigator.PushAsync(new AuditoriaCortePage(dataok));
-            if (areaau == "29") App.Navigator.PushAsync(new AuditoriaBordadoPage(dataok));        
+            if (areaau == "29") App.Navigator.PushAsync(new AuditoriaBordadoPage(dataok));
+            if (areaau == "33") App.Navigator.PushAsync(new AuditoriaEstampadoPage(dataok));
+            if (areaau == "31") App.Navigator.PushAsync(new AuditoriaTransferPage(dataok));
         }
 
         private void rightImage_Swiping_BindingContextChanged(object sender, EventArgs e)
@@ -178,7 +188,13 @@ namespace AppPFashions.Pages
 
         private void Reauditar()
         {
-                var dataok = new List<taudit00>
+            var audenvio = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == areaau && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.sreaud == "S").ToList();
+            if (audenvio.Count > 0)
+            {
+                DisplayAlert("Aviso", "Ya se realizo la reauditoria", "OK");
+                return;
+            }
+            var dataok = new List<taudit00>
                 {
                     new taudit00
                     {
@@ -209,23 +225,25 @@ namespace AppPFashions.Pages
                     dtalla = xoperac.ElementAt(swipedRowIndex - 1).dtalla.ToString(),
                     qprend = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).qprend.ToString()),
                     npanos = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).npanos.ToString()),
+                    sreaud = xoperac.ElementAt(swipedRowIndex - 1).sreaud.ToString(),
+                    ndefec = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).ndefec.ToString()),
+                    nseref = Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nseref.ToString()),
+                    cmaqui = xoperac.ElementAt(swipedRowIndex - 1).cmaqui.ToString(),
+                    cturno = xoperac.ElementAt(swipedRowIndex - 1).cturno.ToString(),
                     }
                 };
 
             //using (var data = new DataAccess())
             //{
                 //var audenvio = data.GetList<paudit01>(false).Where(x => x.careas == areaau && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.senvio == "S").ToList();
-                var audenvio = App.baseDatos.GetList<taudit00>(false).Where(x => x.careas == areaau && x.clinea == xoperac.ElementAt(swipedRowIndex - 1).clinea.ToString() && x.nsecue == Int32.Parse(xoperac.ElementAt(swipedRowIndex - 1).nsecue.ToString()) && x.faudit == DateTime.Parse(xoperac.ElementAt(swipedRowIndex - 1).faudit.ToString()) && x.sreaud == "S").ToList();
-                if (audenvio.Count > 0)
-                {
-                    DisplayAlert("Aviso", "Ya se realizo la reauditoria", "OK");
-                    return;
-                }
+           
             //}
             if (areaau == "19") App.Navigator.PushAsync(new CosturaProcesoPage(dataok));
             if (areaau == "FC") App.Navigator.PushAsync(new CosturaFinalPage(dataok));
             if (areaau == "16") App.Navigator.PushAsync(new AuditoriaCortePage(dataok));
             if (areaau == "29") App.Navigator.PushAsync(new AuditoriaBordadoPage(dataok));
+            if (areaau == "33") App.Navigator.PushAsync(new AuditoriaEstampadoPage(dataok));
+            if (areaau == "31") App.Navigator.PushAsync(new AuditoriaTransferPage(dataok));
 
 
             //LoadDetalleAuditorias(nclinea);

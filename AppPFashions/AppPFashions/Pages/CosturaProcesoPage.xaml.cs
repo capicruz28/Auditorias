@@ -74,6 +74,7 @@ namespace AppPFashions.Pages
             InitializeComponent();
             downloader.OnFileDownloaded += OnFileDownloaded;
             nuevaAuditoria = "S";
+            VariableGlobal.cbloqu = "";
             sgraud = "N";
             pck_bloque.ItemsSource = SectorList;
             if (listaCargaAuditoria.Count != 0)
@@ -81,38 +82,11 @@ namespace AppPFashions.Pages
                 CargaAuditoria();
             }
 
-            //using (var data = new DataAccess())
-            //{                
-            //var ldefec = App.baseDatos.GetList<pdefec10>(false).Where(x => x.svigen == "N").ToList();
-            //foreach (var record in ldefec)
-            //{
-            //    pdefec10 cdefecto = new pdefec10
-            //    {
-            //        iddefe = record.iddefe,
-            //        careas = record.careas,
-            //        faudit = record.faudit,
-            //        nsecue = record.nsecue,
-            //        clinea = record.clinea,
-            //        codigo = record.codigo,
-            //        coddef = record.coddef,
-            //        qcanti = record.qcanti,
-            //        dobser = record.dobser,
-            //        cgrupo = record.cgrupo,
-            //        cardef = record.cardef,
-            //        descri = record.descri,
-            //        defjpg = record.defjpg,
-            //        vimage = record.vimage,
-            //        vphoto = record.vphoto,
-            //        svigen = record.svigen,
-            //    };
-            //    App.baseDatos.Delete(cdefecto);
-            //}
             App.baseDatos.DeleteDefectoTemp();
             var user = App.baseDatos.GetUsuario();
             VariableGlobal.ctraba = user.ctraba;
             VariableGlobal.cusuar = user.cusuar;
-            
-            //}
+                        
         }
         #endregion
 
@@ -121,7 +95,7 @@ namespace AppPFashions.Pages
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                if (pck_bloque.SelectedItem != null)
+                if (ety_op.Text != null)
                 {
                     if (await DisplayAlert("Alerta", "Estas seguro que quiere salir sin guardar los cambios", "Si", "No"))
                     {
@@ -160,7 +134,7 @@ namespace AppPFashions.Pages
                 xnseref = Int32.Parse(listaCargaAuditoria.ElementAt(0).nsecue.ToString());
 
                 pck_bloque.SelectedItem = listaCargaAuditoria.ElementAt(0).clinea.ToString();
-                dpk_fechaauditoria.Date = DateTime.Parse(listaCargaAuditoria.ElementAt(0).faudit.ToString());
+                dpk_fechaauditoria.Date = DateTime.Parse(DateTime.Now.ToShortDateString());//DateTime.Parse(listaCargaAuditoria.ElementAt(0).faudit.ToString());
                 ety_ctraba.Text = listaCargaAuditoria.ElementAt(0).ctraba.ToString();
                 BuscarOperario();
                 ety_op.Text = listaCargaAuditoria.ElementAt(0).nordpr.ToString();
@@ -169,28 +143,28 @@ namespace AppPFashions.Pages
                 ety_muestra.Text = listaCargaAuditoria.ElementAt(0).nmuest.ToString();
                 ety_observ.Text = listaCargaAuditoria.ElementAt(0).dobser.ToString();
                 srb_audidesaprobado.IsChecked = true;
-                img_operario.IsEnabled = true;
-                ety_ctraba.IsEnabled = true;
-                btn_ctraba.IsEnabled = true;
-                ety_op.IsEnabled = true;
-                btn_buscarop.IsEnabled = true;
-                pck_combo.IsEnabled = true;
-                img_operacion.IsEnabled = true;
-                pck_operacion.IsEnabled = true;
-                img_defecto.IsEnabled = true;
-                pck_defectos.IsEnabled = true;
-                ety_cantdefecto.IsEnabled = true;
-                ety_obsdefecto.IsEnabled = true;
-                btn_agregardefecto.IsEnabled = true;
-                ety_lote.IsEnabled = true;
-                ety_muestra.IsEnabled = true;
+                img_operario.IsEnabled = false;
+                ety_ctraba.IsEnabled = false;
+                btn_ctraba.IsEnabled = false;
+                ety_op.IsEnabled = false;
+                btn_buscarop.IsEnabled = false;
+                pck_combo.IsEnabled = false;
+                img_operacion.IsEnabled = false;
+                pck_operacion.IsEnabled = false;
+                img_defecto.IsEnabled = false;
+                pck_defectos.IsEnabled = false;
+                ety_cantdefecto.IsEnabled = false;
+                ety_obsdefecto.IsEnabled = false;
+                btn_agregardefecto.IsEnabled = false;
+                ety_lote.IsEnabled = false;
+                ety_muestra.IsEnabled = false;
                 btn_guardarauditoria.IsEnabled = true;
                 //using (var data = new DataAccess())
                 //{
-                var datosSecuencia = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").ToList();
+                var datosSecuencia = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19" && a.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).ToList();
                     if (datosSecuencia.Count > 0)
                     {
-                        var ultimaAuditoria = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19").OrderByDescending(x => x.nsecue).First();
+                        var ultimaAuditoria = App.baseDatos.GetList<paudit01>(false).Where(a => a.clinea == pck_bloque.SelectedItem.ToString() && a.careas == "19" && a.faudit.ToShortDateString() == dpk_fechaauditoria.Date.ToShortDateString()).OrderByDescending(x => x.nsecue).First();
                         lbl_nsecue.Text = (ultimaAuditoria.nsecue + 1).ToString();
                     }
                     else
@@ -252,6 +226,7 @@ namespace AppPFashions.Pages
                 btn_agregardefecto.IsEnabled = true;
                 ety_lote.IsEnabled = true;
                 ety_muestra.IsEnabled = true;
+                btn_guardarauditoria.IsEnabled = true;
             }
         }
         #endregion
@@ -304,6 +279,7 @@ namespace AppPFashions.Pages
             ety_lote.Text = "50";
             ety_muestra.Text = "8";
             btn_guardarauditoria.IsEnabled = true;
+            btn_agregarauditoria.IsEnabled = false;
         } 
         #endregion
 
@@ -402,7 +378,7 @@ namespace AppPFashions.Pages
                 ety_op.Focus();
                 return;
             }
-            ety_op.IsEnabled = false;
+            //ety_op.IsEnabled = false;
 
             var dataop = (List<ordprod>)response.Result;
             foreach (var record in dataop.OrderBy(x => x.nordct))
@@ -591,11 +567,13 @@ namespace AppPFashions.Pages
 
         private async void img_defectos_Tapped(object sender, EventArgs e)
         {
+            var defectos = new string[] { "3S","4A","4C","4J","4R","4U","BG","CH","CV","NK","NL","NS","3T","3N","3A","3J","BM","EM","2H","4W","4X","CC","CG","NZ","3H","AB","AE","AP","AX","CO","4B","4D","4E","4F","4G","4I","4K","4L","4M ","4Q","4S","4T" };
+
             var result = await alertService.ShowMessage("Aviso", "Desea sincronizar la lista de defectos");
             if (result == true)
-            {
-                App.baseDatos.DeleteDefectos();
-                var response = await apiService.Defectos<mdefec00>();
+            {                
+                App.baseDatos.DeleteDefectos("19");
+                var response = await apiService.Defectos<mdefec00>("19");
 
                 if (!response.IsSuccess)
                 {
@@ -629,11 +607,151 @@ namespace AppPFashions.Pages
                     }
                 }
 
+                App.baseDatos.DeleteDefectos("33");
+                var responsea = await apiService.Defectos<mdefec00>("33");
+
+                if (!responsea.IsSuccess)
+                {
+                    await dialogService.ShowMessage("Error", responsea.Message);
+                    return;
+                }
+
+                var operaa = (List<mdefec00>)responsea.Result;
+                int xqtrabaa = operaa.Count();
+                int xtrabaa = 0;
+
+                using (IProgressDialog fooDialog = UserDialogs.Instance.Progress("Sincronizando...", null, null, true, MaskType.Black))
+                {
+                    foreach (var record in operaa)
+                    {
+                        mdefec00 defecto = new mdefec00
+                        {
+                            coddef = record.coddef,
+                            descri = record.descri,
+                            dgrupo = record.dgrupo,
+                            codigo = record.codigo,
+                            dapare = record.dapare,
+                            csecci = record.csecci,
+                            ddefec = record.ddefec,
+                        };
+                        dataService.InsertDefecto(defecto);
+                        xtrabaa = xtrabaa + 1;
+                        fooDialog.PercentComplete = xtrabaa;
+                        fooDialog.Title = xtrabaa + " de " + xqtrabaa;
+                        await Task.Delay(10);
+                    }
+                }
+
+                App.baseDatos.DeleteDefectos("29");
+                var responseaa = await apiService.Defectos<mdefec00>("29");
+
+                if (!responseaa.IsSuccess)
+                {
+                    await dialogService.ShowMessage("Error", responseaa.Message);
+                    return;
+                }
+
+                var operaaa = (List<mdefec00>)responseaa.Result;
+                int xqtrabaaa = operaaa.Count();
+                int xtrabaaa = 0;
+
+                using (IProgressDialog fooDialog = UserDialogs.Instance.Progress("Sincronizando...", null, null, true, MaskType.Black))
+                {
+                    foreach (var record in operaaa)
+                    {
+                        mdefec00 defecto = new mdefec00
+                        {
+                            coddef = record.coddef,
+                            descri = record.descri,
+                            dgrupo = record.dgrupo,
+                            codigo = record.codigo,
+                            dapare = record.dapare,
+                            csecci = record.csecci,
+                            ddefec = record.ddefec,
+                        };
+                        dataService.InsertDefecto(defecto);
+                        xtrabaaa = xtrabaaa + 1;
+                        fooDialog.PercentComplete = xtrabaaa;
+                        fooDialog.Title = xtrabaaa + " de " + xqtrabaaa;
+                        await Task.Delay(10);
+                    }
+                }
+
+                App.baseDatos.DeleteDefectos("16");
+                var responseaaa = await apiService.Defectos<mdefec00>("16");
+
+                if (!responseaaa.IsSuccess)
+                {
+                    await dialogService.ShowMessage("Error", responseaaa.Message);
+                    return;
+                }
+
+                var operaaaa = (List<mdefec00>)responseaaa.Result;
+                int xqtrabaaaa = operaaaa.Count();
+                int xtrabaaaa = 0;
+
+                using (IProgressDialog fooDialog = UserDialogs.Instance.Progress("Sincronizando...", null, null, true, MaskType.Black))
+                {
+                    foreach (var record in operaaaa.Where(x => x.coddef=="PM " || x.coddef == "3U " || x.coddef == "PC " || x.coddef == "3R " || x.coddef == "3P " || x.coddef == "3I ").ToList())
+                    {
+                        mdefec00 defecto = new mdefec00
+                        {
+                            coddef = record.coddef,
+                            descri = record.descri,
+                            dgrupo = record.dgrupo,
+                            codigo = record.codigo,
+                            dapare = record.dapare,
+                            csecci = record.csecci,
+                            ddefec = record.ddefec,
+                        };
+                        dataService.InsertDefecto(defecto);
+                        xtrabaaaa = xtrabaaaa + 1;
+                        fooDialog.PercentComplete = xtrabaaaa;
+                        fooDialog.Title = xtrabaaaa + " de " + xqtrabaaaa;
+                        await Task.Delay(10);
+                    }
+                }
+
+                App.baseDatos.DeleteDefectos("17");
+                var responseaaaa = await apiService.Defectos<mdefec00>("17");
+
+                if (!responseaaaa.IsSuccess)
+                {
+                    await dialogService.ShowMessage("Error", responseaaaa.Message);
+                    return;
+                }
+
+                var operaaaaa = (List<mdefec00>)responseaaaa.Result;
+                int xqtrabaaaaa = operaaaaa.Count();
+                int xtrabaaaaa = 0;
+
+                using (IProgressDialog fooDialog = UserDialogs.Instance.Progress("Sincronizando...", null, null, true, MaskType.Black))
+                {
+                    foreach (var record in operaaaaa.Where(x => defectos.Contains(x.coddef)).ToList())
+                    {
+                        mdefec00 defecto = new mdefec00
+                        {
+                            coddef = record.coddef,
+                            descri = record.descri,
+                            dgrupo = record.dgrupo,
+                            codigo = record.codigo,
+                            dapare = record.dapare,
+                            csecci = record.csecci,
+                            ddefec = record.ddefec,
+                        };
+                        dataService.InsertDefecto(defecto);
+                        xtrabaaaaa = xtrabaaaaa + 1;
+                        fooDialog.PercentComplete = xtrabaaaaa;
+                        fooDialog.Title = xtrabaaaaa + " de " + xqtrabaaaaa;
+                        await Task.Delay(10);
+                    }
+                }
+
                 //*** Llena Picker Defectos ***//
-                
+
                 //using (var data = new DataAccess())
                 //{
-                    var xdefec = App.baseDatos.GetList<mdefec00>(false).Where(x => x.csecci == "19");
+                var xdefec = App.baseDatos.GetList<mdefec00>(false).Where(x => x.csecci == "19" || x.csecci == "33" || x.csecci == "29" || x.csecci == "16");
                     //pck_defectos.DataSource = xdefec;
 
                     if (xdefec == null)
@@ -762,6 +880,7 @@ namespace AppPFashions.Pages
             srb_audiaprobadoext.IsChecked = false;
             srb_audidesaprobado.IsChecked = false;
             btn_guardarauditoria.IsEnabled = false;
+            btn_agregarauditoria.IsEnabled = true;
         }
         #endregion
 
@@ -787,7 +906,7 @@ namespace AppPFashions.Pages
                             idraud = getresaudit.idraud,
                             careas = "19",
                             faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
-                            clinea = lbl_bloquedef.Text.ToString().Trim(),
+                            clinea = VariableGlobal.cbloqu,//lbl_bloquedef.Text.ToString().Trim(),
                             qaprob = xqaprob + Int32.Parse(sapaud == "A" ? "1" : "0"),
                             qdesap = xqdesap + Int32.Parse(sapaud == "D" ? "1" : "0"),
                             qaprex = xqaprex + Int32.Parse(sapaud == "E" ? "1" : "0"),
@@ -800,7 +919,7 @@ namespace AppPFashions.Pages
                         {
                             careas = "19",
                             faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
-                            clinea = lbl_bloquedef.Text.ToString().Trim(),
+                            clinea = VariableGlobal.cbloqu,//lbl_bloquedef.Text.ToString().Trim(),
                             qaprob = xqaprob + Int32.Parse(sapaud == "A" ? "1" : "0"),
                             qdesap = xqdesap + Int32.Parse(sapaud == "D" ? "1" : "0"),
                             qaprex = xqaprex + Int32.Parse(sapaud == "E" ? "1" : "0"),
@@ -892,7 +1011,7 @@ namespace AppPFashions.Pages
                             careas = "19",
                             faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             nsecue = Int32.Parse(lbl_nsecue.Text.ToString()),
-                            clinea = lbl_bloquedef.Text,
+                            clinea = VariableGlobal.cbloqu,//lbl_bloquedef.Text,
                             ctpord = "OP",
                             nordpr = ety_op.Text.ToString(),
                             nordct = "",//pck_corte.SelectedItem.ToString().Trim(),
@@ -952,9 +1071,9 @@ namespace AppPFashions.Pages
                         {
                             idaudi = xidaudi,
                             careas = "19",
-                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             nsecue = Int32.Parse(lbl_nsecue.Text.ToString()),
-                            clinea = lbl_bloquedef.Text.ToString().Trim(),
+                            clinea = VariableGlobal.cbloqu,//lbl_bloquedef.Text.ToString().Trim(),
                             nordpr = ety_op.Text.ToString().Trim(),
                             ccarub = pck_combo.SelectedItem.ToString().Substring(0, pck_combo.SelectedItem.ToString().IndexOf("-") - 1).Trim(),
                             dcarub = pck_combo.SelectedItem.ToString().Substring(pck_combo.SelectedItem.ToString().IndexOf("-") + 1, pck_combo.SelectedItem.ToString().Length - (pck_combo.SelectedItem.ToString().IndexOf("-") + 1)).Trim(),
@@ -979,6 +1098,8 @@ namespace AppPFashions.Pages
                             sreaud = "N",
                             ndefec = qdefectos,
                             nseref = 0,
+                            cmaqui = "",
+                            cturno = "",
                         };
                         App.baseDatos.Insert(auditoria);
                
@@ -988,7 +1109,7 @@ namespace AppPFashions.Pages
                             {
                                 idaudi = Int32.Parse(listaCargaAuditoria.ElementAt(0).idaudi.ToString()),
                                 careas = listaCargaAuditoria.ElementAt(0).careas.ToString(),
-                                faudit = DateTime.Parse(listaCargaAuditoria.ElementAt(0).faudit.ToString()),
+                                faudit = DateTime.Parse(listaCargaAuditoria.ElementAt(0).faudit.ToShortDateString()),
                                 nsecue = Int32.Parse(listaCargaAuditoria.ElementAt(0).nsecue.ToString()),
                                 clinea = listaCargaAuditoria.ElementAt(0).clinea.ToString(),
                                 nordpr = listaCargaAuditoria.ElementAt(0).nordpr.ToString(),
@@ -1014,7 +1135,7 @@ namespace AppPFashions.Pages
                                 npanos = Int32.Parse(listaCargaAuditoria.ElementAt(0).npanos.ToString()),
                                 sreaud = "S",
                                 ndefec = Int32.Parse(listaCargaAuditoria.ElementAt(0).ndefec.ToString()),
-                                nseref = 0,
+                                nseref = 0,                            
                             };
                             App.baseDatos.Update(rauditoria);
                         }
@@ -1149,6 +1270,7 @@ namespace AppPFashions.Pages
                                 cgrupo = record.cgrupo,
                                 cardef = record.cardef,
                                 senvio = "N",
+                                imgdef = "",
 
                             };
                             App.baseDatos.Insert(ndefecto);
@@ -1185,9 +1307,9 @@ namespace AppPFashions.Pages
                         {
                             idaudi = listaCargaAuditoria.ElementAt(0).idaudi,
                             careas = "19",
-                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             nsecue = Int32.Parse(lbl_nsecue.Text.ToString()),
-                            clinea = lbl_bloquedef.Text,
+                            clinea = VariableGlobal.cbloqu,//lbl_bloquedef.Text,
                             ctpord = "OP",
                             nordpr = ety_op.Text.ToString(),
                             nordct = "",//pck_corte.SelectedItem.ToString().Trim(),
@@ -1227,10 +1349,10 @@ namespace AppPFashions.Pages
                             fauref = xfauref,
                             nseref = xnseref,
                             cusuar = VariableGlobal.cusuar,
-                            fcreac = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
-                            fmodif = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            fcreac = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
+                            fmodif = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             nordpo = 0,
-                            fprogr = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            fprogr = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             caudpr = "",
                             drefpr = "",
                             ctpaud = "PR",
@@ -1247,9 +1369,9 @@ namespace AppPFashions.Pages
                         {
                             idaudi = listaCargaAuditoria.ElementAt(0).idaudi,
                             careas = "19",
-                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToString()),
+                            faudit = DateTime.Parse(dpk_fechaauditoria.Date.ToShortDateString()),
                             nsecue = Int32.Parse(lbl_nsecue.Text.ToString()),
-                            clinea = lbl_bloquedef.Text.ToString().Trim(),
+                            clinea = VariableGlobal.cbloqu,//lbl_bloquedef.Text.ToString().Trim(),
                             nordpr = ety_op.Text.ToString().Trim(),
                             ccarub = pck_combo.SelectedItem.ToString().Substring(0, pck_combo.SelectedItem.ToString().IndexOf("-") - 1).Trim(),
                             dcarub = pck_combo.SelectedItem.ToString().Substring(pck_combo.SelectedItem.ToString().IndexOf("-") + 1, pck_combo.SelectedItem.ToString().Length - (pck_combo.SelectedItem.ToString().IndexOf("-") + 1)).Trim(),
@@ -1339,7 +1461,7 @@ namespace AppPFashions.Pages
                         careas = "19",
                         faudit = dpk_fechaauditoria.Date,
                         nsecue = Int32.Parse(lbl_nsecue.Text),
-                        clinea = pck_bloque.SelectedItem.ToString(),
+                        clinea = VariableGlobal.cbloqu,//pck_bloque.SelectedItem.ToString(),
                         codigo = seldefecto.codigo,
                         coddef = seldefecto.coddef,//pck_defectos.SelectedItem.ToString().Substring(0, 2),
                         qcanti = seldefecto.qcanti,
@@ -1407,7 +1529,7 @@ namespace AppPFashions.Pages
                             careas = "19",
                             faudit = dpk_fechaauditoria.Date,
                             nsecue = seldefecto.nsecue,
-                            clinea = pck_bloque.SelectedItem.ToString(),
+                            clinea = VariableGlobal.cbloqu,//pck_bloque.SelectedItem.ToString(),
                             codigo = seldefecto.codigo,
                             coddef = seldefecto.coddef,//pck_defectos.SelectedItem.ToString().Substring(0, 2),
                             qcanti = seldefecto.qcanti,
@@ -1638,6 +1760,12 @@ namespace AppPFashions.Pages
             }
             else
             { lbl_nsecue.Text = "1"; }
+        }
+
+        private void Pck_bloque_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var picker = sender as Picker;
+            VariableGlobal.cbloqu = picker.SelectedItem.ToString().Trim();
         }
 
         private void Cbxaudittot_StateChanged(object sender, Syncfusion.XForms.Buttons.StateChangedEventArgs e)

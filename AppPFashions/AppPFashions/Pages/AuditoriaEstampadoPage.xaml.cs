@@ -143,7 +143,7 @@ namespace AppPFashions.Pages
                 ety_lote.Text = listaCargaAuditoria.ElementAt(0).nlotes.ToString();
                 ety_muestra.Text = listaCargaAuditoria.ElementAt(0).nmuest.ToString();
                 ety_observ.Text = listaCargaAuditoria.ElementAt(0).dobser.ToString();
-                pck_maquina.SelectedItem = xcmaquina;
+                if (xcmaquina == "") { pck_maquina.SelectedItem = null; } else { pck_maquina.SelectedItem = xcmaquina; }                
                 pck_turno.SelectedItem = xcturno;
                 srb_audidesaprobado.IsChecked = true;
                 ety_op.IsEnabled = false;
@@ -354,9 +354,9 @@ namespace AppPFashions.Pages
         {
             var result = await alertService.ShowMessage("Aviso", "Desea sincronizar la lista de defectos");
             if (result == true)
-            {
-                App.baseDatos.DeleteDefectos();
-                var response = await apiService.Defectos<mdefec00>();
+            {                
+                App.baseDatos.DeleteDefectos("33");
+                var response = await apiService.Defectos<mdefec00>("33");
 
                 if (!response.IsSuccess)
                 {
@@ -516,13 +516,13 @@ namespace AppPFashions.Pages
         #region ResumenAuditoria
         void ActualizaResumenAuditoria()
         {
-            if (string.IsNullOrWhiteSpace(pck_maquina.SelectedItem.ToString()))
+            if (pck_maquina.SelectedItem!=null)
             {
-                cmaquina = "";
+                cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);                
             }
             else
             {
-                cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);
+                cmaquina = "";
             }
             //using (var data = new DataAccess())
             //{
@@ -634,13 +634,13 @@ namespace AppPFashions.Pages
                 obsaudit = ety_observ.Text;
             }
 
-            if (string.IsNullOrWhiteSpace(pck_maquina.SelectedItem.ToString()))
+            if (pck_maquina.SelectedItem!=null)
             {
-                cmaquina = "";
+                cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);                
             }
             else
             {
-                cmaquina = pck_maquina.SelectedItem.ToString().Substring(0, 2);
+                cmaquina = "";
             }
 
             try

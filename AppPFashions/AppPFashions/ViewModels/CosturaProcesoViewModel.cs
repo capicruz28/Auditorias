@@ -317,7 +317,7 @@ namespace AppPFashions.ViewModels
             if (result == true)
             {
                 dataAccess.DeleteDefectos();
-                var response = await apiService.Defectos<mdefec00>();
+                var response = await apiService.Defectos<mdefec00>(Ctraba);
 
                 if (!response.IsSuccess)
                 {

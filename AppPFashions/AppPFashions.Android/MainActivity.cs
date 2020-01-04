@@ -46,24 +46,14 @@ namespace AppPFashions.Droid
             base.OnCreate(bundle);            
 
             CrossCurrentActivity.Current.Init(this, bundle);
+            
             RequestPermissionsManually();
 
             Forms.SetFlags("UseLegacyRenderers");
 
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            global::Infragistics.Framework.Components.Init();
+            Syncfusion.XForms.Android.PopupLayout.SfPopupLayoutRenderer.Init();
 
-            Infragistics.XamarinForms.Controls.Gauges.XamRadialGauge.Init();
-            Infragistics.XamarinForms.Controls.Gauges.XamLinearGauge.Init();
-            Infragistics.XamarinForms.Controls.Gauges.XamBulletGraph.Init();
-            Infragistics.XamarinForms.Controls.Charts.XamCategoryChart.Init();
-            Infragistics.XamarinForms.Controls.Charts.XamDataChart.Init();
-            Infragistics.XamarinForms.Controls.Charts.XamPieChart.Init();
-            Infragistics.XamarinForms.Controls.Grids.XamDataGrid.Init();
-            Infragistics.XamarinForms.Controls.Charts.XamSparkline.Init();
-            Infragistics.XamarinForms.Controls.Barcodes.XamQRCodeBarcode.Init();
-            Infragistics.XamarinForms.Controls.Charts.XamFunnelChart.Init();
-            Infragistics.XamarinForms.Controls.Charts.XamDoughnutChart.Init();
 
             // Inicializamos el scanner
             UserDialogs.Init(this);
@@ -75,6 +65,19 @@ namespace AppPFashions.Droid
             //    //Thread.Sleep(10000);
                 string rutaBD = Helpers.FileHelper.ObtenerRutaLocal("DBPFashions.db3");
                 LoadApplication(new App(rutaBD, new SQLite.Net.Platform.XamarinAndroid.SQLitePlatformAndroid()));
+
+                //LoadApplication(UXDivers.Gorilla.Droid.Player.CreateApplication(
+                //                    this,
+                //                    new UXDivers.Gorilla.Config("Good Gorilla")
+                //                      // Register Grial Shared assembly
+                //                      .RegisterAssemblyFromType<UXDivers.Artina.Shared.CircleImage>()
+                //                      // Register UXDivers Effects assembly
+                //                      .RegisterAssembly(typeof(UXDivers.Effects.Effects).Assembly)
+                //                      // FFImageLoading.Transformations
+                //                      .RegisterAssemblyFromType<FFImageLoading.Transformations.BlurredTransformation>()
+                //                      // FFImageLoading.Forms
+                //                      .RegisterAssemblyFromType<FFImageLoading.Forms.CachedImage>()
+                //                    ));
             }
             //else
             //{

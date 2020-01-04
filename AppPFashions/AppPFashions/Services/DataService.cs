@@ -147,6 +147,31 @@ namespace AppPFashions.Services
             }
         }
 
+        public Response InsertListaDefecto(mdefec10 defecto)
+        {
+            try
+            {
+                //using (var da = new DataAccess())
+                //{
+                App.baseDatos.Insert(defecto);
+                //}
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Operación Insertado OK",
+                    Result = defecto,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
         public Response InsertAql(ttcmue00 muestra)
         {
             try
@@ -160,6 +185,31 @@ namespace AppPFashions.Services
                     IsSuccess = true,
                     Message = "Usuario Insertado OK",
                     Result = muestra,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+        public Response InsertObservacionAuditoria(paudob00 observ)
+        {
+            try
+            {
+                //using (var da = new DataAccess())
+                //{                    
+                App.baseDatos.Insert(observ);
+                //}
+                return new Response
+                {
+                    IsSuccess = true,
+                    Message = "Observación Insertada OK",
+                    Result = observ,
                 };
             }
             catch (Exception ex)

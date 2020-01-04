@@ -1,0 +1,638 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppPFashions.Pages.BalanceLineaCosturaPage"
+              Title="Ingreso de Prendas a Costura"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms"
+             xmlns:sync="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"                         
+             xmlns:local="clr-namespace:AppPFashions;assembly=AppPFashions"
+             xmlns:locala="clr-namespace:AppPFashions.Pages"
+             BackgroundColor="{StaticResource MenuColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ForegroundConverter x:Key="foreground" />
+            <locala:TableSummaryConverter x:Key="SummaryConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout x:Name="mainpage">
+            <StackLayout>
+                <Grid
+                    Margin="10,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Text="OP:" Grid.Column="0" Grid.Row="0"></Label>
+                        <Entry x:Name="ety_op" Grid.Column="1" Grid.Row="0" HorizontalOptions="FillAndExpand"></Entry>
+                        <Button 
+                            x:Name="btn_buscaringreso"
+                          Clicked="Btn_buscaringreso_Clicked"
+                            BackgroundColor="#3D57AE"
+                            BorderRadius="25"                                             
+                            FontAttributes="Bold"
+                            Grid.Column="2"
+                            Grid.Row="0"
+                            Text="Buscar"                           
+                            TextColor="White">
+                        </Button>
+
+                    </Grid>
+            </StackLayout>
+            <sfgrid:SfDataGrid 
+            x:Name="dataGrid"                           
+            AutoGenerateColumns="False"    
+            GridStyle="{local:DefaultStyle}"
+            HeaderRowHeight="40"            
+            RowHeight="48"
+            SelectionMode="Single"
+            VerticalOverScrollMode="None"            
+            >
+                <sfgrid:SfDataGrid.Columns>
+                    <sfgrid:GridTextColumn                                                           
+                    LineBreakMode="TailTruncation"
+                    Width="100"
+                    ColumnSizer="SizeToHeader"
+                    AllowSorting="True"
+                    MappingName="dbloqu" 
+                    Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="BLOQUE" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                                           
+                    LineBreakMode="TailTruncation"
+                    Width="55"
+                    AllowSorting="True"
+                    MappingName="copera" 
+                    Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="CODIGO" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                                           
+                    LineBreakMode="TailTruncation"
+                    Width="150"
+                    AllowSorting="True"
+                    MappingName="dopera" 
+                    Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="DESCRIPCION" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="ctpope"
+                    Width="40"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="CAT." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="cmaqui"
+                    Width="60"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="MAQ." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="qmixpr"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="T. STD" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="qprxho"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="P/HR" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="qprdav"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="AVAN." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="qavanc"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="X PROD." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="pavanc"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="% AVAN." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="minava"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="MIN.AVAN." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="minxpr"
+                    Width="50"
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="MIN.X PR." FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <!--<sfgrid:GridTextColumn
+                        x:Name="progra1"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend01" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce01}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend01, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn         
+                        x:Name="progra2"
+                        IsHidden="False"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend02" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce02}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend02, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn          
+                        x:Name="progra3"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend03" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce03}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend03, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn            
+                        x:Name="progra4"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend04" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce04}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend04, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn       
+                        x:Name="progra5"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend05" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce05}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend05, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn        
+                        x:Name="progra6"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend06" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce06}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend06, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn   
+                        x:Name="progra7"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend07" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce07}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend07, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn         
+                        x:Name="progra8"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend08" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce08}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend08, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn          
+                        x:Name="progra9"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend09" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce09}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend09, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn        
+                        x:Name="progra10"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend10" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce10}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend10, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn      
+                        x:Name="progra11"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend11" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce11}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend11, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn     
+                        x:Name="progra12"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qprend12" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce12}" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qprend12, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+
+                    <sfgrid:GridTemplateColumn          
+                        x:Name="progra13"
+                        LineBreakMode="TailTruncation"                                             
+                        Width="50"                    
+                        MappingName="qprend13" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="TOTAL" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        FontSize="13"
+                                        TextColor="Black"
+                                        BackgroundColor="#F0F8FF"
+                                        FontAttributes="Bold"
+                                    Text="{Binding qprend13}">
+                                    </Label>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTextColumn     
+                        x:Name="progra14"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qpreac" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="ACUM. OP" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qpreac, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn     
+                        x:Name="progra15"
+                    LineBreakMode="TailTruncation"
+                    Width="50"                    
+                    MappingName="qsaldo" Padding="0">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="SALDO OP" FontAttributes="Bold" FontSize="13" TextColor="White" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                        <sfgrid:GridTextColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="Foreground" Value="{Binding qsaldo, Converter={StaticResource foreground}}" />
+                            </Style>
+                        </sfgrid:GridTextColumn.CellStyle>
+                    </sfgrid:GridTextColumn>-->
+
+
+                </sfgrid:SfDataGrid.Columns>
+
+                <!--<sfgrid:SfDataGrid.TableSummaryRows>
+                    <sfgrid:GridTableSummaryRow Title="Total : {qprogr01} "
+                                                Position="Bottom"                                                
+                                                ShowSummaryInRow="False">
+                        <sfgrid:GridTableSummaryRow.SummaryColumns>
+                            <sfgrid:GridSummaryColumn Name="tqprogr01"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend01"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total01 , StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr02"
+                                                      Format="{}{Sum:##0,##0}"
+                                                      MappingName="qprend02"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total02, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr03"
+                                                      Format="{}{Sum:##0,##0}"
+                                                      MappingName="qprend03"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total03, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr04"
+                                                      Format="{}{Sum:##0,##0}"
+                                                      MappingName="qprend04"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total04, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr05"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend05"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total05, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr06"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend06"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total06, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr07"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend07"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total07, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr08"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend08"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total08, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr09"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend09"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total09, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr10"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend10"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total10, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr11"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend11"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total11, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+                            <sfgrid:GridSummaryColumn Name="tqprogr12"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend12"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total12, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+
+
+                            <sfgrid:GridSummaryColumn Name="tqprogr13"
+                                                      Format="{}{Sum:###,##0}"
+                                                      MappingName="qprend13"
+                                                      SummaryType="Int32Aggregate">
+                                <sfgrid:GridSummaryColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding total13, StringFormat='{0:###,##0}'}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0" BackgroundColor="#F0F8FF"/>
+                                    </DataTemplate>
+                                </sfgrid:GridSummaryColumn.Template>
+                            </sfgrid:GridSummaryColumn>
+
+
+
+                        </sfgrid:GridTableSummaryRow.SummaryColumns>
+                    </sfgrid:GridTableSummaryRow>
+                </sfgrid:SfDataGrid.TableSummaryRows>-->
+
+            </sfgrid:SfDataGrid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

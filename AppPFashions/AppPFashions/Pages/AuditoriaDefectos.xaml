@@ -1,0 +1,943 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfgrid="clr-namespace:Syncfusion.SfDataGrid.XForms;assembly=Syncfusion.SfDataGrid.XForms" 
+             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+             xmlns:sparkline="clr-namespace:Syncfusion.SfSparkline.XForms;assembly=Syncfusion.SfSparkline.XForms"                           
+             xmlns:local="clr-namespace:AppPFashions"
+             xmlns:locala="clr-namespace:AppPFashions.Pages"
+             x:Class="AppPFashions.Pages.AuditoriaDefectos"
+             Title="Auditoria Defectos"
+             BackgroundColor="{StaticResource MenuColor}"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <locala:GroupCaptionConverter x:Key="SummaryConverter" />
+            <local:StyleConverterforQS1 x:Key="customstyle_QS1" />
+            <local:StyleConverterforQS2 x:Key="customstyle_QS2" />
+            <local:ForegroundConverter x:Key="foreground" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem    
+            x:Name="tlb_viewpdf"            
+            Icon="ic_view_pdf.png"            
+            Priority="0" Order="Primary"
+            Clicked="Tlb_viewpdf_Clicked"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        
+        <StackLayout x:Name="mainpage">
+            <Grid
+                    Margin="10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    
+                </Grid.ColumnDefinitions>
+
+                <Label
+                        Text="Bloque:"
+                        FontAttributes="Bold"
+                        Grid.Column="0"
+                        Grid.Row="0"
+                        HorizontalOptions="Start"                                  
+                        VerticalOptions="Center">
+                    </Label>
+                    <Picker 
+                        x:Name="pck_bloque"                    
+                        Grid.Column="1"
+                        Grid.Row="0"                                                                   
+                        Title="Seleccione bloque">
+                    </Picker>
+                    <Button 
+                        x:Name="btn_reporte_auditoria"
+                        Clicked="Btn_reporte_auditoria_Clicked"
+                        BackgroundColor="#3D57AE"
+                        BorderRadius="25"                                             
+                        FontAttributes="Bold"
+                        Grid.Column="2"
+                        Grid.Row="0"
+                        Text="Buscar"                           
+                        TextColor="White">
+                    </Button>
+                </Grid>
+            
+            <sfgrid:SfDataGrid 
+            x:Name="dataGrid"                           
+            AutoGenerateColumns="False"                           
+            HeaderRowHeight="30"            
+            RowHeight="40"            
+            SelectionMode="Single"            
+            VerticalOverScrollMode="None"                
+            FrozenColumnsCount="3"
+            QueryCellStyle="DataGrid_QueryCellStyle"
+            EnableDataVirtualization="True"
+            NotificationSubscriptionMode="None">
+
+                <sfgrid:SfDataGrid.StackedHeaderRows>
+                    <sfgrid:StackedHeaderRow>
+                        <sfgrid:StackedHeaderRow.StackedColumns>
+                            <sfgrid:StackedColumn
+                            ChildColumns="nmuest01,ndefec01,pordef01"                            
+                            MappingName="fproce01"
+                            FontAttribute="Bold"
+                            TextAlignment="Center">
+                                <sfgrid:StackedColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce01}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </DataTemplate>
+                                </sfgrid:StackedColumn.Template>
+                            </sfgrid:StackedColumn>
+                            <sfgrid:StackedColumn
+                            ChildColumns="nmuest02,ndefec02,pordef02"                            
+                            MappingName="fproce02"
+                            FontAttribute="Bold"
+                            TextAlignment="Center">
+                                <sfgrid:StackedColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce02}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </DataTemplate>
+                                </sfgrid:StackedColumn.Template>
+                            </sfgrid:StackedColumn>
+                            <sfgrid:StackedColumn
+                            ChildColumns="nmuest03,ndefec03,pordef03"                            
+                            MappingName="fproce03"
+                            FontAttribute="Bold"
+                            TextAlignment="Center">
+                                <sfgrid:StackedColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce03}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </DataTemplate>
+                                </sfgrid:StackedColumn.Template>
+                            </sfgrid:StackedColumn>
+                            <sfgrid:StackedColumn
+                            ChildColumns="nmuest04,ndefec04,pordef04"                            
+                            MappingName="fproce04"
+                            FontAttribute="Bold"
+                            TextAlignment="Center">
+                                <sfgrid:StackedColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce04}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </DataTemplate>
+                                </sfgrid:StackedColumn.Template>
+                            </sfgrid:StackedColumn>
+                            <sfgrid:StackedColumn
+                            ChildColumns="nmuest05,ndefec05,pordef05"                            
+                            MappingName="fproce05"
+                            FontAttribute="Bold"
+                            TextAlignment="Center">
+                                <sfgrid:StackedColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce05}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </DataTemplate>
+                                </sfgrid:StackedColumn.Template>
+                            </sfgrid:StackedColumn>
+                            <sfgrid:StackedColumn
+                            ChildColumns="nmuest06,ndefec06,pordef06"                            
+                            MappingName="fproce06"
+                            FontAttribute="Bold"
+                            TextAlignment="Center">
+                                <sfgrid:StackedColumn.Template>
+                                    <DataTemplate>
+                                        <Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce06}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>
+                                    </DataTemplate>
+                                </sfgrid:StackedColumn.Template>
+                            </sfgrid:StackedColumn>
+                        </sfgrid:StackedHeaderRow.StackedColumns>
+                    </sfgrid:StackedHeaderRow>
+                </sfgrid:SfDataGrid.StackedHeaderRows>
+                <sfgrid:SfDataGrid.Behaviors>
+                <local:DiagonalScrollingBehaviors/>
+            </sfgrid:SfDataGrid.Behaviors>
+
+                <sfgrid:SfDataGrid.Columns>
+                    <sfgrid:GridTextColumn 
+                    HeaderFontAttribute="Bold"                                             
+                    HeaderText="LINEA"                                           
+                    HeaderTextAlignment="Start"
+                    LineBreakMode="TailTruncation"
+                    MappingName="clinea"                                                            
+                    TextAlignment="Start"
+                    IsHidden="True">
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                                           
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="ctraba" 
+                    Padding="1">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="CODIGO" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTextColumn                                         
+                    LineBreakMode="TailTruncation"
+                    AllowSorting="True"
+                    MappingName="dtraba"
+                    Width="150" 
+                    Padding="1"
+                    TextAlignment="Start">
+                        <sfgrid:GridTextColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Label Text="TRABAJADOR" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center"/>
+                            </DataTemplate>
+                        </sfgrid:GridTextColumn.HeaderTemplate>
+                    </sfgrid:GridTextColumn>
+
+                    <sfgrid:GridTemplateColumn            
+                        LineBreakMode="TailTruncation"
+                        Width="50"                               
+                        MappingName="nmuest01" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce01}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>-->
+                                    <Label Text="MUE." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Label  
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding nmuest01}">
+                                    </Label>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding qaudia01}" TextColor="{Binding colaud01}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding qaudir01}" TextColor="{Binding colaur01}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="paudi01"
+                        LineBreakMode="TailTruncation"
+                        Width="35"                    
+                        MappingName="ndefec01" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi01}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding ndefec01}"
+                                        BackgroundColor="{Binding coaudi01}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding ndefec01, Converter={StaticResource customstyle_QS2}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pdefec01"
+                        LineBreakMode="TailTruncation"
+                        Width="40"                    
+                        MappingName="pordef01" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="% DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi01}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding pordef01, StringFormat='{0}%'}"
+                                        BackgroundColor="{Binding coaudi01}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding pordef01, Converter={StaticResource customstyle_QS1}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn                                         
+                        LineBreakMode="TailTruncation"
+                        Width="50"
+                        MappingName="nmuest02" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce02}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>-->
+                                    <Label Text="MUE." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Label  
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding nmuest02}">
+                                    </Label>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding qaudia02}" TextColor="{Binding colaud02}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding qaudir02}" TextColor="{Binding colaur02}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn      
+                        x:Name="paudi02"
+                        LineBreakMode="TailTruncation"
+                        Width="35"                    
+                        MappingName="ndefec02" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi02}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{Binding ndefec02}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding ndefec02, Converter={StaticResource customstyle_QS2}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pdefec02"
+                        LineBreakMode="TailTruncation"
+                        Width="40"                    
+                        MappingName="pordef02" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="% DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi02}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding pordef02, StringFormat='{0}%'}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding pordef02, Converter={StaticResource customstyle_QS1}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="nmuest03" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce03}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>-->
+                                    <Label Text="MUE." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Label  
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding nmuest03}">
+                                    </Label>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding qaudia03}" TextColor="{Binding colaud03}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding qaudir03}" TextColor="{Binding colaur03}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn            
+                        x:Name="paudi03"
+                        LineBreakMode="TailTruncation"
+                        Width="35"                    
+                        MappingName="ndefec03" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi03}">
+                                    <Label 
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Center"
+                                    VerticalOptions="CenterAndExpand"
+                                    HorizontalOptions="CenterAndExpand"
+                                    Text="{Binding ndefec03}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding ndefec03, Converter={StaticResource customstyle_QS2}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pdefec03"
+                        LineBreakMode="TailTruncation"
+                        Width="40"                    
+                        MappingName="pordef03" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="% DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi03}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding pordef03, StringFormat='{0}%'}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding pordef03, Converter={StaticResource customstyle_QS1}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="nmuest04" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce04}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>-->
+                                    <Label Text="MUE." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Label  
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding nmuest04}">
+                                    </Label>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding qaudia04}" TextColor="{Binding colaud04}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding qaudir04}" TextColor="{Binding colaur04}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn      
+                        x:Name="paudi04"
+                        LineBreakMode="TailTruncation"
+                        Width="35"                    
+                        MappingName="ndefec04" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi04}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{Binding ndefec04}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding ndefec04, Converter={StaticResource customstyle_QS2}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pdefec04"
+                        LineBreakMode="TailTruncation"
+                        Width="40"                    
+                        MappingName="pordef04" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="% DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi04}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding pordef04, StringFormat='{0}%'}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding pordef04, Converter={StaticResource customstyle_QS1}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn                                         
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="nmuest05" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce05}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>-->
+                                    <Label Text="MUE." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Label  
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding nmuest05}">
+                                    </Label>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding qaudia05}" TextColor="{Binding colaud05}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding qaudir05}" TextColor="{Binding colaur05}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn            
+                        x:Name="paudi05"
+                        LineBreakMode="TailTruncation"
+                        Width="35"                    
+                        MappingName="ndefec05" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi05}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{Binding ndefec05}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding ndefec05, Converter={StaticResource customstyle_QS2}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pdefec05"
+                        LineBreakMode="TailTruncation"
+                        Width="40"                    
+                        MappingName="pordef05" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="% DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi05}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding pordef05, StringFormat='{0}%'}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding pordef05, Converter={StaticResource customstyle_QS1}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn   
+                    x:Name="pefi06"
+                    LineBreakMode="TailTruncation"
+                    Width="50"
+                    MappingName="nmuest06" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <!--<Label BindingContext="{Binding Path=BindingContext, Source={x:Reference mainpage}}" Text="{Binding xfproce06}" FontAttributes="Bold" FontSize="13" TextColor="Black" YAlign="Center" XAlign="Center" Grid.Row="1" Grid.Column="0"/>-->
+                                    <Label Text="MUE." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+                                    <Label  
+                                        Grid.Row="0" Grid.ColumnSpan="2"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding nmuest06}">
+                                    </Label>
+                                    <Label Grid.Column="0" Grid.Row="1" Text="{Binding qaudia06}" TextColor="{Binding colaud06}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                    <Label Grid.Column="1" Grid.Row="1" Text="{Binding qaudir06}" TextColor="{Binding colaur06}" FontAttributes="Bold" FontSize="11" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn                               
+                        x:Name="paudi06"
+                        LineBreakMode="TailTruncation"
+                        Width="35"                    
+                        MappingName="ndefec06" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi06}">
+                                    <Label                                         
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="CenterAndExpand"
+                                        Text="{Binding ndefec06}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding ndefec06, Converter={StaticResource customstyle_QS2}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+                    <sfgrid:GridTemplateColumn     
+                        x:Name="pdefec06"
+                        LineBreakMode="TailTruncation"
+                        Width="40"                    
+                        MappingName="pordef06" Padding="0">
+                        <sfgrid:GridTemplateColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="*" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="% DEF." FontAttributes="Bold" FontSize="11" TextColor="#404040" YAlign="Center" XAlign="Center" Grid.Row="0" Grid.Column="0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.HeaderTemplate>
+                        <sfgrid:GridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackLayout BackgroundColor="{Binding coaudi06}">
+                                    <Label 
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Center"
+                                        HorizontalOptions="CenterAndExpand"
+                                        VerticalOptions="CenterAndExpand"
+                                        Text="{Binding pordef06, StringFormat='{0}%'}">
+                                    </Label>
+                                </StackLayout>
+                            </DataTemplate>
+                        </sfgrid:GridTemplateColumn.CellTemplate>
+                        <sfgrid:GridTemplateColumn.CellStyle>
+                            <Style TargetType="sfgrid:GridCell">
+                                <Setter Property="BackgroundColor" Value="{Binding pordef06, Converter={StaticResource customstyle_QS1}}" />
+                            </Style>
+                        </sfgrid:GridTemplateColumn.CellStyle>
+                    </sfgrid:GridTemplateColumn>
+
+
+                </sfgrid:SfDataGrid.Columns>
+
+                <sfgrid:SfDataGrid.GroupColumnDescriptions>
+                    <sfgrid:GroupColumnDescription ColumnName="clinea"/>
+                </sfgrid:SfDataGrid.GroupColumnDescriptions>
+
+            </sfgrid:SfDataGrid>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

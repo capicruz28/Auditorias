@@ -151,51 +151,6 @@
     <PackageReference Include="Acr.UserDialogs">
       <Version>7.0.4</Version>
     </PackageReference>
-    <PackageReference Include="Infragistics.Core">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Core.DV">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Xamarin.Barcodes">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Xamarin.Charts">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Xamarin.DataGrid">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Xamarin.Documents">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Xamarin.Sparkline">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.Xamarin.Undo">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.Barcodes">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.Charts">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.DataGrid">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.DV">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.Gauges">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.Scheduler">
-      <Version>19.1.15</Version>
-    </PackageReference>
-    <PackageReference Include="Infragistics.XF.Sparkline">
-      <Version>19.1.15</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.AppCenter">
       <Version>2.0.0</Version>
     </PackageReference>
@@ -262,6 +217,9 @@
     <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown">
       <Version>17.2.0.34</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPopupLayout">
+      <Version>17.2.0.34</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfPullToRefresh">
       <Version>17.2.0.34</Version>
     </PackageReference>
@@ -276,6 +234,9 @@
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfTreeView">
       <Version>17.2.0.34</Version>
+    </PackageReference>
+    <PackageReference Include="UXDivers.GorillaPlayer.SDK">
+      <Version>1.5.2</Version>
     </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>4.0.1.5</Version>

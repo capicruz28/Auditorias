@@ -6,6 +6,7 @@
              xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              xmlns:numeric="clr-namespace:Syncfusion.SfNumericUpDown.XForms;assembly=Syncfusion.SfNumericUpDown.XForms"
+             xmlns:behaviors="clr-namespace:AppPFashions.Behaviors;assembly=AppPFashions"
              xmlns:localupper="clr-namespace:AppPFashions"
              x:Class="AppPFashions.Pages.AuditoriaCortePage"          
              Title="Auditoría de Corte"
@@ -132,6 +133,10 @@
                         IsEnabled="False"
                         Keyboard="Numeric"
                         Text="{Binding Nordpr, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <behaviors:EntryLengthValidatorBehavior MaxLength="6" />
+                            <behaviors:NumberValidationBehavior />
+                        </Entry.Behaviors>
                     </Entry>
                     <Button
                         x:Name="btn_buscarop"

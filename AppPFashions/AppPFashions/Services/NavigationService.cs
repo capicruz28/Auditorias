@@ -72,7 +72,7 @@ namespace AppPFashions.Services
                     xccargo = user.ccargo;
                     xcfunci = user.cfunci;
 
-                    if (xccargo == "06" || xccargo == "07" || xccargo == "08" || xcfunci == "99")
+                    if (xccargo == "06" || xccargo == "07" || xccargo == "08" || xcfunci == "99" || xccargo == "43")
                     {
                         await App.Navigator.PushAsync(new MenuCosturaPage());
                     }          
@@ -123,7 +123,7 @@ namespace AppPFashions.Services
                         user = App.baseDatos.GetUsuario();
                         xccargo = user.ccargo;
                         xcfunci = user.cfunci;
-                        if (xccargo == "34" || xcfunci == "99")
+                        if (xccargo == "34" || xccargo == "06" || xccargo == "53" || xcfunci == "99" || xccargo == "43")
                         {                            
                             await App.Navigator.PushAsync(new ResumenAuditoriasPage("19"));                            
                         }
@@ -141,7 +141,7 @@ namespace AppPFashions.Services
                         user = App.baseDatos.GetUsuario();
                         xccargo = user.ccargo;
                         xcfunci = user.cfunci;
-                        if (xccargo == "34" || xcfunci == "99")
+                        if (xccargo == "34" || xccargo == "06" || xccargo == "53" || xcfunci == "99" || xccargo == "43")
                         {
                             await App.Navigator.PushAsync(new ResumenAuditoriasPage("FC"));
                         }
@@ -157,7 +157,7 @@ namespace AppPFashions.Services
                     user = App.baseDatos.GetUsuario();
                     xccargo = user.ccargo;
                     xcfunci = user.cfunci;
-                    if (xccargo == "56" || xccargo == "57" || xcfunci == "99")
+                    if (xccargo == "56" || xccargo == "57" || xccargo == "24" || xcfunci == "99")
                     {
                         await App.Navigator.PushAsync(new ResumenAuditoriasPage("29"));
                     }
@@ -173,7 +173,7 @@ namespace AppPFashions.Services
                     xccargo = user.ccargo;
                     xcfunci = user.cfunci;
                     xcusuar = user.cusuar;
-                    if (xccargo == "56"  || xccargo == "57" || xcfunci == "99")
+                    if (xccargo == "56"  || xccargo == "57" || xccargo == "24" || xcfunci == "99")
                     {
                         await App.Navigator.PushAsync(new ResumenAuditoriasPage("33"));
                     }
@@ -189,9 +189,25 @@ namespace AppPFashions.Services
                     xccargo = user.ccargo;
                     xcfunci = user.cfunci;
                     xcusuar = user.cusuar;
-                    if (xccargo == "56" || xccargo == "57" || xcfunci == "99")
+                    if (xccargo == "56" || xccargo == "57" || xccargo == "24" || xcfunci == "99")
                     {
                         await App.Navigator.PushAsync(new ResumenAuditoriasPage("31"));
+                    }
+                    else
+                    {
+                        await dialogService.ShowMessage("Aviso", "No tiene acceso a la auditoria seleccionada");
+                        return;
+                    }
+                    break;
+
+                case "AuditoriaFinalPage":
+                    user = App.baseDatos.GetUsuario();
+                    xccargo = user.ccargo;
+                    xcfunci = user.cfunci;
+                    xcusuar = user.cusuar;
+                    if (xccargo == "44" || xcfunci == "99")
+                    {
+                        await App.Navigator.PushAsync(new ResumenAuditoriasPage("FI"));
                     }
                     else
                     {
@@ -208,6 +224,15 @@ namespace AppPFashions.Services
                     break;
                 case "EficienciaErrorSemanalPage":
                     await App.Navigator.PushAsync(new EficienciaErrorSemanalPage());
+                    break;
+                case "ProgramaCosturaPage":
+                    await App.Navigator.PushAsync(new ProgramaCosturaPage());
+                    break;
+                case "IngresoPrendasCosturaPage":
+                    await App.Navigator.PushAsync(new IngresoPrendasCosturaPage());
+                    break;
+                case "BalanceLineaCosturaPage":
+                    await App.Navigator.PushAsync(new BalanceLineaCosturaPage());
                     break;
             }
         }

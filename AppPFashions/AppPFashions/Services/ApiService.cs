@@ -125,7 +125,7 @@ namespace AppPFashions.Services
             }
         }
 
-        public async Task<Response> Defectos<mdefec00>()
+        public async Task<Response> Defectos<mdefec00>(string xcsecci)
         {
             List<mdefec00> defectos = new List<mdefec00>();
             try
@@ -133,7 +133,7 @@ namespace AppPFashions.Services
                 var client = new HttpClient();
                 client.MaxResponseContentBufferSize = 256000;
                 client.BaseAddress = new Uri("http://192.168.2.9:7030");
-                var url = "/api/mdefec00";
+                var url = "/api/DefectosSeccion?csecci=" + xcsecci;
                 var response = await client.GetAsync(url);
 
                 if (!response.IsSuccessStatusCode)
@@ -146,6 +146,44 @@ namespace AppPFashions.Services
                 }
                 var result = await response.Content.ReadAsStringAsync();
                 defectos = JsonConvert.DeserializeObject<List<mdefec00>>(result);
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = defectos,
+                };
+            }
+            catch (Exception ex)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = ex.Message,
+                };
+            }
+        }
+
+        public async Task<Response> ListaDefectos<mdefec10>(string xcsecci)
+        {
+            List<mdefec10> defectos = new List<mdefec10>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "/api/mdefec10?caraud=" + xcsecci;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Hubo problemas con la sincronización",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                defectos = JsonConvert.DeserializeObject<List<mdefec10>>(result);
 
                 return new Response
                 {
@@ -906,5 +944,239 @@ namespace AppPFashions.Services
             }
         }
 
+        public async Task<Response> GetAuditoriaDefectos<AuditoriaDefectos>(string cbloqu)
+        {
+            List<AuditoriaDefectos> efisemanal = new List<AuditoriaDefectos>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/AuditoriaDefectos?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efisemanal = JsonConvert.DeserializeObject<List<AuditoriaDefectos>>(result);
+
+                if (efisemanal.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efisemanal,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetReporteAuditoriaDefectos<AuditoriaDefectos>(string cbloqu)
+        {
+            List<AuditoriaDefectos> efisemanal = new List<AuditoriaDefectos>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/ReporteAuditoriaDefectos?cbloqu=" + cbloqu;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                efisemanal = JsonConvert.DeserializeObject<List<AuditoriaDefectos>>(result);
+
+                if (efisemanal.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = efisemanal,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetProgramaCostura<ProgramaCostura>(string cbloqu,string wfecini,string wfecfin)
+        {
+            List<ProgramaCostura> progcostura = new List<ProgramaCostura>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/ProgramaCosturaBloqueLinea?cbloque=" + cbloqu+ "&wfecini="+ wfecini+ "&wfecfin="+ wfecfin;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                progcostura = JsonConvert.DeserializeObject<List<ProgramaCostura>>(result);
+
+                if (progcostura.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = progcostura,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetIngresoPrendasCostura<IngresoPrendasCostura>(string ctipos, string wfecini, string wfecfin, string nordpr, string sbloqc)
+        {
+            List<IngresoPrendasCostura> progcostura = new List<IngresoPrendasCostura>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/IngresoPrendasCostura?ctipos=" + ctipos + "&wfecini=" + wfecini + "&wfecfin=" + wfecfin+ "&nordpr="+ nordpr+ "&sbloqc="+ sbloqc;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                progcostura = JsonConvert.DeserializeObject<List<IngresoPrendasCostura>>(result);
+
+                if (progcostura.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = progcostura,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
+
+        public async Task<Response> GetBalanceLineaCostura<BalanceLineaCostura>(string nordpr, string cbloqu)
+        {
+            List<BalanceLineaCostura> progcostura = new List<BalanceLineaCostura>();
+            try
+            {
+                var client = new HttpClient();
+                client.MaxResponseContentBufferSize = 256000;
+                client.BaseAddress = new Uri("http://192.168.2.9:7030");
+                var url = "api/BalanceLineaCostura?nordpr=" + nordpr + "&cbloqu=" + cbloqu; ;
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al intentar traer datos de la OP",
+                    };
+                }
+                var result = await response.Content.ReadAsStringAsync();
+                progcostura = JsonConvert.DeserializeObject<List<BalanceLineaCostura>>(result);
+
+                if (progcostura.Count == 0)
+                {
+                    return new Response
+                    {
+                        IsSuccess = false,
+                        Message = "Error al traer la información",
+                    };
+                }
+
+                return new Response
+                {
+                    IsSuccess = true,
+                    Result = progcostura,
+                };
+            }
+            catch (Exception)
+            {
+                return new Response
+                {
+                    IsSuccess = false,
+                    Message = "No se encuentra dentro de la red de Perú Fashions",
+                };
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <!-- General colors -->
-            <Color x:Key="MainColor">#F20C36</Color>
+            <Color x:Key="MainColor">#F25C5C</Color>
             <Color x:Key="FontColor">#000879</Color>
             <Color x:Key="BackgroundColor">#FAFAFA</Color>
             <Color x:Key="AccentColor1">#D50000</Color>

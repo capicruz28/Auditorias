@@ -209,7 +209,8 @@ namespace AppPFashions.ViewModels
             ListaAuditorias.Add(new Auditorias
             {
                 AuditoriaImage = "auditoriaf.png",
-                AuditoriaName = "Final",
+                AuditoriaName = "Auditoria Final",
+                AuditoriaPage = "AuditoriaFinalPage",
 
             });
         }
@@ -235,6 +236,27 @@ namespace AppPFashions.ViewModels
                 MenuCosturaImage = "efierrorsemanal.png",
                 MenuCosturaName = "Eficiencia con Defectos de Auditoria",
                 MenuCosturaPage = "EficienciaErrorSemanalPage",
+
+            });
+            ListaMenuCostura.Add(new MenuCostura
+            {
+                MenuCosturaImage = "programacostura.png",
+                MenuCosturaName = "Programa de Costura",
+                MenuCosturaPage = "ProgramaCosturaPage",
+
+            });
+            ListaMenuCostura.Add(new MenuCostura
+            {
+                MenuCosturaImage = "ingresoprendacostura.png",
+                MenuCosturaName = "Ingreso de Prendas a Costura",
+                MenuCosturaPage = "IngresoPrendasCosturaPage",
+
+            });
+            ListaMenuCostura.Add(new MenuCostura
+            {
+                MenuCosturaImage = "balancelineacostura.png",
+                MenuCosturaName = "Balance de Linea Costura",
+                MenuCosturaPage = "BalanceLineaCosturaPage",
 
             });
         }

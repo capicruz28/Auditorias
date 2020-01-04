@@ -15,7 +15,7 @@
         HasUnevenRows="True"
         SeparatorVisibility="Default">
             <ListView.Header>
-                <Grid HeightRequest="100" BackgroundColor="#F20C36" Padding="20">
+                <Grid HeightRequest="100" BackgroundColor="#F25C5C" Padding="20">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="8*"/>
                         <RowDefinition Height="2*"/>

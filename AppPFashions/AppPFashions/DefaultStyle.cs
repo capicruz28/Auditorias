@@ -14,17 +14,23 @@ namespace AppPFashions
 
         public override Color GetHeaderBackgroundColor()
         {
-            return Color.FromHex("#e0e0e0");
+            return Color.FromHex("#446EA6");
         }
+
+        //public override Color GetHeaderForegroundColor()
+        //{
+        //    return Color.FromHex("#728EA6");
+        //}
 
         public override Color GetSelectionBackgroundColor()
         {
-            return Color.FromHex("#b2d8f7");
+            return Color.FromHex("#FDEDEC");
         }
 
         public override Color GetSelectionForegroundColor()
         {
-            return Color.Black;
+            //return Color.DimGray;
+            return Color.FromHex("#4D5656");
         }
 
         public override Color GetRecordForegroundColor()
@@ -34,7 +40,12 @@ namespace AppPFashions
 
         public override Color GetCaptionSummaryRowBackgroundColor()
         {
-            return Color.FromHex("#e6e6e6");
+            return Color.FromHex("#F0F8FF");
+        }
+
+        public override Color GetCaptionSummaryRowForegroundColor()
+        {
+            return Color.Black;
         }
 
         public override Color GetRecordBackgroundColor()
@@ -69,7 +80,7 @@ namespace AppPFashions
 
         public override Color GetHeaderBackgroundColor()
         {
-            return Color.FromHex("#e0e0e0");
+            return Color.FromHex("#DBDCD6");
         }
 
         public override Color GetRecordForegroundColor()
@@ -87,7 +98,7 @@ namespace AppPFashions
     {
         public override Color GetSelectionBackgroundColor()
         {
-            return Color.FromHex("#cce5fa");
+            return Color.FromHex("#A3C9D3");
         }
 
         public override Color GetSelectionForegroundColor()

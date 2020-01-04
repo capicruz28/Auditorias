@@ -33,13 +33,16 @@ namespace AppPFashions.Data
             Conexion.CreateTable<mtraba00>();
             Conexion.CreateTable<topera01>();
             Conexion.CreateTable<mdefec00>();
+            Conexion.CreateTable<mdefec10>();
             Conexion.CreateTable<pdefec10>();
             Conexion.CreateTable<pdefec01>();
             Conexion.CreateTable<paudit01>();
             Conexion.CreateTable<taudit00>();
+            Conexion.CreateTable<taudit10>();
             Conexion.CreateTable<raudit00>();
             Conexion.CreateTable<ttcmue00>();
             Conexion.CreateTable<OrdenProduccion>();
+            Conexion.CreateTable<paudob00>();
         }
 
         public mtraba00 GetOperario(string ctraba)
@@ -63,6 +66,14 @@ namespace AppPFashions.Data
             lock (locker)
             {
                 return Conexion.Table<raudit00>().Where(x => x.careas == careas && x.faudit == faudit && x.clinea == clinea).FirstOrDefault();
+            }
+        }
+
+        public taudit00 CargaAuditoria(string careas, DateTime faudit, string clinea, Int32 nsecue)
+        {
+            lock (locker)
+            {
+                return Conexion.Table<taudit00>().Where(x => x.careas == careas && x.faudit == faudit && x.clinea == clinea && x.nsecue==nsecue).FirstOrDefault();
             }
         }
 
@@ -114,11 +125,21 @@ namespace AppPFashions.Data
             }
         }
 
-        public void DeleteDefectos()
+        public void DeleteDefectos(string xcsecci)
         {
             lock (locker)
             {
-                Conexion.DeleteAll<mdefec00>();
+                //Conexion.DeleteAll<mdefec00>();
+                Conexion.Table<mdefec00>().Delete(x=>x.csecci== xcsecci);
+            }
+        }
+
+        public void DeleteListaDefectos(string xcsecci)
+        {
+            lock (locker)
+            {
+                //Conexion.DeleteAll<mdefec00>();
+                Conexion.Table<mdefec10>().Delete(x => x.caraud == xcsecci);
             }
         }
 
@@ -144,15 +165,27 @@ namespace AppPFashions.Data
             }
         }
 
-        public void DeleteAuditoria(DateTime xfaudit, string clinea)
+        public void DeleteAllAuditoriaAprobados(DateTime xfaudit)
         {
             lock (locker)
             {
-                Conexion.Table<paudit01>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
-                Conexion.Table<taudit00>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
-                Conexion.Table<pdefec01>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
-                Conexion.Table<pdefec10>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
-                Conexion.Table<raudit00>().Delete(x => x.faudit == xfaudit && x.clinea == clinea);
+                Conexion.Table<pdefec01>().Delete(x => x.faudit != xfaudit);
+                Conexion.Table<pdefec10>().Delete(x => x.faudit != xfaudit);
+                Conexion.Table<paudit01>().Delete(x => x.faudit != xfaudit && x.status != "D");
+                Conexion.Table<taudit00>().Delete(x => x.faudit != xfaudit && x.status != "D");
+                Conexion.Table<raudit00>().Delete(x => x.faudit != xfaudit);
+            }
+        }
+
+        public void DeleteAuditoria(DateTime xfaudit, string clinea, string careas)
+        {
+            lock (locker)
+            {
+                Conexion.Table<paudit01>().Delete(x => x.faudit == xfaudit && x.clinea == clinea && x.careas == careas);
+                Conexion.Table<taudit00>().Delete(x => x.faudit == xfaudit && x.clinea == clinea && x.careas == careas);
+                Conexion.Table<pdefec01>().Delete(x => x.faudit == xfaudit && x.clinea == clinea && x.careas == careas);
+                Conexion.Table<pdefec10>().Delete(x => x.faudit == xfaudit && x.clinea == clinea && x.careas == careas);
+                Conexion.Table<raudit00>().Delete(x => x.faudit == xfaudit && x.clinea == clinea && x.careas == careas);
             }
         }
 
@@ -201,7 +234,7 @@ namespace AppPFashions.Data
                     return Conexion.Table<T>().FirstOrDefault();
                 }
             }
-        }
+        }    
 
         public List<T> GetList<T>(bool WithChildren) where T : class
         {

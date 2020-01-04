@@ -73,6 +73,7 @@ namespace AppPFashions.Pages
             if (taudit01 == "29") Desauditoria = "Auditoria Bordado";
             if (taudit01 == "33") Desauditoria = "Auditoria Estampado";
             if (taudit01 == "31") Desauditoria = "Auditoria Transfer";
+            if (taudit01 == "FI") Desauditoria = "Auditoria Final";
 
             if (taudit01 == "19") desbloque = "Bloque ";
             if (taudit01 == "FC") desbloque = "Bloque ";
@@ -80,6 +81,7 @@ namespace AppPFashions.Pages
             if (taudit01 == "29") desbloque = "Bordadora ";
             if (taudit01 == "33") desbloque = "Maquina ";
             if (taudit01 == "31") desbloque = "Maquina ";
+            if (taudit01 == "FI") desbloque = "Linea ";
 
         }
 
@@ -187,19 +189,45 @@ namespace AppPFashions.Pages
 
         private void TreeView_ItemTapped(object sender, Syncfusion.XForms.TreeView.ItemTappedEventArgs e)
         {
-            var selaudit = (e.Node.Content) as DetFolder;
+            string xclinea;
+            var selaudit = (e.Node.Content) as DetFolder;     
+
             if (selaudit != null)
             {
+                if ((selaudit.Clinea ?? string.Empty).Length == 0)
+                {
+                    xclinea = "00";
+                }
+                else
+                {
+                    xclinea = selaudit.Clinea;
+                }
                 //DisplayAlert("Error", selaudit.Careas+ selaudit.Status+ selaudit.Clinea+ selaudit.Faudit, "OK");
                 if (selaudit.AuditCount > 0)
                 {
                     if (selaudit.Status == "D")
                     {
-                        App.Navigator.PushAsync(new CosturaProcesoReauditoriaPage(selaudit.Clinea + selaudit.Status + selaudit.Careas + selaudit.Faudit));                        
+                        if (taudit01 == "16")
+                        {
+                            App.Navigator.PushAsync(new CorteReauditoriaPage(xclinea + selaudit.Status + selaudit.Careas + selaudit.Faudit));
+                        }
+                        else
+                        {
+                            App.Navigator.PushAsync(new CosturaProcesoReauditoriaPage(xclinea + selaudit.Status + selaudit.Careas + selaudit.Faudit));
+                        }
+                            
                     }
                     else
                     {
-                        App.Navigator.PushAsync(new CosturaProcesoDetallePage(selaudit.Clinea + selaudit.Status + selaudit.Careas + selaudit.Faudit));
+                        if (taudit01 == "16")
+                        {
+                            App.Navigator.PushAsync(new CorteDetallePage(xclinea + selaudit.Status + selaudit.Careas + selaudit.Faudit));
+                        }
+                        else
+                        {
+                            App.Navigator.PushAsync(new CosturaProcesoDetallePage(xclinea + selaudit.Status + selaudit.Careas + selaudit.Faudit));
+                        }
+                            
                     }
                 }
                 else
@@ -220,6 +248,7 @@ namespace AppPFashions.Pages
             if (taudit01 == "29") App.Navigator.PushAsync(new AuditoriaBordadoPage(dataok));
             if (taudit01 == "33") App.Navigator.PushAsync(new AuditoriaEstampadoPage(dataok));
             if (taudit01 == "31") App.Navigator.PushAsync(new AuditoriaTransferPage(dataok));
+            if (taudit01 == "FI") App.Navigator.PushAsync(new AuditoriaFinalPage(dataok));
         }
 
         private void tlb_sincroauditoria_Clicked(object sender, EventArgs e)
@@ -236,9 +265,47 @@ namespace AppPFashions.Pages
                 var ultregis = 0;
                 using (var client = new HttpClient())
                 {
+
+                    var listobs = App.baseDatos.GetList<paudob00>(false).Where(x => x.senvio == "N").ToList();
+                    foreach (var recordobs in listobs)
+                    {
+                        var regobs = new paudob00
+                        {
+                            fregis = recordobs.fregis,
+                            clinea = recordobs.clinea,
+                            dobser = recordobs.dobser,
+                            cusuar = recordobs.cusuar,
+                        };
+
+                        var jsondef = JsonConvert.SerializeObject(regobs);
+                        var contentdef = new StringContent(jsondef, System.Text.Encoding.UTF8, "application/json");
+
+                        var uriobs = "http://192.168.2.9:7030/api/paudob00";
+                        var resultobs = await client.PostAsync(uriobs, contentdef);
+
+                        if (!resultobs.IsSuccessStatusCode)
+                        {
+                            await DisplayAlert("Error", "Hubo un error con el Servicio Web, Por favor reintente guardar 4. " + resultobs.RequestMessage.ToString(), "OK");
+                            return;
+                        }
+
+                        var resultStringdef = await resultobs.Content.ReadAsStringAsync();
+                        var postdef = JsonConvert.DeserializeObject<pdefec01>(resultStringdef);
+
+                        paudob00 updobs = new paudob00
+                        {      
+                            idobse = recordobs.idobse,
+                            fregis = recordobs.fregis,
+                            clinea = recordobs.clinea,
+                            dobser = recordobs.dobser,
+                            cusuar = recordobs.cusuar,
+                            senvio = "S",
+                        };
+                        App.baseDatos.Update(updobs);
+                    }
                     //using (var data = new DataAccess())
                     //{
-                        var listickets = App.baseDatos.GetList<paudit01>(false).Where(x => x.senvio == "N" && x.careas == taudit01).OrderBy(x=>x.nsecue).ToList();                        
+                    var listickets = App.baseDatos.GetList<paudit01>(false).Where(x => x.senvio == "N" && x.careas == taudit01).OrderBy(x=>x.nsecue).ToList();                        
                         int qlistau = listickets.Count();
                         if (qlistau==0)
                         {
@@ -460,9 +527,7 @@ namespace AppPFashions.Pages
                                             App.baseDatos.Update(ndefec);
                                         }
                                     }
-                                //}
-
-
+                   
                                 paudit01 nauditoria = new paudit01
                                 {
                                     idaudi = record.idaudi,
@@ -601,24 +666,84 @@ namespace AppPFashions.Pages
 
         private async void Tlb_deleteauditoria_Clicked(object sender, EventArgs e)
         {
-            var result = await DisplayAlert("Aviso", "Desea eliminar todas las auditorias", "Si", "No");
+            var result = await DisplayAlert("Aviso", "Desea eliminar las auditorias aprobadas y reauditadas", "Si", "No");
             if (result == true)
             {
-                //using (var data = new DataAccess())
-                //{
-                    var listickets = App.baseDatos.GetList<paudit01>(false).Where(x => x.senvio == "N").ToList();
-                    int qlistau = listickets.Count();
-                    if (qlistau > 0)
-                    {
-                        await DisplayAlert("Alerta", "Existen auditorias que aun no ha sincronizado, por favor sincronice antes de eliminar", "OK");
-                        return;
-                    }
-                    App.baseDatos.DeleteAllAuditoria();
-                    LoadResumenAuditorias();                    
-                //}
-                await DisplayAlert("Aviso", "Auditorias eliminadas", "OK");
+                //    //using (var data = new DataAccess())
+                //    //{
+                //        var listickets = App.baseDatos.GetList<paudit01>(false).Where(x => x.senvio == "N").ToList();
+                //        int qlistau = listickets.Count();
+                //        if (qlistau > 0)
+                //        {
+                //            await DisplayAlert("Alerta", "Existen auditorias que aun no ha sincronizado, por favor sincronice antes de eliminar", "OK");
+                //            return;
+                //        }
+                //        App.baseDatos.DeleteAllAuditoria();
+                //        LoadResumenAuditorias();                    
+                //    //}
+                //    await DisplayAlert("Aviso", "Auditorias eliminadas", "OK");
+                App.baseDatos.Conexion.Execute(@"Delete from pdefec01 where iddefe in ( select iddefe 
+                                                                                    from pdefec01 as a
+                                                                                    inner join taudit00 as b
+                                                                                    inner join paudit01 as c
+                                                                                    where b.faudit = a.faudit and b.careas = a.careas and
+                                                                                            b.clinea = a.clinea and b.nsecue = a.nsecue and
+                                                                                            b.faudit = c.faudit and b.careas = c.careas and
+                                                                                            b.clinea = c.clinea and b.nsecue = c.nsecue and
+                                                                                            b.faudit != (select max(faudit) from paudit01) and c.senvio = 'S' and (b.status in ('A','E') or(b.status = 'D' and b.sreaud = 'S')))");
 
-            }
+                App.baseDatos.Conexion.Execute(@"Delete from pdefec10 where iddefe in ( select iddefe 
+                                                                                    from pdefec10 as a
+                                                                                    inner join taudit00 as b
+                                                                                    inner join paudit01 as c
+                                                                                    where b.faudit = a.faudit and b.careas = a.careas and
+                                                                                            b.clinea = a.clinea and b.nsecue = a.nsecue and
+                                                                                            b.faudit = c.faudit and b.careas = c.careas and
+                                                                                            b.clinea = c.clinea and b.nsecue = c.nsecue and
+                                                                                            b.faudit != (select max(faudit) from paudit01) and c.senvio = 'S' and (b.status in ('A','E') or(b.status = 'D' and b.sreaud = 'S')))");
+
+                App.baseDatos.Conexion.Execute(@"Delete from taudit00 where idaudi in ( select b.idaudi 
+                                                                                    from taudit00 as b 
+                                                                                    inner join paudit01 as c 
+                                                                                    where b.faudit=c.faudit and b.careas=c.careas and 
+                                                                                    b.clinea=c.clinea and b.nsecue=c.nsecue and 
+	                                                                                b.faudit!=(select max(faudit) from paudit01) and c.senvio='S' and (b.status in ('A','E') or (b.status='D' and b.sreaud='S')))");
+
+                App.baseDatos.Conexion.Execute(@"Delete from paudit01 where idaudi not in (select idaudi 
+                                                                                    from taudit00)");
+
+                App.baseDatos.Conexion.Execute(@"Delete from raudit00");
+
+                App.baseDatos.Conexion.Execute(@"Delete from paudob00 where senvio='S'");
+
+
+
+                var resuad=App.baseDatos.Conexion.Query<raudit00>(@"select careas,faudit,clinea,sum(qaprob)qaprob,sum(qdesap)qdesap,sum(qaprex)qaprex 
+                                                from (
+                                                    select careas,faudit,clinea,count(*)qaprob,0 qdesap,0 qaprex from paudit01 where status='A' group by careas,faudit,clinea
+                                                    union
+                                                    select careas,faudit,clinea,0,count(*),0 from paudit01 where status='D' group by careas,faudit,clinea
+                                                    union
+                                                    select careas,faudit,clinea,0,0,count(*) from paudit01 where status='E' group by careas,faudit,clinea
+                                                )f group by careas,faudit,clinea");
+
+                foreach (var record in resuad)
+                {
+                    raudit00 resaudit = new raudit00
+                    {                        
+                        careas = record.careas,
+                        faudit = record.faudit,
+                        clinea = record.clinea,
+                        qaprob = record.qaprob,
+                        qdesap = record.qdesap,
+                        qaprex = record.qaprex,
+                    };
+                    App.baseDatos.Insert(resaudit);
+                }
+
+                LoadResumenAuditorias();
+                await DisplayAlert("Aviso", "Auditorias eliminadas", "OK");
+            }                    
         }
 
         private async void TreeView_ItemHolding(object sender, Syncfusion.XForms.TreeView.ItemHoldingEventArgs e)
@@ -639,7 +764,7 @@ namespace AppPFashions.Pages
                         //    await DisplayAlert("Aviso", stra.ToString() + ' ' + str.ToString(), "OK");
                         //}
 
-                        var listickets = App.baseDatos.GetList<paudit01>(false).Where(x => x.faudit.ToString("dd-MM-yyyy") == selaudit.FolderName && x.clinea==selaudit.Clinea && x.senvio == "N").ToList();
+                        var listickets = App.baseDatos.GetList<paudit01>(false).Where(x => x.faudit.ToString("dd-MM-yyyy") == selaudit.FolderName && x.clinea==selaudit.Clinea && x.senvio == "N" && x.careas==taudit01).ToList();
                         int qlistau = listickets.Count();
                         if (qlistau > 0)
                         {
@@ -647,7 +772,7 @@ namespace AppPFashions.Pages
                             return;
                         }
 
-                        App.baseDatos.DeleteAuditoria(selaudit.Faudit,selaudit.Clinea);                        
+                        App.baseDatos.DeleteAuditoria(selaudit.Faudit,selaudit.Clinea,taudit01);                        
                         LoadResumenAuditorias();
                     //}
                     await DisplayAlert("Aviso", "Auditorias eliminadas", "OK");

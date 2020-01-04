@@ -8,6 +8,7 @@
              xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms"
              xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+               xmlns:behaviors="clr-namespace:AppPFashions.Behaviors;assembly=AppPFashions"
              xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
             xmlns:comboBox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              x:Class="AppPFashions.Pages.CosturaFinalPage"            
@@ -214,6 +215,10 @@
                         IsEnabled="False"
                         Keyboard="Numeric"
                         Text="{Binding Nordpr, Mode=TwoWay}">
+                        <Entry.Behaviors>
+                            <behaviors:EntryLengthValidatorBehavior MaxLength="6" />
+                            <behaviors:NumberValidationBehavior />
+                        </Entry.Behaviors>
                     </Entry>
                     <Button
                         x:Name="btn_buscarop"
